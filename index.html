@@ -1,0 +1,1065 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="meta.title"></title>
+  <meta name="description" content="" data-i18n-attr="content:meta.description">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles/main.css">
+  <script>
+    // Runs before first paint: apply the saved theme and skip the loader on repeat visits.
+    try {
+      var theme = localStorage.getItem('portfolio-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      if (localStorage.getItem('portfolio-loader-seen')) document.documentElement.classList.add('loader-seen');
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="pageLoader" class="page-loader" aria-hidden="true">
+    <div class="loader-mark">
+      <svg class="loader-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 7H4C2.89543 7 2 7.89543 2 9V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V9C22 7.89543 21.1046 7 20 7H16M8 7V3.6C8 3.26863 8.26863 3 8.6 3H15.4C15.7314 3 16 3.26863 16 3.6V7M8 7H16"></path>
+      </svg>
+      <div class="loader-name" data-i18n="ui.loaderName"></div>
+      <div class="loader-bar-track"><div class="loader-bar-fill"></div></div>
+      <div class="loader-percent">0%</div>
+    </div>
+  </div>
+
+  <div class="cursor-tooltip" id="cursorTooltip" aria-hidden="true"></div>
+
+  <nav class="nav" id="nav">
+    <a href="#" class="nav-logo logo-mark" aria-label="" data-i18n-attr="aria-label:nav.ariaLabel">t<span class="logo-dot">.</span>abdo</a>
+
+    <div class="nav-pills" id="navPills" data-tooltip="" data-i18n-attr="data-tooltip:nav.filtersTooltip">
+      <div class="nav-pill-indicator" id="navIndicator"></div>
+      <a href="#" class="nav-pill active" data-filter="all" data-i18n="nav.filterAll"></a>
+      <a href="#" class="nav-pill" data-filter="about" data-i18n="nav.filterAbout"></a>
+      <a href="#" class="nav-pill" data-filter="work" data-i18n="nav.filterWork"></a>
+      <a href="#" class="nav-pill" data-filter="personal" data-i18n="nav.filterPersonal"></a>
+    </div>
+
+    <div class="nav-toggles">
+      <button class="theme-toggle lang-toggle" id="langToggle" type="button" data-tooltip="" aria-label="" aria-disabled="true" data-i18n-attr="data-tooltip:nav.languageToggleTooltip;aria-label:nav.languageToggleAriaLabel">
+        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"></path>
+        </svg>
+        <span class="lang-label" data-i18n="nav.languageToPortuguese"></span>
+      </button>
+      <button class="theme-toggle" id="themeToggle" data-tooltip="" aria-label="" data-i18n-attr="aria-label:nav.themeToggleAriaLabel">
+        <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+        </svg>
+        <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"></circle>
+          <path d="M12 2.6v2.2M12 19.2v2.2M21.4 12h-2.2M4.8 12H2.6M18.6 5.4l-1.6 1.6M7 17l-1.6 1.6M18.6 18.6L17 17M7 7L5.4 5.4"></path>
+        </svg>
+        <span id="themeLabel"></span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="main">
+    <span class="mobile-page-logo logo-mark" aria-hidden="true">t<span class="logo-dot">.</span>abdo</span>
+
+    <div class="grid" id="grid">
+
+      <!-- About -->
+      <article class="bento-card" data-card="about" data-expand="tall" data-expand-maxw="768" data-tooltip="" data-i18n-attr="data-tooltip:cards.about.tooltip">
+        <div class="about-card-inner">
+          <img width="480" height="480" class="about-avatar" src="assets/profile.png" alt="" data-i18n-attr="alt:cards.about.avatarAlt">
+          <p class="about-bio" data-i18n-html="cards.about.bio"></p>
+        </div>
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.about.ariaLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
+        </button>
+      </article>
+
+      <!-- Gmail -->
+      <article class="bento-card gmail-card" data-card="gmail" data-copy="talesabd@gmail.com" data-tooltip="" data-i18n-attr="data-tooltip:cards.gmail.tooltip">
+        <span class="action-icon">
+          <svg class="gm-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"></path></svg>
+          <span class="gm-copied-text">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"></path></svg>
+            <span data-i18n="cards.gmail.copied"></span>
+          </span>
+        </span>
+        <div class="icon-card-inner">
+          <svg class="gm-svg" viewBox="52 42 88 66" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+            <path class="gm-from-top" fill="#c5221f" d="M52 51v8l20 15V48l-5.6-4.2c-5.94-4.45-14.4-.22-14.4 7.2"></path>
+            <path class="gm-from-top" fill="#ea4335" d="M72 74V48l24 18 24-18v26L96 92"></path>
+            <path class="gm-from-top" fill="#fbbc04" d="M120 48v26l20-15v-8c0-7.42-8.47-11.65-14.4-7.2"></path>
+            <path class="gm-from-left" fill="#4285f4" d="M58 108h14V74L52 59v43c0 3.32 2.69 6 6 6"></path>
+            <path class="gm-from-right" fill="#34a853" d="M120 108h14c3.32 0 6-2.69 6-6V59l-20 15"></path>
+          </svg>
+        </div>
+      </article>
+
+      <!-- LinkedIn -->
+      <article class="bento-card linkedin-card" data-card="linkedin" data-link="https://www.linkedin.com/in/tales-abdo" data-tooltip="" data-i18n-attr="data-tooltip:cards.linkedin.tooltip">
+        <a class="action-icon" href="https://www.linkedin.com/in/tales-abdo" target="_blank" rel="noopener noreferrer" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:cards.linkedin.tooltip2;aria-label:cards.linkedin.ariaLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6M10 14L21 3"></path></svg>
+        </a>
+        <div class="icon-card-inner">
+          <svg class="li-svg" viewBox="0 0 36 36" fill="none" width="94" height="94" xmlns="http://www.w3.org/2000/svg">
+            <circle class="li-dot" cx="11" cy="10" r="1.82"></circle>
+            <path class="li-path" d="M11 15.5 L11 26" style="--len:11;--draw-dur:0.38s;--draw-delay:0.08s"></path>
+            <path class="li-path" d="M17 15.5 L17 26" style="--len:11;--draw-dur:0.38s;--draw-delay:0.14s"></path>
+            <path class="li-path" d="M17 19.5 C17 17 19 15.5 21 15.5 C23 15.5 25 17 25 19.5 L25 26" style="--len:22;--draw-dur:0.42s;--draw-delay:0.20s"></path>
+          </svg>
+        </div>
+      </article>
+
+      <!-- Professional path -->
+      <article class="bento-card path-card" data-card="path" data-expand="full" data-tooltip="" data-i18n-attr="data-tooltip:cards.path.tooltip">
+        <ol class="path-card-inner" aria-label="" data-i18n-attr="aria-label:cards.path.ariaLabel">
+          <li class="path-stop">
+            <img width="256" height="96" class="career-logo career-logo--light" src="assets/logos/companies/aelight.png" alt=""><img width="256" height="96" class="career-logo career-logo--dark" src="assets/logos/companies/aedark.png" alt="">
+            <span class="visually-hidden" data-i18n="cards.path.text"></span>
+            <span class="path-stop__years" data-i18n="cards.path.stopYears"></span>
+          </li>
+          <li class="path-stop">
+            <img width="460" height="96" class="career-logo career-logo--light" src="assets/logos/companies/rivianlight.png" alt=""><img width="460" height="96" class="career-logo career-logo--dark" src="assets/logos/companies/riviandark.png" alt="">
+            <span class="visually-hidden" data-i18n="cards.path.text2"></span>
+            <span class="path-stop__years" data-i18n="cards.path.stopYears2"></span>
+          </li>
+          <li class="path-stop">
+            <img width="239" height="96" class="career-logo path-logo--ibm career-logo--light" src="assets/logos/companies/ibmlight.png" alt=""><img width="239" height="96" class="career-logo path-logo--ibm career-logo--dark" src="assets/logos/companies/ibmdark.png" alt="">
+            <span class="visually-hidden" data-i18n="cards.path.text3"></span>
+            <span class="path-stop__years" data-i18n="cards.path.stopYears3"></span>
+          </li>
+        </ol>
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.path.ariaLabel2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
+        </button>
+      </article>
+
+      <!-- Culture -->
+      <article class="bento-card pictures-card" data-card="hobbies" data-expand="tall" data-expand-maxw="1092" data-tooltip="" data-i18n-attr="data-tooltip:cards.hobbies.tooltip">
+        <div class="pics-stack" data-slideshow="assets/hobbies/dune.jpg, assets/hobbies/severance.jpg, assets/hobbies/league-of-legends.jpg, assets/hobbies/baldurs-gate-3.jpg">
+          <img width="1600" height="900" class="pics-img is-active" src="assets/hobbies/dune.jpg" alt="">
+          <img class="pics-img" alt="">
+        </div>
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.hobbies.ariaLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
+        </button>
+        <span class="card-label" data-i18n="cards.hobbies.label"></span>
+      </article>
+
+      <!-- Pictures -->
+      <article class="bento-card pictures-card" data-card="pictures" data-expand="tall" data-expand-maxw="1100" data-tooltip="" data-i18n-attr="data-tooltip:cards.pictures.tooltip">
+        <div class="pics-stack" id="picsStack" data-slideshow="pictures">
+          <img width="600" height="600" class="pics-img is-active" src="assets/pictures/5.jpg" alt="">
+          <img class="pics-img" alt="">
+        </div>
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.pictures.ariaLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
+        </button>
+        <span class="card-label" data-i18n="cards.pictures.label"></span>
+      </article>
+
+      <!-- NN/g certification -->
+      <article class="bento-card nng-card" data-card="nng" data-expand="tall" data-expand-maxw="1056" data-tooltip="" data-i18n-attr="data-tooltip:cards.nng.tooltip">
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.nng.ariaLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
+        </button>
+        <div class="badge-inner">
+          <img width="300" height="264" class="badge-media nng-logo" src="assets/logos/nng.png" alt="" data-i18n-attr="alt:cards.nng.logoAlt">
+          <div class="badge-text">
+            <h3 class="badge-title" data-i18n="cards.nng.title"></h3>
+            <span class="badge-sub" data-i18n="cards.nng.sub"></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Bachelor's degree -->
+      <article class="bento-card cred-card" data-card="diploma" data-expand="tall" data-expand-maxw="1056" data-tooltip="" data-i18n-attr="data-tooltip:cards.diploma.tooltip">
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.diploma.ariaLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
+        </button>
+        <div class="badge-inner">
+          <img width="302" height="320" class="badge-media cred-mark" src="assets/logos/unicamp.png" alt="" data-i18n-attr="alt:cards.diploma.markAlt">
+          <div class="badge-text">
+            <h3 class="badge-title" data-i18n="cards.diploma.title"></h3>
+            <span class="badge-sub" data-i18n="cards.diploma.sub"></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- English level -->
+      <article class="bento-card english-card" data-card="english" data-expand="tall" data-expand-maxw="1056" data-tooltip="" data-i18n-attr="data-tooltip:cards.english.tooltip">
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.english.ariaLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
+        </button>
+        <div class="english-inner">
+          <svg class="c1-svg" viewBox="3.5 5.5 40.5 29" width="58" height="42" aria-hidden="true">
+            <defs>
+              <linearGradient id="c1Gradient" x1="6" y1="8" x2="46" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0" style="stop-color: var(--color-blue-600)"></stop>
+                <stop offset="1" style="stop-color: var(--color-magenta-600)"></stop>
+              </linearGradient>
+            </defs>
+            <path class="c1-path" d="M24.7 10.05A12 12 0 1 0 24.7 29.95" style="--len:53;--draw-dur:0.46s;--draw-delay:0.08s"></path>
+            <path class="c1-path" d="M35 13.5L41.5 8.5V31.5" style="--len:32;--draw-dur:0.34s;--draw-delay:0.3s"></path>
+          </svg>
+          <span class="visually-hidden" data-i18n="cards.english.text"></span>
+          <span class="english-caption" data-i18n="cards.english.caption"></span>
+        </div>
+      </article>
+
+      <!-- Resume download -->
+      <article class="bento-card resume-card" data-card="resume" data-download="assets/Tales-Abdo-CV.pdf" data-tooltip="" data-i18n-attr="data-tooltip:cards.resume.tooltip">
+        <a class="action-icon" href="assets/Tales-Abdo-CV.pdf" download="" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:cards.resume.tooltip2;aria-label:cards.resume.ariaLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"></path></svg>
+        </a>
+        <div class="badge-inner">
+          <svg class="badge-media resume-file" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="rfArrowGradient" x1="26" y1="34" x2="38" y2="48" gradientUnits="userSpaceOnUse">
+                <stop offset="0" style="stop-color: var(--color-blue-600)"></stop>
+                <stop offset="1" style="stop-color: var(--color-magenta-600)"></stop>
+              </linearGradient>
+            </defs>
+            <path class="rf-page" d="M16 6h22l12 12v40a2 2 0 01-2 2H16a2 2 0 01-2-2V8a2 2 0 012-2z" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"></path>
+            <path class="rf-fold" d="M38 6v12h12" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"></path>
+            <path class="rf-line rf-line--1" d="M22 30h20" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path>
+            <path class="rf-line rf-line--2" d="M22 38h20" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path>
+            <path class="rf-line rf-line--3" d="M22 46h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path>
+            <g class="rf-arrow">
+              <path d="M32 34v14M26 42l6 6 6-6" stroke="url(#rfArrowGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+          </svg>
+          <div class="badge-text">
+            <h3 class="badge-title" data-i18n="cards.resume.title"></h3>
+            <span class="badge-sub" data-i18n="cards.resume.sub"></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- References -->
+      <article class="bento-card references-card" data-card="references" data-tooltip="" data-i18n-attr="data-tooltip:cards.references.tooltip">
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.references.ariaLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
+        </button>
+        <div class="badge-inner">
+          <!-- Two speech bubbles: someone talking about my work, typing dots in the front one -->
+          <svg class="badge-media ref-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="refDotsGradient" x1="13" y1="30" x2="37" y2="36" gradientUnits="userSpaceOnUse">
+                <stop offset="0" style="stop-color: var(--color-blue-600)"></stop>
+                <stop offset="1" style="stop-color: var(--color-magenta-600)"></stop>
+              </linearGradient>
+            </defs>
+            <path class="ref-bubble--back" d="M30 10h22a6 6 0 016 6v14a6 6 0 01-6 6h-1v7l-7-7H30a6 6 0 01-6-6V16a6 6 0 016-6z" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"></path>
+            <path class="ref-bubble--front" d="M12 20h26a6 6 0 016 6v14a6 6 0 01-6 6H24l-9 8v-8h-3a6 6 0 01-6-6V26a6 6 0 016-6z" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"></path>
+            <circle class="ref-dot ref-dot--1" cx="16" cy="33" r="2.6"></circle>
+            <circle class="ref-dot ref-dot--2" cx="25" cy="33" r="2.6"></circle>
+            <circle class="ref-dot ref-dot--3" cx="34" cy="33" r="2.6"></circle>
+          </svg>
+          <div class="badge-text">
+            <h3 class="badge-title" data-i18n="cards.references.title"></h3>
+            <span class="badge-sub" data-i18n="cards.references.sub"></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Areas of expertise -->
+      <article class="bento-card expertise-card" data-card="expertise" data-expand="tall" data-expand-maxw="980" data-tooltip="" data-i18n-attr="data-tooltip:cards.expertise.tooltip">
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.expertise.ariaLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
+        </button>
+        <div class="expertise-inner">
+          <span class="expertise-eyebrow" data-i18n="cards.expertise.eyebrow"></span>
+          <div class="expertise-preview" aria-hidden="true">
+            <span data-i18n="cards.expertise.text"></span><span data-i18n="cards.expertise.text2"></span><span data-i18n="cards.expertise.text3"></span>
+            <span data-i18n="cards.expertise.text4"></span><span data-i18n="cards.expertise.text5"></span><span data-i18n="cards.expertise.text6"></span>
+            <span data-i18n="cards.expertise.text7"></span><span data-i18n="cards.expertise.text8"></span><span data-i18n="cards.expertise.text9"></span>
+          </div>
+        </div>
+        <span class="card-label" data-i18n="cards.expertise.label"></span>
+      </article>
+
+      <!-- Quote: AI -->
+      <article class="bento-card quote-card" data-card="aiquote">
+        <span class="quote-mark" aria-hidden="true">”</span>
+        <p class="quote-text" data-i18n-html="cards.aiquote.text"></p>
+        <span class="quote-label" data-i18n="cards.aiquote.label"></span>
+      </article>
+
+      <!-- Quote: career -->
+      <article class="bento-card quote-card" data-card="careerquote">
+        <span class="quote-mark" aria-hidden="true">”</span>
+        <p class="quote-text" data-i18n-html="cards.careerquote.text"></p>
+        <span class="quote-label" data-i18n="cards.careerquote.label"></span>
+      </article>
+
+      <!-- Quote: leadership -->
+      <article class="bento-card quote-card" data-card="leadquote">
+        <span class="quote-mark" aria-hidden="true">”</span>
+        <p class="quote-text" data-i18n-html="cards.leadquote.text"></p>
+        <span class="quote-label" data-i18n="cards.leadquote.label"></span>
+      </article>
+
+      <!-- Case study: CPQ Hub -->
+      <article class="bento-card project-card" data-card="cpq" data-expand="full" data-tooltip="" data-i18n-attr="data-tooltip:cards.cpq.tooltip">
+        <img width="1600" height="900" class="project-card-img" src="assets/projects/cpq-hub/hero-homepage.jpg" alt="" data-i18n-attr="alt:cards.cpq.projectCardImgAlt">
+        <div class="card-tags">
+          <span class="card-tag" data-i18n="cards.cpq.tag"></span>
+          <span class="card-tag" data-i18n="cards.cpq.tag2"></span>
+          <span class="card-tag" data-i18n="cards.cpq.tag3"></span>
+          <span class="card-tag" data-i18n="cards.cpq.tag4"></span>
+        </div>
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:cards.cpq.tooltip2;aria-label:cards.cpq.ariaLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
+        </button>
+        <span class="card-label" data-i18n="cards.cpq.label"></span>
+      </article>
+
+    </div>
+  </main>
+
+  <button class="back-to-top" id="backToTop" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.tooltip;aria-label:ui.ariaLabel">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
+  </button>
+
+  <!-- Expand templates: content only, expand.js builds the animated overlay chrome -->
+  <template id="tpl-about">
+    <img width="480" height="480" class="expand-avatar" src="assets/profile.png" alt="" data-i18n-attr="alt:modals.about.avatarAlt">
+    <div class="expand-body">
+      <p data-i18n-html="modals.about.text"></p>
+      <p data-i18n-html="modals.about.text2"></p>
+      <p data-i18n-html="modals.about.text3"></p>
+      <p data-i18n-html="modals.about.text4"></p>
+      <p data-i18n-html="modals.about.text5"></p>
+    </div>
+  </template>
+
+  <template id="tpl-references">
+    <h2 class="expand-title" data-i18n="modals.references.title"></h2>
+    <p class="hobby-intro" data-i18n="modals.references.intro"></p>
+    <ul class="ref-list">
+      <li class="ref-item">
+        <span class="ref-initials" aria-hidden="true" data-i18n="modals.references.person1.initials"></span>
+        <div class="ref-text">
+          <span class="ref-name" data-i18n="modals.references.person1.name"></span>
+          <span class="ref-contact" data-i18n="modals.references.person1.contact"></span>
+        </div>
+      </li>
+    </ul>
+  </template>
+
+  <template id="tpl-path">
+    <div class="career-page">
+    <h2 class="expand-title" data-i18n="modals.path.title"></h2>
+    <p class="hobby-intro" data-i18n="modals.path.intro"></p>
+    <div class="career">
+      <span class="career-line" aria-hidden="true"></span>
+      <article class="career-row">
+        <div class="career-meta">
+          <p class="career-role" data-i18n="modals.path.row1.role"></p>
+          <p data-i18n="modals.path.row1.location"></p>
+          <p data-i18n="modals.path.row1.text7"></p>
+        </div>
+        <span class="career-dot" aria-hidden="true"></span>
+        <div class="career-card">
+          <a class="career-company" href="https://agileengine.com/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row1.ariaLabel">
+            <img width="256" height="96" class="career-logo career-logo--light" src="assets/logos/companies/aelight.png" alt=""><img width="256" height="96" class="career-logo career-logo--dark" src="assets/logos/companies/aedark.png" alt="">
+          </a>
+          <div class="career-tags"><span data-i18n="modals.path.row1.text"></span><span data-i18n="modals.path.row1.text2"></span><span data-i18n="modals.path.row1.text3"></span><span data-i18n="modals.path.row1.text4"></span></div>
+          <div class="career-desc">
+            <p data-i18n="modals.path.row1.text5"></p>
+            <p data-i18n="modals.path.row1.text6"></p>
+          </div>
+        </div>
+      </article>
+      <article class="career-row">
+        <div class="career-meta">
+          <p class="career-role" data-i18n="modals.path.row2.role"></p>
+          <p data-i18n="modals.path.row2.text6"></p>
+          <p data-i18n="modals.path.row2.text7"></p>
+        </div>
+        <span class="career-dot" aria-hidden="true"></span>
+        <div class="career-card">
+          <a class="career-company" href="https://www.rivian.com/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row2.ariaLabel">
+            <img width="460" height="96" class="career-logo career-logo--rivian career-logo--light" src="assets/logos/companies/rivianlight.png" alt=""><img width="460" height="96" class="career-logo career-logo--rivian career-logo--dark" src="assets/logos/companies/riviandark.png" alt="">
+          </a>
+          <div class="career-tags"><span data-i18n="modals.path.row2.text"></span><span data-i18n="modals.path.row2.text2"></span><span data-i18n="modals.path.row2.text3"></span></div>
+          <div class="career-desc">
+            <p data-i18n="modals.path.row2.text4"></p>
+            <p data-i18n="modals.path.row2.text5"></p>
+          </div>
+        </div>
+      </article>
+      <article class="career-row">
+        <div class="career-meta">
+          <p class="career-role" data-i18n="modals.path.row3.role"></p>
+          <p data-i18n="modals.path.row3.text7"></p>
+          <p data-i18n="modals.path.row3.text8"></p>
+        </div>
+        <span class="career-dot" aria-hidden="true"></span>
+        <div class="career-card">
+          <a class="career-company" href="https://www.ibm.com/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row3.ariaLabel">
+            <img width="239" height="96" class="career-logo career-logo--ibm career-logo--light" src="assets/logos/companies/ibmlight.png" alt=""><img width="239" height="96" class="career-logo career-logo--ibm career-logo--dark" src="assets/logos/companies/ibmdark.png" alt="">
+          </a>
+          <div class="career-tags"><span data-i18n="modals.path.row3.text"></span><span data-i18n="modals.path.row3.text2"></span><span data-i18n="modals.path.row3.text3"></span></div>
+          <div class="career-desc">
+            <p data-i18n="modals.path.row3.text4"></p>
+            <p data-i18n="modals.path.row3.text5"></p>
+          </div>
+          <div class="career-projects">
+            <button class="career-project" type="button" data-open-card="cpq" data-tooltip="" data-i18n-attr="data-tooltip:modals.path.row3.tooltip">
+              <img width="1600" height="900" src="assets/projects/cpq-hub/hero-homepage.jpg" alt="" loading="lazy">
+              <span data-i18n="modals.path.row3.text6"></span>
+            </button>
+          </div>
+        </div>
+      </article>
+      <article class="career-row">
+        <div class="career-meta">
+          <p class="career-role" data-i18n="modals.path.row4.role"></p>
+          <p data-i18n="modals.path.row4.text6"></p>
+          <p data-i18n="modals.path.row4.text7"></p>
+        </div>
+        <span class="career-dot" aria-hidden="true"></span>
+        <div class="career-card">
+          <a class="career-company" href="https://www.ibm.com/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row4.ariaLabel">
+            <img width="239" height="96" class="career-logo career-logo--ibm career-logo--light" src="assets/logos/companies/ibmlight.png" alt=""><img width="239" height="96" class="career-logo career-logo--ibm career-logo--dark" src="assets/logos/companies/ibmdark.png" alt="">
+          </a>
+          <div class="career-tags"><span data-i18n="modals.path.row4.text"></span><span data-i18n="modals.path.row4.text2"></span><span data-i18n="modals.path.row4.text3"></span></div>
+          <div class="career-desc">
+            <p data-i18n="modals.path.row4.text4"></p>
+            <p data-i18n="modals.path.row4.text5"></p>
+          </div>
+        </div>
+      </article>
+      <article class="career-row">
+        <div class="career-meta">
+          <p class="career-role" data-i18n="modals.path.row5.role"></p>
+          <p data-i18n="modals.path.row5.text7"></p>
+          <p data-i18n="modals.path.row5.text8"></p>
+        </div>
+        <span class="career-dot" aria-hidden="true"></span>
+        <div class="career-card">
+          <a class="career-company" href="https://www.ibm.com/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row5.ariaLabel">
+            <img width="239" height="96" class="career-logo career-logo--ibm career-logo--light" src="assets/logos/companies/ibmlight.png" alt=""><img width="239" height="96" class="career-logo career-logo--ibm career-logo--dark" src="assets/logos/companies/ibmdark.png" alt="">
+          </a>
+          <div class="career-tags"><span data-i18n="modals.path.row5.text"></span><span data-i18n="modals.path.row5.text2"></span><span data-i18n="modals.path.row5.text3"></span><span data-i18n="modals.path.row5.text4"></span></div>
+          <div class="career-desc">
+            <p data-i18n="modals.path.row5.text5"></p>
+            <p data-i18n="modals.path.row5.text6"></p>
+          </div>
+        </div>
+      </article>
+      <article class="career-row">
+        <div class="career-meta">
+          <p class="career-role" data-i18n="modals.path.row6.role"></p>
+          <p data-i18n="modals.path.row6.text4"></p>
+          <p data-i18n="modals.path.row6.text5"></p>
+        </div>
+        <span class="career-dot" aria-hidden="true"></span>
+        <div class="career-card">
+          <a class="career-company" href="https://www.unicamp.br/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row6.ariaLabel">
+            <img width="302" height="320" class="career-logo career-logo--mono" src="assets/logos/unicamp.png" alt="">
+          </a>
+          <div class="career-tags"><span data-i18n="modals.path.row6.text"></span><span data-i18n="modals.path.row6.text2"></span></div>
+          <div class="career-desc">
+            <p data-i18n="modals.path.row6.text3"></p>
+          </div>
+        </div>
+      </article>
+    </div>
+    </div>
+  </template>
+
+  <template id="tpl-cpq">
+    <article class="cs">
+      <header class="cs-head">
+        <div class="cs-tags">
+          <span data-i18n="modals.cpq.head.text"></span><span data-i18n="modals.cpq.head.text2"></span><span data-i18n="modals.cpq.head.text3"></span><span data-i18n="modals.cpq.head.text4"></span>
+        </div>
+        <h1 class="cs-title" data-i18n="modals.cpq.head.title"></h1>
+        <p class="cs-lede" data-i18n="modals.cpq.head.lede"></p>
+        <button class="tldr-toggle" type="button" aria-pressed="false">
+          <span class="tldr-toggle__label" data-i18n="modals.cpq.head.tldrFullStory"></span>
+        </button>
+      </header>
+
+      <figure class="cs-figure cs-figure--hero">
+        <img width="1600" height="900" src="assets/projects/cpq-hub/hero-homepage.jpg" alt="" data-i18n-attr="alt:modals.cpq.imageAlt">
+      </figure>
+
+      <section class="cs-section">
+        <h2 class="cs-section-title" data-i18n="modals.cpq.myRole.sectionTitle"></h2>
+        <p class="cs-meta" data-i18n-html="modals.cpq.myRole.meta"></p>
+        <p class="cs-text cs-full" data-i18n="modals.cpq.myRole.text"></p>
+      </section>
+
+      <section class="cs-section">
+        <h2 class="cs-section-title" data-i18n="modals.cpq.impact.sectionTitle"></h2>
+
+        <h3 class="cs-sub" data-i18n="modals.cpq.impact.sub"></h3>
+        <p class="cs-text cs-full" data-i18n="modals.cpq.impact.text"></p>
+
+        <h3 class="cs-sub" data-i18n="modals.cpq.impact.sub2"></h3>
+        <p class="cs-text cs-full" data-i18n="modals.cpq.impact.text2"></p>
+
+        <h3 class="cs-sub" data-i18n="modals.cpq.impact.sub3"></h3>
+        <p class="cs-text cs-full" data-i18n="modals.cpq.impact.text3"></p>
+
+        <h3 class="cs-sub" data-i18n="modals.cpq.impact.sub4"></h3>
+        <p class="cs-text cs-full" data-i18n="modals.cpq.impact.text4"></p>
+
+        <h3 class="cs-sub" data-i18n="modals.cpq.impact.sub5"></h3>
+        <p class="cs-text cs-full" data-i18n="modals.cpq.impact.text5"></p>
+      </section>
+
+      <section class="cs-section">
+        <span class="cs-eyebrow cs-eyebrow--observe" data-i18n="modals.cpq.problem.eyebrow"></span>
+        <h2 class="cs-section-title" data-i18n="modals.cpq.problem.sectionTitle"></h2>
+        <p class="cs-text" data-i18n-html="modals.cpq.problem.text"></p>
+        <p class="cs-text cs-full" data-i18n="modals.cpq.problem.text2"></p>
+        <div class="cs-grid">
+          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile1.title"></h4></div>
+          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile2.title"></h4></div>
+          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile3.title"></h4></div>
+          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile4.title"></h4><p data-i18n="modals.cpq.problem.tile4.text"></p></div>
+          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile5.title"></h4></div>
+          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile6.title"></h4></div>
+        </div>
+      </section>
+
+      <section class="cs-section">
+        <span class="cs-eyebrow cs-eyebrow--define" data-i18n="modals.cpq.goals.eyebrow"></span>
+        <h2 class="cs-section-title" data-i18n="modals.cpq.goals.sectionTitle"></h2>
+        <ul class="cs-list">
+          <li data-i18n="modals.cpq.goals.item"></li>
+          <li data-i18n="modals.cpq.goals.item2"></li>
+          <li data-i18n="modals.cpq.goals.item3"></li>
+        </ul>
+        <div class="cs-grid">
+          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile1.title"></h4><p data-i18n="modals.cpq.goals.tile1.text"></p></div>
+          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile2.title"></h4><p data-i18n="modals.cpq.goals.tile2.text"></p></div>
+          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile3.title"></h4></div>
+          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile4.title"></h4></div>
+          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile5.title"></h4></div>
+          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile6.title"></h4></div>
+        </div>
+      </section>
+
+      <section class="cs-section">
+        <span class="cs-eyebrow cs-eyebrow--define" data-i18n="modals.cpq.solution.eyebrow"></span>
+        <h2 class="cs-section-title" data-i18n="modals.cpq.solution.sectionTitle"></h2>
+        <p class="cs-text" data-i18n="modals.cpq.solution.text"></p>
+        <div class="cs-solution">
+          <span class="cs-solution__brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <rect x="3" y="3" width="8" height="6" rx="1.2"></rect><rect x="14" y="3" width="7" height="4" rx="1.2"></rect>
+              <rect x="3" y="12" width="7" height="4" rx="1.2"></rect><rect x="14" y="10" width="7" height="6" rx="1.2"></rect>
+            </svg>
+            <span data-i18n="modals.cpq.solution.solutionBrandLabel"></span>
+          </span>
+          <ul class="cs-solution__items">
+            <li>
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+                <rect x="8" y="6" width="32" height="11" rx="2.5"></rect>
+                <rect x="8" y="18.5" width="32" height="11" rx="2.5"></rect>
+                <rect x="8" y="31" width="32" height="11" rx="2.5"></rect>
+                <circle cx="14.5" cy="11.5" r="1.7" fill="currentColor" stroke="none"></circle>
+                <circle cx="14.5" cy="24" r="1.7" fill="currentColor" stroke="none"></circle>
+                <circle cx="14.5" cy="36.5" r="1.7" fill="currentColor" stroke="none"></circle>
+              </svg>
+              <span data-i18n="modals.cpq.solution.text2"></span>
+            </li>
+            <li>
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="24" cy="24" r="7.5"></circle>
+                <path d="M24 4.5l2.7 5.3a15 15 0 013.6 1.5L36 9.4l2.6 2.6-1.9 5.7a15 15 0 011.5 3.6l5.3 2.7-5.3 2.7a15 15 0 01-1.5 3.6l1.9 5.7L36 38.6l-5.7-1.9a15 15 0 01-3.6 1.5L24 43.5l-2.7-5.3a15 15 0 01-3.6-1.5L12 38.6 9.4 36l1.9-5.7a15 15 0 01-1.5-3.6L4.5 24l5.3-2.7a15 15 0 011.5-3.6L9.4 12 12 9.4l5.7 1.9a15 15 0 013.6-1.5z"></path>
+              </svg>
+              <span data-i18n="modals.cpq.solution.text3"></span>
+            </li>
+            <li>
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
+                <path d="M43 5.5H29.4a3 3 0 00-2.1.9L6.4 27.3a3 3 0 000 4.2l10.1 10.1a3 3 0 004.2 0l20.9-20.9a3 3 0 00.9-2.1z"></path>
+                <circle cx="34.5" cy="13.5" r="3.6"></circle>
+              </svg>
+              <span data-i18n="modals.cpq.solution.text4"></span>
+            </li>
+            <li>
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 5h16l10 10v26a2.5 2.5 0 01-2.5 2.5h-23.5A2.5 2.5 0 019.5 41V7.5A2.5 2.5 0 0112 5z"></path>
+                <path d="M28 5v10h10"></path>
+                <path d="M17 26h14M17 33h10"></path>
+              </svg>
+              <span data-i18n="modals.cpq.solution.text5"></span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="cs-section">
+        <span class="cs-eyebrow" data-i18n="modals.cpq.designProcess.eyebrow"></span>
+        <h2 class="cs-section-title" data-i18n="modals.cpq.designProcess.sectionTitle"></h2>
+        <ol class="cs-phases">
+          <li style="--c:var(--cs-blue)"><h4 data-i18n="modals.cpq.designProcess.title"></h4><p data-i18n="modals.cpq.designProcess.text"></p></li>
+          <li style="--c:var(--cs-blue-soft)"><h4 data-i18n="modals.cpq.designProcess.title2"></h4><p data-i18n="modals.cpq.designProcess.text2"></p></li>
+          <li style="--c:var(--cs-purple)"><h4 data-i18n="modals.cpq.designProcess.title3"></h4><p data-i18n="modals.cpq.designProcess.text3"></p></li>
+          <li style="--c:var(--cs-magenta)"><h4 data-i18n="modals.cpq.designProcess.title4"></h4><p data-i18n="modals.cpq.designProcess.text4"></p></li>
+        </ol>
+        <div class="cs-steps cs-full">
+          <section class="cs-step" style="--c:var(--cs-blue)">
+            <h4 data-i18n="modals.cpq.section7.title"></h4>
+            <ul>
+              <li data-i18n="modals.cpq.section7.item"></li>
+              <li data-i18n="modals.cpq.section7.item2"></li>
+              <li data-i18n="modals.cpq.section7.item3"></li>
+              <li data-i18n="modals.cpq.section7.item4"></li>
+              <li data-i18n="modals.cpq.section7.item5"></li>
+              <li data-i18n="modals.cpq.section7.item6"></li>
+            </ul>
+          </section>
+          <section class="cs-step" style="--c:var(--cs-purple)">
+            <h4 data-i18n="modals.cpq.section8.title"></h4>
+            <ul>
+              <li data-i18n="modals.cpq.section8.item"></li>
+              <li data-i18n="modals.cpq.section8.item2"></li>
+              <li data-i18n="modals.cpq.section8.item3"></li>
+              <li data-i18n="modals.cpq.section8.item4"></li>
+              <li data-i18n="modals.cpq.section8.item5"></li>
+            </ul>
+          </section>
+          <section class="cs-step" style="--c:var(--cs-blue-soft)">
+            <h4 data-i18n="modals.cpq.section9.title"></h4>
+            <ul>
+              <li data-i18n="modals.cpq.section9.item"></li>
+              <li data-i18n="modals.cpq.section9.item2"></li>
+              <li data-i18n="modals.cpq.section9.item3"></li>
+              <li data-i18n="modals.cpq.section9.item4"></li>
+              <li data-i18n="modals.cpq.section9.item5"></li>
+            </ul>
+          </section>
+          <section class="cs-step" style="--c:var(--cs-magenta)">
+            <h4 data-i18n="modals.cpq.section10.title"></h4>
+            <ul>
+              <li data-i18n="modals.cpq.section10.item"></li>
+              <li data-i18n="modals.cpq.section10.item2"></li>
+              <li data-i18n="modals.cpq.section10.item3"></li>
+              <li data-i18n="modals.cpq.section10.item4"></li>
+              <li data-i18n="modals.cpq.section10.item5"></li>
+            </ul>
+          </section>
+          <section class="cs-step" style="--c:var(--cs-magenta)">
+            <h4 data-i18n="modals.cpq.section11.title"></h4>
+            <ul>
+              <li data-i18n="modals.cpq.section11.item"></li>
+              <li data-i18n="modals.cpq.section11.item2"></li>
+              <li data-i18n="modals.cpq.section11.item3"></li>
+              <li data-i18n="modals.cpq.section11.item4"></li>
+              <li data-i18n="modals.cpq.section11.item5"></li>
+            </ul>
+          </section>
+          <section class="cs-step" style="--c:var(--cs-cyan)">
+            <h4 data-i18n="modals.cpq.section12.title"></h4>
+            <ul>
+              <li data-i18n="modals.cpq.section12.item"></li>
+              <li data-i18n="modals.cpq.section12.item2"></li>
+              <li data-i18n="modals.cpq.section12.item3"></li>
+            </ul>
+          </section>
+        </div>
+      </section>
+
+      <section class="cs-section">
+        <span class="cs-eyebrow" data-i18n="modals.cpq.designStrategy.eyebrow"></span>
+        <h2 class="cs-section-title" data-i18n="modals.cpq.designStrategy.sectionTitle"></h2>
+        <p class="cs-text" data-i18n="modals.cpq.designStrategy.text"></p>
+        <div class="cs-tile" style="margin:20px 0;">
+          <h4 data-i18n="modals.cpq.designStrategy.tile1.title"></h4>
+          <p data-i18n="modals.cpq.designStrategy.tile1.text"></p>
+        </div>
+        <div class="cs-grid cs-full">
+          <div class="cs-tile">
+            <h4 data-i18n="modals.cpq.designStrategy.tile1.title2"></h4>
+            <ul class="cs-list"><li data-i18n="modals.cpq.designStrategy.tile1.item"></li><li data-i18n="modals.cpq.designStrategy.tile1.item2"></li><li data-i18n="modals.cpq.designStrategy.tile1.item3"></li><li data-i18n="modals.cpq.designStrategy.tile1.item4"></li></ul>
+          </div>
+          <div class="cs-tile">
+            <h4 data-i18n="modals.cpq.designStrategy.tile2.title"></h4>
+            <ul class="cs-list"><li data-i18n="modals.cpq.designStrategy.tile2.item"></li><li data-i18n="modals.cpq.designStrategy.tile2.item2"></li><li data-i18n="modals.cpq.designStrategy.tile2.item3"></li></ul>
+          </div>
+          <div class="cs-tile">
+            <h4 data-i18n="modals.cpq.designStrategy.tile3.title"></h4>
+            <ul class="cs-list"><li data-i18n="modals.cpq.designStrategy.tile3.item"></li><li data-i18n="modals.cpq.designStrategy.tile3.item2"></li><li data-i18n="modals.cpq.designStrategy.tile3.item3"></li><li data-i18n="modals.cpq.designStrategy.tile3.item4"></li><li data-i18n="modals.cpq.designStrategy.tile3.item5"></li></ul>
+          </div>
+          <div class="cs-tile">
+            <h4 data-i18n="modals.cpq.designStrategy.tile4.title"></h4>
+            <ul class="cs-list"><li data-i18n="modals.cpq.designStrategy.tile4.item"></li><li data-i18n="modals.cpq.designStrategy.tile4.item2"></li><li data-i18n="modals.cpq.designStrategy.tile4.item3"></li><li data-i18n="modals.cpq.designStrategy.tile4.item4"></li><li data-i18n="modals.cpq.designStrategy.tile4.item5"></li><li data-i18n="modals.cpq.designStrategy.tile4.item6"></li></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="cs-section">
+        <span class="cs-eyebrow cs-eyebrow--reflect" data-i18n="modals.cpq.applicationFlow.eyebrow"></span>
+        <h2 class="cs-section-title" data-i18n="modals.cpq.applicationFlow.sectionTitle"></h2>
+        <figure class="cs-figure">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/application-flow.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.applicationFlow.imageAlt">
+        </figure>
+      </section>
+
+      <section class="cs-section">
+        <span class="cs-eyebrow cs-eyebrow--reflect" data-i18n="modals.cpq.userJourney.eyebrow"></span>
+        <h2 class="cs-section-title" data-i18n="modals.cpq.userJourney.sectionTitle"></h2>
+        <figure class="cs-figure">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/user-journey.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.userJourney.imageAlt">
+        </figure>
+      </section>
+
+      <section class="cs-section">
+        <span class="cs-eyebrow" data-i18n="modals.cpq.designSystem.eyebrow"></span>
+        <h2 class="cs-section-title" data-i18n="modals.cpq.designSystem.sectionTitle"></h2>
+        <div class="cs-grid">
+          <div class="cs-tile"><h4 data-i18n="modals.cpq.designSystem.tile1.title"></h4><ul class="cs-list"><li data-i18n="modals.cpq.designSystem.tile1.item"></li><li data-i18n="modals.cpq.designSystem.tile1.item2"></li></ul></div>
+          <div class="cs-tile"><h4 data-i18n="modals.cpq.designSystem.tile2.title"></h4><ul class="cs-list"><li data-i18n="modals.cpq.designSystem.tile2.item"></li><li data-i18n="modals.cpq.designSystem.tile2.item2"></li><li data-i18n="modals.cpq.designSystem.tile2.item3"></li></ul></div>
+        </div>
+        <figure class="cs-figure cs-full">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/design-system-tokens.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.designSystem.imageAlt">
+        </figure>
+      </section>
+
+      <section class="cs-section">
+        <span class="cs-eyebrow cs-eyebrow--make" data-i18n="modals.cpq.interfaces.eyebrow"></span>
+        <h2 class="cs-section-title" data-i18n="modals.cpq.interfaces.sectionTitle"></h2>
+
+        <figure class="cs-figure">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/folder-creation.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt">
+          <figcaption data-i18n="modals.cpq.interfaces.caption"></figcaption>
+        </figure>
+
+        <figure class="cs-figure">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/folder-details.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt2">
+          <figcaption data-i18n="modals.cpq.interfaces.caption2"></figcaption>
+        </figure>
+
+        <figure class="cs-figure cs-full">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/process-steps.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt3">
+        </figure>
+
+        <figure class="cs-figure cs-full">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/deal-scenario.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt4">
+        </figure>
+
+        <figure class="cs-figure">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/web-components.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt5">
+          <figcaption data-i18n="modals.cpq.interfaces.caption3"></figcaption>
+        </figure>
+
+        <figure class="cs-figure cs-full">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/assets-access.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt6">
+        </figure>
+
+        <figure class="cs-figure">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/object-creation.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt7">
+          <figcaption data-i18n="modals.cpq.interfaces.caption4"></figcaption>
+        </figure>
+
+        <figure class="cs-figure cs-full">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/flow-options.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt8">
+        </figure>
+
+        <figure class="cs-figure">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/help.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt9">
+          <figcaption data-i18n="modals.cpq.interfaces.caption5"></figcaption>
+        </figure>
+
+        <figure class="cs-figure cs-full">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/feedback-validation.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt10">
+        </figure>
+
+        <figure class="cs-figure cs-full">
+          <img width="1600" height="900" src="assets/projects/cpq-hub/access-control.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt11">
+        </figure>
+      </section>
+
+      <section class="cs-section">
+        <span class="cs-eyebrow" data-i18n="modals.cpq.myParticipation.eyebrow"></span>
+        <h2 class="cs-section-title" data-i18n="modals.cpq.myParticipation.sectionTitle"></h2>
+        <div class="cs-grid">
+          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile1.title"></h4><p data-i18n="modals.cpq.myParticipation.tile1.text"></p></div>
+          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile2.title"></h4><p data-i18n="modals.cpq.myParticipation.tile2.text"></p></div>
+          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile3.title"></h4><p data-i18n="modals.cpq.myParticipation.tile3.text"></p></div>
+          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile4.title"></h4><p data-i18n="modals.cpq.myParticipation.tile4.text"></p></div>
+          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile5.title"></h4><p data-i18n="modals.cpq.myParticipation.tile5.text"></p></div>
+          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile6.title"></h4><p data-i18n="modals.cpq.myParticipation.tile6.text"></p></div>
+          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile7.title"></h4><p data-i18n="modals.cpq.myParticipation.tile7.text"></p></div>
+          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile8.title"></h4><p data-i18n="modals.cpq.myParticipation.tile8.text"></p></div>
+        </div>
+      </section>
+
+      <section class="cs-section">
+        <span class="cs-eyebrow cs-eyebrow--improve" data-i18n="modals.cpq.failures.eyebrow"></span>
+        <h2 class="cs-section-title" data-i18n="modals.cpq.failures.sectionTitle"></h2>
+        <div class="cs-grid">
+          <div class="cs-tile cs-tile--failure">
+            <h4 data-i18n="modals.cpq.failures.tile1.title"></h4>
+            <p data-i18n="modals.cpq.failures.tile1.text"></p>
+          </div>
+          <div class="cs-tile cs-tile--failure">
+            <h4 data-i18n="modals.cpq.failures.tile2.title"></h4>
+            <p data-i18n="modals.cpq.failures.tile2.text"></p>
+          </div>
+        </div>
+      </section>
+
+      <p class="cs-closing" data-i18n="modals.cpq.closing"></p>
+    </article>
+  </template>
+
+  <template id="tpl-expertise">
+    <h2 class="expand-title" data-i18n="modals.expertise.title"></h2>
+    <p class="hobby-intro" data-i18n="modals.expertise.intro"></p>
+
+    <section class="tag-group">
+      <h3 class="tag-group__label" data-i18n="modals.expertise.research.label"></h3>
+      <div class="tag-set">
+        <span data-i18n="modals.expertise.research.text"></span><span data-i18n="modals.expertise.research.text2"></span><span data-i18n="modals.expertise.research.text3"></span><span data-i18n="modals.expertise.research.text4"></span><span data-i18n="modals.expertise.research.text5"></span>
+      </div>
+    </section>
+
+    <section class="tag-group">
+      <h3 class="tag-group__label" data-i18n="modals.expertise.uxInteraction.label"></h3>
+      <div class="tag-set">
+        <span data-i18n="modals.expertise.uxInteraction.text"></span><span data-i18n="modals.expertise.uxInteraction.text2"></span><span data-i18n="modals.expertise.uxInteraction.text3"></span>
+        <span data-i18n="modals.expertise.uxInteraction.text4"></span><span data-i18n="modals.expertise.uxInteraction.text5"></span><span data-i18n="modals.expertise.uxInteraction.text6"></span><span data-i18n="modals.expertise.uxInteraction.text7"></span>
+        <span data-i18n="modals.expertise.uxInteraction.text8"></span><span data-i18n="modals.expertise.uxInteraction.text9"></span>
+      </div>
+    </section>
+
+    <section class="tag-group">
+      <h3 class="tag-group__label" data-i18n="modals.expertise.designSystems.label"></h3>
+      <div class="tag-set">
+        <span data-i18n="modals.expertise.designSystems.text"></span><span data-i18n="modals.expertise.designSystems.text2"></span><span data-i18n="modals.expertise.designSystems.text3"></span><span data-i18n="modals.expertise.designSystems.text4"></span>
+      </div>
+    </section>
+
+    <section class="tag-group">
+      <h3 class="tag-group__label" data-i18n="modals.expertise.businessDelivery.label"></h3>
+      <div class="tag-set">
+        <span data-i18n="modals.expertise.businessDelivery.text"></span><span data-i18n="modals.expertise.businessDelivery.text2"></span><span data-i18n="modals.expertise.businessDelivery.text3"></span>
+        <span data-i18n="modals.expertise.businessDelivery.text4"></span><span data-i18n="modals.expertise.businessDelivery.text5"></span><span data-i18n="modals.expertise.businessDelivery.text6"></span><span data-i18n="modals.expertise.businessDelivery.text7"></span>
+      </div>
+    </section>
+
+    <section class="tag-group">
+      <h3 class="tag-group__label" data-i18n="modals.expertise.toolsTech.label"></h3>
+      <div class="tag-set">
+        <span data-i18n="modals.expertise.toolsTech.text"></span><span data-i18n="modals.expertise.toolsTech.text2"></span><span data-i18n="modals.expertise.toolsTech.text3"></span><span data-i18n="modals.expertise.toolsTech.text4"></span><span data-i18n="modals.expertise.toolsTech.text5"></span>
+        <span data-i18n="modals.expertise.toolsTech.text6"></span><span data-i18n="modals.expertise.toolsTech.text7"></span><span data-i18n="modals.expertise.toolsTech.text8"></span><span data-i18n="modals.expertise.toolsTech.text9"></span><span data-i18n="modals.expertise.toolsTech.text10"></span>
+      </div>
+    </section>
+
+    <section class="tag-group">
+      <h3 class="tag-group__label" data-i18n="modals.expertise.domains.label"></h3>
+      <div class="tag-set">
+        <span data-i18n="modals.expertise.domains.text"></span><span data-i18n="modals.expertise.domains.text2"></span><span data-i18n="modals.expertise.domains.text3"></span>
+        <span data-i18n="modals.expertise.domains.text4"></span>
+      </div>
+    </section>
+
+    <section class="tag-group">
+      <h3 class="tag-group__label" data-i18n="modals.expertise.waysOfWorking.label"></h3>
+      <div class="tag-set">
+        <span data-i18n="modals.expertise.waysOfWorking.text"></span><span data-i18n="modals.expertise.waysOfWorking.text2"></span><span data-i18n="modals.expertise.waysOfWorking.text3"></span>
+        <span data-i18n="modals.expertise.waysOfWorking.text4"></span><span data-i18n="modals.expertise.waysOfWorking.text5"></span><span data-i18n="modals.expertise.waysOfWorking.text6"></span><span data-i18n="modals.expertise.waysOfWorking.text7"></span><span data-i18n="modals.expertise.waysOfWorking.text8"></span>
+      </div>
+    </section>
+
+    <section class="tag-group">
+      <h3 class="tag-group__label" data-i18n="modals.expertise.languages.label"></h3>
+      <div class="tag-set"><span data-i18n="modals.expertise.languages.text"></span></div>
+    </section>
+  </template>
+
+  <template id="tpl-nng">
+    <div class="cert-panel">
+      <h2 class="expand-title" data-i18n="modals.nng.title"></h2>
+      <p class="hobby-intro" data-i18n="modals.nng.intro"></p>
+
+      <figure class="cert-figure">
+        <img width="1600" height="1236" src="assets/certificates/nng-certificate.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.nng.imageAlt">
+      </figure>
+
+      <div class="cert-actions">
+        <div class="cert-action">
+          <a class="cert-btn cert-btn--primary" href="https://www.nngroup.com/ux-certification/people/" target="_blank" rel="noopener noreferrer">
+            <span data-i18n="modals.nng.btnLabel"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6M10 14L21 3"></path></svg>
+          </a>
+          <span class="cert-key" data-i18n-html="modals.nng.key"></span>
+        </div>
+
+        <div class="cert-action">
+          <a class="cert-btn" href="https://www.linkedin.com/pulse/my-experience-taking-ux-certification-from-nielsen-abdo-dos-santos/" target="_blank" rel="noopener noreferrer">
+            <span data-i18n="modals.nng.btnLabel2"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6M10 14L21 3"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-diploma">
+    <div class="cert-panel">
+      <h2 class="expand-title" data-i18n="modals.diploma.title"></h2>
+      <p class="hobby-intro" data-i18n="modals.diploma.intro"></p>
+
+      <figure class="cert-figure">
+        <img width="1600" height="1131" src="assets/certificates/diploma-unicamp.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.diploma.imageAlt">
+        <figcaption data-i18n="modals.diploma.caption"></figcaption>
+      </figure>
+
+      <div class="cert-actions">
+        <div class="cert-action">
+          <a class="cert-btn cert-btn--primary" href="https://sistemas.dac.unicamp.br/siga/nucleo/autenticidade.xhtml" target="_blank" rel="noopener noreferrer">
+            <span data-i18n="modals.diploma.btnLabel"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6M10 14L21 3"></path></svg>
+          </a>
+          <span class="cert-key" data-i18n-html="modals.diploma.key"></span>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-english">
+    <div class="cert-panel">
+      <h2 class="expand-title" data-i18n="modals.english.title"></h2>
+      <p class="hobby-intro" data-i18n="modals.english.intro"></p>
+
+      <figure class="cert-figure cert-figure--compact">
+        <img width="1600" height="1236" src="assets/certificates/english-certificate.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.english.imageAlt">
+      </figure>
+
+      <div class="cert-actions">
+        <div class="cert-action">
+          <a class="cert-btn cert-btn--primary" href="https://valida.ae/f6520f4c11a6f7282608a13015cbddb42f95524b3bca59322" target="_blank" rel="noopener noreferrer">
+            <span data-i18n="modals.english.btnLabel"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6M10 14L21 3"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-hobbies">
+    <h2 class="expand-title" data-i18n="modals.hobbies.title"></h2>
+    <p class="hobby-intro" data-i18n="modals.hobbies.intro"></p>
+
+    <section class="hobby-section">
+      <h3 class="hobby-label" data-i18n="modals.hobbies.watchingReading.label"></h3>
+      <div class="hobby-row">
+        <article class="pick-card">
+          <img width="1600" height="900" class="pick-card__img" src="assets/hobbies/dune.jpg" alt="" loading="lazy">
+          <h4 data-i18n="modals.hobbies.watchingReading.pickCard1.title"></h4>
+          <p data-i18n="modals.hobbies.watchingReading.pickCard1.text"></p>
+        </article>
+        <article class="pick-card">
+          <img width="1600" height="1066" class="pick-card__img" src="assets/hobbies/severance.jpg" alt="" loading="lazy">
+          <h4 data-i18n="modals.hobbies.watchingReading.pickCard2.title"></h4>
+          <p data-i18n="modals.hobbies.watchingReading.pickCard2.text"></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="hobby-section">
+      <h3 class="hobby-label" data-i18n="modals.hobbies.listening.label"></h3>
+      <div class="hobby-row hobby-row--songs">
+        <a class="song-card" href="https://www.youtube.com/watch?v=_Xqexqiqkdk" target="_blank" rel="noopener noreferrer" data-tooltip="" data-i18n-attr="data-tooltip:ui.playOnYoutube">
+          <span class="song-card__art">
+            <img width="1280" height="720" src="https://img.youtube.com/vi/_Xqexqiqkdk/maxresdefault.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.hobbies.listening.songCard1.imageAlt">
+            <span class="song-card__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+            </span>
+          </span>
+          <span class="song-card__meta">
+            <strong data-i18n="modals.hobbies.listening.songCard1.text"></strong>
+            <span data-i18n="modals.hobbies.listening.songCard1.text2"></span>
+          </span>
+        </a>
+        <a class="song-card" href="https://www.youtube.com/watch?v=vBHild0PiTE" target="_blank" rel="noopener noreferrer" data-tooltip="" data-i18n-attr="data-tooltip:ui.playOnYoutube">
+          <span class="song-card__art">
+            <img width="1280" height="720" src="https://img.youtube.com/vi/vBHild0PiTE/maxresdefault.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.hobbies.listening.songCard2.imageAlt">
+            <span class="song-card__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+            </span>
+          </span>
+          <span class="song-card__meta">
+            <strong data-i18n="modals.hobbies.listening.songCard2.text"></strong>
+            <span data-i18n="modals.hobbies.listening.songCard2.text2"></span>
+          </span>
+        </a>
+        <a class="song-card" href="https://www.youtube.com/watch?v=aWpw-Ynl0Yc" target="_blank" rel="noopener noreferrer" data-tooltip="" data-i18n-attr="data-tooltip:ui.playOnYoutube">
+          <span class="song-card__art">
+            <img width="1280" height="720" src="https://img.youtube.com/vi/aWpw-Ynl0Yc/maxresdefault.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.hobbies.listening.songCard3.imageAlt">
+            <span class="song-card__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+            </span>
+          </span>
+          <span class="song-card__meta">
+            <strong data-i18n="modals.hobbies.listening.songCard3.text"></strong>
+            <span data-i18n="modals.hobbies.listening.songCard3.text2"></span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <section class="hobby-section">
+      <h3 class="hobby-label" data-i18n="modals.hobbies.playing.label"></h3>
+      <div class="hobby-row">
+        <article class="pick-card">
+          <img width="900" height="531" class="pick-card__img" src="assets/hobbies/league-of-legends.jpg" alt="" loading="lazy">
+          <h4 data-i18n="modals.hobbies.playing.pickCard1.title"></h4>
+          <p data-i18n-html="modals.hobbies.playing.pickCard1.text"></p>
+        </article>
+        <article class="pick-card">
+          <img width="900" height="506" class="pick-card__img" src="assets/hobbies/baldurs-gate-3.jpg" alt="" loading="lazy">
+          <h4 data-i18n="modals.hobbies.playing.pickCard2.title"></h4>
+          <p data-i18n="modals.hobbies.playing.pickCard2.text"></p>
+        </article>
+      </div>
+    </section>
+  </template>
+
+  <template id="tpl-pictures">
+    <h2 class="expand-title" data-i18n="modals.pictures.title"></h2>
+    <div class="pic-grid">
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/5.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo5.imageAlt"><figcaption data-i18n="modals.pictures.photo5.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/14.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo14.imageAlt"><figcaption data-i18n="modals.pictures.photo14.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/2.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo2.imageAlt"><figcaption data-i18n="modals.pictures.photo2.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/12.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo12.imageAlt"><figcaption data-i18n="modals.pictures.photo12.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/11.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo11.imageAlt"><figcaption data-i18n="modals.pictures.photo11.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/13.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo13.imageAlt"><figcaption data-i18n="modals.pictures.photo13.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/10.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo10.imageAlt"><figcaption data-i18n="modals.pictures.photo10.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/16.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo16.imageAlt"><figcaption data-i18n="modals.pictures.photo16.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/6.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo6.imageAlt"><figcaption data-i18n="modals.pictures.photo6.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/1.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo1.imageAlt"><figcaption data-i18n="modals.pictures.photo1.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/21.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo21.imageAlt"><figcaption data-i18n="modals.pictures.photo21.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/17.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo17.imageAlt"><figcaption data-i18n="modals.pictures.photo17.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/15.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo15.imageAlt"><figcaption data-i18n="modals.pictures.photo15.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/20.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo20.imageAlt"><figcaption data-i18n="modals.pictures.photo20.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/8.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo8.imageAlt"><figcaption data-i18n="modals.pictures.photo8.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/22.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo22.imageAlt"><figcaption data-i18n="modals.pictures.photo22.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/3.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo3.imageAlt"><figcaption data-i18n="modals.pictures.photo3.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/18.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo18.imageAlt"><figcaption data-i18n="modals.pictures.photo18.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/19.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo19.imageAlt"><figcaption data-i18n="modals.pictures.photo19.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/7.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo7.imageAlt"><figcaption data-i18n="modals.pictures.photo7.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/23.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo23.imageAlt"><figcaption data-i18n="modals.pictures.photo23.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/4.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo4.imageAlt"><figcaption data-i18n="modals.pictures.photo4.caption"></figcaption></figure>
+      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/9.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.photo9.imageAlt"><figcaption data-i18n="modals.pictures.photo9.caption"></figcaption></figure>
+    </div>
+  </template>
+
+  <script type="module" src="src/scripts/main.js"></script>
+
+
+</body></html>
