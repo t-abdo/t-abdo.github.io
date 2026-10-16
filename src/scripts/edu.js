@@ -34,7 +34,7 @@ const ICONS = [
 ];
 
 function iconRow(shift) {
-  const svgs = ICONS.map((d, i) => {
+  const svgs = ICONS.map((_, i) => {
     const path = ICONS[(i + shift) % ICONS.length];
     return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${path}"/></svg>`;
   }).join('');

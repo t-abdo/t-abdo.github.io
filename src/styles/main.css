@@ -451,16 +451,6 @@ strong, b {
 .bento-stack .english-caption { color: #616161; }
 [data-theme='dark'] .bento-stack .english-caption { color: var(--color-text-subtle); }
 
-.section-heading {
-  grid-column: 1 / -1;
-  font-size: 13px;
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-subtle);
-  margin: 8px 0 -4px;
-}
-
 /* ── Bento card base ── */
 .bento-card {
   --card-inset-top: var(--color-card-inset-top);
@@ -651,10 +641,6 @@ strong, b {
 
 .card-logo svg { display: block; width: 104px; height: auto; }
 
-.card-logo[data-logo='mmi'] svg { width: 118px; }
-.card-logo[data-logo='rivian'] svg { width: 100px; }
-.card-logo[data-logo='ibm'] svg { width: 62px; }
-
 /* ── Project card (case study) ── */
 .project-card {
   background: #12121e;
@@ -672,8 +658,7 @@ strong, b {
    highlight to catch, which is why these read as flat next to the white cards.
    A real drop shadow puts them back on the same plane. */
 .project-card,
-.pictures-card,
-.hobbies-card {
+.pictures-card {
   --card-shadow-rest:
     0 2px 4px var(--alpha-black-8),
     0 10px 24px var(--alpha-black-10);
@@ -850,13 +835,13 @@ strong, b {
 @keyframes li-draw { to { stroke-dashoffset: 0; } }
 @keyframes li-pop-in { to { transform: scale(1); opacity: 1; } }
 
-/* ── Professional path card: company logos with years, spread down the card ── */
-.path-card { display: flex; flex-direction: column; }
-
-/* The Mesh cover's wash, a step lighter: blue settling into one corner and
+/* ── Work Experience card: company logos with years, spread down the card ──
+   The Mesh cover's wash, a step lighter: blue settling into one corner and
    magenta into the other. Lighter is also what keeps the years above 4.5:1 —
    at the Mesh card's own strength they sit at 4.8:1, here at 5.2:1. */
 .path-card {
+  display: flex;
+  flex-direction: column;
   background:
     radial-gradient(90% 120% at 18% 8%, rgba(39, 89, 222, 0.11), transparent 62%),
     radial-gradient(90% 120% at 88% 92%, rgba(208, 38, 112, 0.095), transparent 62%),
@@ -874,24 +859,16 @@ strong, b {
   bottom: 0;
   left: 0;
   width: 200%;
-  background: linear-gradient(90deg,
-    var(--color-brand-start) 0%,
-    var(--color-brand-end) 50%,
-    var(--color-brand-start) 100%);
   /* Multiplied rather than laid on top: the wash tints the card like ink
      soaking through it instead of glowing on it. */
   mix-blend-mode: multiply;
-  opacity: 0.08;
+  opacity: 0.11;
   pointer-events: none;
   z-index: 0;
-  animation: wash-drift 26s linear infinite;
-}
-
-/* A touch quicker than the path card, and weighted towards the violet: the
-   magenta passes through as a narrow sweep rather than owning half the band. */
-.english-card::after {
-  animation-duration: 14.4s;
-  opacity: 0.11;
+  /* A touch quicker than the Work Experience card, and weighted towards the
+     violet: the magenta passes through as a narrow sweep rather than owning
+     half the band. */
+  animation: wash-drift 14.4s linear infinite;
   /* Two identical cycles across the band, not one. With a single cycle the
      second half of the band is the mirror of the first, so sliding one card
      width lands on a reversed image and the loop snaps back; with two, the
@@ -1080,7 +1057,7 @@ strong, b {
 /* Transparent badge: back its circle in dark mode so the black "NN" stays legible */
 [data-theme='dark'] .nng-logo svg { background: radial-gradient(circle closest-side, #fff 96%, transparent 97%); }
 
-/* ── Degree card ── */
+/* ── Bachelor card ── */
 /* Black artwork: flip to white in dark mode, hue-rotate keeps the red dots red */
 [data-theme='dark'] .cred-mark svg { filter: invert(1) hue-rotate(180deg); }
 
@@ -1088,7 +1065,7 @@ strong, b {
 .english-card { position: relative; overflow: hidden; border-color: var(--color-neutral-150); }
 [data-theme='dark'] .english-card { border-color: var(--color-border-card); }
 
-/* The wash it shares with the Professional Path card is defined with it. */
+/* The wash it shares with the Work Experience card is defined with it. */
 
 .english-inner {
   position: relative;
@@ -1324,7 +1301,7 @@ strong, b {
 }
 
 /* ── Quote cards ──
-   Display-only: a flat grey ground and no hover/press feedback, so they don't read as clickable. */
+   The same surface as the credential cards, set apart by a thin grey rim. */
 .quote-card {
   display: flex;
   flex-direction: column;
@@ -1333,9 +1310,6 @@ strong, b {
   text-align: center;
   gap: 16px;
   padding: 32px 38px;
-}
-
-.quote-card {
   background: var(--color-surface-card);
   border-color: var(--color-neutral-150);
 }
@@ -2153,6 +2127,8 @@ strong, b {
 }
 
 .cs-principle {
+  /* The drawings follow the card's own colour */
+  --cs-accent: var(--cs-magenta);
   border-radius: 18px;
   padding: 18px;
   border: 1px solid color-mix(in srgb, var(--cs-magenta) 26%, transparent);
@@ -2162,9 +2138,6 @@ strong, b {
       color-mix(in srgb, var(--cs-magenta) 6%, transparent) 46%,
       transparent 100%);
 }
-
-/* The drawings follow the card's own colour */
-.cs-principle { --cs-accent: var(--cs-magenta); }
 
 .cs-principle-art {
   display: block;
@@ -2461,12 +2434,6 @@ strong, b {
 }
 
 .mesh-cover-logo svg { width: min(62vw, 190px); }
-
-.mesh-cover-title {
-  font-size: clamp(28px, 6vw, 40px);
-  font-weight: var(--weight-extrabold);
-  letter-spacing: -0.02em;
-}
 
 .mesh-cover-note {
   font-size: 12px;
@@ -2819,6 +2786,8 @@ strong, b {
   font-size: 13px;
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
+  /* The knob below is positioned against it */
+  position: relative;
   transition: background 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -2845,8 +2814,6 @@ strong, b {
   margin-left: 2px;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
-.tldr-toggle { position: relative; }
 
 .cs--tldr .tldr-toggle::before { background: var(--color-primary); }
 .cs--tldr .tldr-toggle::after { transform: translateX(12px); }
@@ -2994,7 +2961,7 @@ strong, b {
   .expand-card { border-radius: 24px !important; }
 }
 
-/* ── Professional path (expanded): career timeline ──
+/* ── Work Experience (expanded): career timeline ──
    Card on the left, dot on a centre rail, role and dates on the right. */
 .career-page { max-width: 1180px; margin: 0 auto; padding: 56px 48px 72px; }
 @media (max-width: 720px) { .career-page { padding: 40px 20px 56px; } }

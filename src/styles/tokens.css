@@ -2,14 +2,9 @@
   /* Neutral */
   --color-neutral-0: #ffffff;
   --color-neutral-50: #fcfcfb;
-  --color-neutral-100: #f0f0f0;
   --color-neutral-150: #e0e0e0;
-  --color-neutral-300: #aaaaaa;
   --color-neutral-450: #666666;
-  --color-neutral-600: #3a3a3a;
   --color-neutral-750: #2c2c2c;
-  --color-neutral-880: #1e1e1e;
-  --color-neutral-1000: #000000;
 
   /* Page ground */
   --color-ground-100: #f2ede9;
@@ -21,17 +16,12 @@
   --color-blue-400: #5b9df0;
   --color-magenta-600: #d02670;
   --color-linkedin: #0a66c2;
-  --color-gmail-red: #ea4335;
 
   /* Indigo (dark mode) */
   --color-indigo-950: #0e0e18;
-  --color-indigo-930: #10101e;
-  --color-indigo-850: #12121e;
   --color-indigo-800: #1a1a2e;
   --color-indigo-750: #1e1e34;
-  --color-indigo-400: #666680;
   --color-indigo-300: #9494ac;
-  --color-indigo-200: #c8c8d8;
   --color-indigo-100: #e0e0ea;
 
   /* Alpha */
@@ -42,23 +32,17 @@
   --alpha-black-20: rgba(0, 0, 0, 0.2);
   --alpha-black-30: rgba(0, 0, 0, 0.3);
   --alpha-black-50: rgba(0, 0, 0, 0.5);
-  --alpha-black-55: rgba(0, 0, 0, 0.55);
   --alpha-white-6: rgba(255, 255, 255, 0.06);
   --alpha-white-10: rgba(255, 255, 255, 0.1);
-  --alpha-white-50: rgba(255, 255, 255, 0.5);
-  --alpha-white-80: rgba(255, 255, 255, 0.8);
   --alpha-white-90: rgba(255, 255, 255, 0.9);
   --alpha-neutral50-50: rgba(249, 249, 249, 0.5);
-  --alpha-indigo-75: rgba(18, 18, 30, 0.75);
 
   /* Typography */
   /* True Proxima Nova requires a licensed source (Adobe Fonts kit or purchased
      self-hosted files) — see project notes. Mulish is the closest free stand-in. */
   --font-primary: 'Proxima Nova', 'Mulish', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
   --font-logo: 'Proxima Nova', 'Mulish', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
-  --font-system: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
 
-  --weight-regular: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
@@ -70,7 +54,6 @@
   --leading-relaxed: 1.5;
   --leading-loose: 1.55;
   --leading-looser: 1.6;
-  --leading-loosest: 1.65;
 
   /* Semantic */
   --color-primary: var(--color-blue-600);

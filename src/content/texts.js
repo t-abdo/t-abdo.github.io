@@ -58,7 +58,7 @@ export const TEXTS = {
       stopYears2: { en: "2023 - 2024" },
       text3: { en: "IBM" },
       stopYears3: { en: "2018 - 2023" },
-      ariaLabel2: { en: "Expand professional path" },
+      ariaLabel2: { en: "Expand work experience" },
       label: { en: "Work Experience" },
     },
     hobbies: {
@@ -212,7 +212,7 @@ export const TEXTS = {
       },
     },
     path: {
-      title: { en: "Professional Path" },
+      title: { en: "Work Experience" },
       intro: { en: "Roles that shaped my path" },
       row1: {
         ariaLabel: { en: "AgileEngine" },
@@ -474,16 +474,12 @@ export const TEXTS = {
         tab1: { en: "Main List" },
         tab2: { en: "Object Details" },
         tab3: { en: "Object Creation" },
-        fig1Alt: { en: "Back office dashboard" },
-        fig1Cap: { en: "Dashboard: what needs attention today, before anyone opens a section." },
         fig2Alt: { en: "Customers list" },
         fig2Cap: { en: "Every list works the same way: filters, search, sorting, bulk actions on selection, and a row that opens the record." },
         fig3Alt: { en: "Add customer modal" },
         fig3Cap: { en: "Records are created in a modal over the list, so staff never lose the page they were on." },
         fig4Alt: { en: "Customer details page" },
         fig4Cap: { en: "A customer carries membership, trainings, certificates, documents, orders, payments and accesses, split into tabs instead of one endless page." },
-        fig5Alt: { en: "Orders list" },
-        fig5Cap: { en: "Orders reuse the same list, down to the filter panel and the bulk actions." },
       },
       together: {
         title: { en: "Two Sides, One System" },
@@ -543,8 +539,6 @@ export const TEXTS = {
         text4: { en: "Design System" },
         title: { en: "From Inventory to Order, with Effortless Transition Between Tools." },
         lede: { en: "CPQ Hub is an application designed to streamline IBM's hardware inventory and configure-price-quote process. It enhances productivity and accuracy by creating an integrated Hardware CPQ landscape, offering tools that guide users from inventory to order with effortless transition between tools." },
-        tldrFullStory: { en: "Full Story" },
-        tldrShort: { en: "TL;DR" },
       },
       imageAlt: { en: "CPQ Hub homepage with quick actions and related tools" },
       myRole: {
@@ -847,7 +841,7 @@ export const TEXTS = {
       btnLabel: { en: "Verify This Certificate" },
     },
     hobbies: {
-      title: { en: "Personal Life" },
+      title: { en: "What I Like" },
       intro: { en: "What I'm into outside of work and inspires me" },
       watchingReading: {
         label: { en: "Watching & Reading" },
@@ -1060,6 +1054,8 @@ export const TEXTS = {
     ariaLabel: { en: "Back to top" },
     playOnYoutube: { en: "Play on YouTube" },
     close: { en: "Close" },
+    tldrShort: { en: "TL;DR" },
+    tldrFullStory: { en: "Full Story" },
     loaderName: { en: "Tales Abdo" },
   },
 };

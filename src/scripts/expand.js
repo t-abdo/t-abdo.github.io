@@ -52,6 +52,7 @@ export function initExpand() {
   }
 
   // TL;DR switch inside a case study collapses the long-form paragraphs.
+  // The labels live under `ui`: any case study can carry the toggle.
   function bindTldr(root) {
     const toggle = root.querySelector('.tldr-toggle');
     const article = root.querySelector('.cs');
@@ -60,7 +61,7 @@ export function initExpand() {
     toggle.addEventListener('click', () => {
       const on = article.classList.toggle('cs--tldr');
       toggle.setAttribute('aria-pressed', String(on));
-      if (label) label.textContent = t(on ? 'modals.cpq.head.tldrShort' : 'modals.cpq.head.tldrFullStory');
+      if (label) label.textContent = t(on ? 'ui.tldrShort' : 'ui.tldrFullStory');
     });
   }
 
