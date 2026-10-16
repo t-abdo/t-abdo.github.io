@@ -7,6 +7,9 @@ import { initNav } from './nav.js';
 import { initExpand } from './expand.js';
 import { initCards } from './cards.js';
 import { initPictures } from './pictures.js';
+import { initEduCover } from './edu.js';
+import { initLogos } from './logos.js';
+import { initRipple } from './ripple.js';
 
 function initNavAutoHide() {
   const nav = document.getElementById('nav');
@@ -24,6 +27,37 @@ function initNavAutoHide() {
   }, { passive: true });
 }
 
+/* The ride back up is its own animation rather than `behavior: 'smooth'`: that
+   one picks its own duration (a few hundred ms here), which reads as a jump
+   from the foot of a long page. */
+const TO_TOP_MS = 1000;
+
+function scrollToTop() {
+  const start = window.scrollY;
+  if (start <= 0) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.scrollTo(0, 0);
+    return;
+  }
+
+  const t0 = performance.now();
+  let cancelled = false;
+  // Any attempt to scroll by hand hands control straight back.
+  const stop = () => { cancelled = true; };
+  window.addEventListener('wheel', stop, { passive: true, once: true });
+  window.addEventListener('touchstart', stop, { passive: true, once: true });
+
+  const step = (now) => {
+    if (cancelled) return;
+    const t = Math.min(1, (now - t0) / TO_TOP_MS);
+    // Ease in and out, so it leaves and arrives gently.
+    const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    window.scrollTo(0, start * (1 - eased));
+    if (t < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
 function initBackToTop() {
   const btn = document.getElementById('backToTop');
   if (!btn) return;
@@ -32,9 +66,7 @@ function initBackToTop() {
     btn.classList.toggle('back-to-top--visible', window.scrollY > 400);
   }, { passive: true });
 
-  btn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  });
+  btn.addEventListener('click', scrollToTop);
 }
 
 // Isolated so one failing feature can't abort the rest — without this, a single
@@ -58,5 +90,8 @@ start('nav', initNav);
 start('expand', initExpand);
 start('cards', initCards);
 start('pictures', initPictures);
+start('eduCover', initEduCover);
+start('logos', initLogos);
+start('ripple', initRipple);
 start('navAutoHide', initNavAutoHide);
 start('backToTop', initBackToTop);

@@ -1,8 +1,43 @@
 const INTERVAL_MS = 5000;
 
 // Some Moments order: a shuffled-looking spread so consecutive frames don't repeat a theme.
-const PICTURES = [5, 14, 12, 10, 16, 6, 1, 13, 21, 17, 15, 2, 3, 20, 18, 7, 23, 4]
-  .map((n) => `assets/pictures/${n}.jpg`);
+const PICTURES = [
+  'companion',
+  'at-the-grill',
+  'match-with-a-friend',
+  'indian-cake',
+  'coffee-shop',
+  'ducks-at-the-park',
+  'game-night',
+  'tennis-class',
+  'lotus-pie',
+  'another-city',
+  'among-the-flowers',
+  'family-barbecue',
+  'dessert-first',
+  'orchids',
+  'garden-fountain',
+  'donuts',
+  'gym',
+  'match-day',
+  'family-gathering',
+  'angry-macaw',
+  'on-the-mower',
+  'at-the-zoo',
+  'beach-day',
+  'cafe-with-a-friend',
+  'stained-glass',
+  'dessert-day',
+  'dino-at-the-office',
+  'finishing-the-cake',
+  'natural-spring',
+  'little-chick',
+  'monkey-on-the-trail',
+  'stroll-together',
+  'playing-tennis',
+  'playing-pool',
+  'volleyball-tournament',
+].map((name) => `assets/pictures/${name}.jpg`);
 
 // A stack's data-slideshow is either "pictures" or a comma-separated list of images.
 function sourcesFor(stack) {
@@ -42,7 +77,34 @@ function startSlideshow(stack, delay) {
   setTimeout(() => setInterval(advance, INTERVAL_MS), delay);
 }
 
+/* Some Moments drifts the whole set past the card instead of cutting between
+   photos: the list is laid down twice so the loop has no seam. */
+function buildFlow(stack) {
+  const sources = stack.dataset.flow === 'pictures'
+    ? PICTURES
+    : stack.dataset.flow.split(',').map((src) => src.trim()).filter(Boolean);
+  if (!sources.length) return;
+
+  const track = document.createElement('div');
+  track.className = 'pics-flow';
+  [...sources, ...sources].forEach((src, i) => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    img.width = 600;
+    img.height = 600;
+    // Only the first screenful is worth blocking on.
+    if (i > 2) img.loading = 'lazy';
+    track.appendChild(img);
+  });
+  // One pass covers half the track (the original list), at a steady ~7s a photo.
+  track.style.animationDuration = `${sources.length * 7}s`;
+  stack.appendChild(track);
+}
+
 export function initPictures() {
+  document.querySelectorAll('.pics-stack[data-flow]').forEach(buildFlow);
+
   // Offset each stack so neighbouring cards don't swap on the same beat.
   document.querySelectorAll('.pics-stack[data-slideshow]').forEach((stack, i) => {
     startSlideshow(stack, i * (INTERVAL_MS / 2));

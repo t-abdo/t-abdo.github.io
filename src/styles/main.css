@@ -118,17 +118,28 @@ strong, b {
    directly, so it always tracks at 1:1 with the user's own pointer-speed and
    acceleration settings. The hotspot (2 1) lines up with the arrow's tip. */
 @media (pointer: fine) and (min-width: 769px) {
-  *, *::before, *::after { cursor: url('../../assets/cursor-arrow.svg') 2 1, auto !important; }
+  *, *::before, *::after { cursor: url('../../assets/site/cursor-arrow.svg') 2 1, auto !important; }
+
+  /* Anything clickable gets the system hand: links, buttons, tabs, and the
+     cards themselves, which all open something. */
+  a[href], a[href] *,
+  button, button *,
+  [role='button'], [role='tab'],
+  summary, label[for],
+  .bento-card, .bento-card *,
+  [data-link], [data-link] *,
+  [data-open-card], [data-open-card] * { cursor: pointer !important; }
 }
+
+/* Text links darken on hover */
+.bio-link--underline:is(a):hover,
+.ref-contact--link:hover { color: var(--color-link-hover); }
 
 .cursor-tooltip {
   position: fixed;
   top: 0; left: 0;
   pointer-events: none;
   z-index: 10002;
-  /* Fixed brand blue, not --color-primary: the lighter dark-mode accent would
-     drop the white label to 3.5:1 */
-  background: var(--color-blue-600);
   opacity: 0;
   border-radius: 8px;
   padding: 8px 16px;
@@ -138,10 +149,93 @@ strong, b {
   font-weight: var(--weight-medium);
   white-space: nowrap;
   transform: translate(16px, 16px);
-  transition: opacity 0.15s ease;
+  transition: opacity 0.12s ease;
 }
 
 .cursor-tooltip--visible { opacity: 0.92; }
+
+/* The tooltip draws itself on in four bands, the top one leading and the rest
+   following, each in steps rather than smoothly, so it builds like pixels
+   rather than sliding open.
+
+   One box, one gradient, one shape: the bands are a single clip-path whose
+   right edge steps down in four stages, each stage a registered custom
+   property so it can carry its own delay. Four separate elements left hairline
+   gaps between them wherever a 25% boundary fell on a fraction of a pixel. */
+@property --tb1 { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --tb2 { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --tb3 { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --tb4 { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+
+.cursor-tooltip__bars {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 8px;
+  /* Fixed brand colours, not --color-primary: the lighter dark-mode accent
+     would drop the white label to 3.5:1. White holds 5:1 on both ends. */
+  background: var(--gradient-brand);
+  clip-path: polygon(
+    0 0,
+    var(--tb1) 0, var(--tb1) 25%,
+    var(--tb2) 25%, var(--tb2) 50%,
+    var(--tb3) 50%, var(--tb3) 75%,
+    var(--tb4) 75%, var(--tb4) 100%,
+    0 100%);
+  transition:
+    --tb1 0.16s steps(5, end),
+    --tb2 0.16s steps(5, end) 0.05s,
+    --tb3 0.16s steps(5, end) 0.1s,
+    --tb4 0.16s steps(5, end) 0.15s;
+}
+
+.cursor-tooltip--drawn .cursor-tooltip__bars {
+  --tb1: 100%;
+  --tb2: 100%;
+  --tb3: 100%;
+  --tb4: 100%;
+}
+
+/* The label is wiped on in the same direction and the same steps as the bands,
+   one beat behind the leading edge so it never runs ahead of its own ground. */
+.cursor-tooltip__label {
+  position: relative;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.16s steps(5, end) 0.08s;
+}
+
+.cursor-tooltip--drawn .cursor-tooltip__label { clip-path: inset(0 0 0 0); }
+
+/* Held for one style resolution while the draw is rewound to its start. */
+.cursor-tooltip--rewind .cursor-tooltip__bars,
+.cursor-tooltip--rewind .cursor-tooltip__label { transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-tooltip__bars { transition: none; }
+  .cursor-tooltip__label { transition: none; }
+}
+
+/* Click feedback on everything that isn't a target of its own. */
+.click-ripple {
+  position: fixed;
+  z-index: 10001;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-radius: 50%;
+  background: var(--color-magenta-600);
+  pointer-events: none;
+  animation: click-ripple 0.52s ease-out forwards;
+}
+
+@keyframes click-ripple {
+  from { transform: scale(0.35); opacity: 0.22; }
+  to { transform: scale(1); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .click-ripple { display: none; }
+}
 
 @media (pointer: coarse), (max-width: 768px) {
   .cursor-tooltip { display: none; }
@@ -286,6 +380,77 @@ strong, b {
   width: 100%;
 }
 
+/* Three cards sharing one square of the grid: the two contact cards take a
+   quarter each and the English level the half underneath, with the same gap
+   the grid uses so the inner edges line up with everything around them. */
+.bento-stack {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 18px;
+  min-height: 0;
+}
+
+.bento-stack > .english-card { grid-column: 1 / 3; }
+
+/* A quarter is too small for the full-size artwork */
+.bento-stack .icon-card-inner svg { width: 46px; height: 46px; }
+.bento-stack .icon-card-inner .li-svg { width: 74px; height: 74px; }
+.bento-stack .c1-svg { width: 50px; height: 36px; }
+.bento-stack .action-icon { top: 8px; right: 8px; width: 36px; height: 36px; }
+.bento-stack .action-icon svg { width: 18px; height: 18px; }
+
+/* C1 on the left, the two words on the right */
+.bento-stack .english-inner {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 30px;
+}
+
+/* The resume and the references read the same way: one row each, mark on the
+   left and the name beside it, no line of description under them. */
+.bento-stack--docs {
+  grid-template-columns: 1fr;
+}
+
+/* The quarter and half cards carry a tighter corner than the full-size ones */
+.bento-stack > .bento-card { border-radius: 22px; }
+
+.bento-stack--docs .badge-inner {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 30px;
+  text-align: left;
+}
+
+.bento-stack--docs .badge-media { height: 46px; }
+.bento-stack--docs .resume-file,
+.bento-stack--docs .ref-mark { width: 46px; }
+/* The three names read as one set: same size, weight and colour as the English
+   caption, and the same block width so they all start on the same line down
+   the card while the marks stay pinned to the opposite edge. */
+.bento-stack .english-caption,
+.bento-stack--docs .badge-title {
+  /* One word per line, so the box is as wide as the longest single word of the
+     three (References, 82px). Every pair is wider than that, so each title
+     breaks on its own. */
+  width: 82px;
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  line-height: var(--leading-snug);
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--color-text-subtle);
+}
+
+/* On the washed card the subtle grey drops to 4.3:1; this holds 4.6:1 at the
+   peak of the breath. */
+.bento-stack .english-caption { color: #616161; }
+[data-theme='dark'] .bento-stack .english-caption { color: var(--color-text-subtle); }
+
 .section-heading {
   grid-column: 1 / -1;
   font-size: 13px;
@@ -298,13 +463,15 @@ strong, b {
 
 /* ── Bento card base ── */
 .bento-card {
+  --card-inset-top: var(--color-card-inset-top);
+  --card-inset-bottom: var(--color-card-inset-bottom);
   --card-shadow-rest:
     0 1px 3px var(--color-shadow-card-rest),
     0 1px 2px var(--color-shadow-card-rest),
-    inset 0 1px 0 var(--color-card-inset-top),
-    inset 0 -1px 0 var(--color-card-inset-bottom);
+    inset 0 1px 0 var(--card-inset-top),
+    inset 0 -1px 0 var(--card-inset-bottom);
   background: var(--color-surface-card);
-  border-radius: 32px;
+  border-radius: 28px;
   border: 1px solid var(--color-border-card);
   box-shadow: var(--card-shadow-rest);
   overflow: hidden;
@@ -333,8 +500,8 @@ strong, b {
   box-shadow:
     0 12px 40px var(--color-shadow-card-hover),
     0 4px 12px var(--color-shadow-card-hover-2),
-    inset 0 1px 0 var(--color-card-inset-top),
-    inset 0 -1px 0 var(--color-card-inset-bottom);
+    inset 0 1px 0 var(--card-inset-top),
+    inset 0 -1px 0 var(--card-inset-bottom);
   transform: translateY(-3px);
 }
 
@@ -356,8 +523,8 @@ strong, b {
 .bento-card[data-card='hobbies']   { --card-enter-delay: 0.4s; }
 .bento-card[data-card='pictures']  { --card-enter-delay: 0.5s; }
 .bento-card[data-card='cpq']         { --card-enter-delay: 0.6s; }
+.bento-card[data-card='mmi']         { --card-enter-delay: 0.65s; }
 .bento-card[data-card='aiquote']     { --card-enter-delay: 0.7s; }
-.bento-card[data-card='expertise']   { --card-enter-delay: 0.75s; }
 .bento-card[data-card='nng']         { --card-enter-delay: 0.8s; }
 .bento-card[data-card='resume']      { --card-enter-delay: 0.85s; }
 .bento-card[data-card='careerquote'] { --card-enter-delay: 0.9s; }
@@ -376,6 +543,8 @@ strong, b {
   width: 40px; height: 40px;
   background: var(--color-surface-action-icon);
   border-radius: 100px;
+  /* Faint outline so the circle still reads on a pale cover */
+  border: 1px solid var(--color-border-action-icon);
   box-shadow: 0 2px 40px var(--color-shadow-action-icon);
   display: flex; align-items: center; justify-content: center;
   opacity: 0;
@@ -400,18 +569,23 @@ strong, b {
 /* ── Always-on card label (bottom-left, legible on any background) ── */
 .card-label {
   position: absolute;
-  left: 16px; bottom: 16px;
+  left: 50%; bottom: 16px;
+  transform: translateX(-50%);
   z-index: 5;
   display: inline-flex;
   align-items: center;
+  max-width: calc(100% - 32px);
+  white-space: nowrap;
   padding: 6px 12px;
   border-radius: 100px;
   background: var(--color-label-bg);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  font-size: 12px;
+  /* Same lettering as the English level caption */
+  font-size: 11px;
   font-weight: var(--weight-semibold);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--color-label-text);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   pointer-events: none;
@@ -452,10 +626,57 @@ strong, b {
   color: var(--color-label-text-on-dark);
 }
 
+/* Client mark on a project cover. The double shadow — a tight light halo and a
+   soft dark one — keeps it readable over a pale screenshot or a dark render
+   without turning into a heavy plate. */
+.card-logo {
+  position: absolute;
+  right: 32px;
+  bottom: 32px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  padding: 8px 14px;
+  border-radius: 100px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+/* The pill follows the artwork: a pale one under dark marks, a dark one under
+   the white Rivian mark, so neither disappears into its own plate. */
+.card-logo[data-logo-variant='light'] { background: var(--color-label-bg); }
+.card-logo[data-logo-variant='dark'] { background: var(--color-label-bg-dark); }
+
+.card-logo svg { display: block; width: 104px; height: auto; }
+
+.card-logo[data-logo='mmi'] svg { width: 118px; }
+.card-logo[data-logo='rivian'] svg { width: 100px; }
+.card-logo[data-logo='ibm'] svg { width: 62px; }
+
 /* ── Project card (case study) ── */
 .project-card {
   background: #12121e;
   color: rgba(255, 255, 255, 0.9);
+  border-color: transparent;
+}
+
+.project-card,
+.project-card:hover {
+  --card-inset-top: transparent;
+  --card-inset-bottom: transparent;
+}
+
+/* A card filled edge to edge with a photo has no pale rim for the inset
+   highlight to catch, which is why these read as flat next to the white cards.
+   A real drop shadow puts them back on the same plane. */
+.project-card,
+.pictures-card,
+.hobbies-card {
+  --card-shadow-rest:
+    0 2px 4px var(--alpha-black-8),
+    0 10px 24px var(--alpha-black-10);
 }
 
 /* The source frames are 16:9 on a dark ground, so `contain` on a matching
@@ -491,7 +712,7 @@ strong, b {
   align-items: center;
   height: 100%;
   padding: 24px 28px 24px 24px;
-  gap: 18px;
+  gap: 26px;
 }
 
 .about-avatar {
@@ -502,6 +723,23 @@ strong, b {
 }
 
 .about-bio { font-size: 17px; line-height: calc(var(--leading-loose) * 1.3); }
+
+/* The role wipes in from the left each time the card is hovered. It is an
+   inline-block so the clip has a box of its own to travel across. */
+.about-bio strong { display: inline-block; }
+
+.bento-card[data-card='about']:hover .about-bio strong {
+  animation: role-wipe 0.5s ease-out;
+}
+
+@keyframes role-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bento-card[data-card='about']:hover .about-bio strong { animation: none; }
+}
 .about-bio .wave { display: inline-block; }
 
 /* ── Icon cards (Gmail / LinkedIn) ── */
@@ -613,10 +851,76 @@ strong, b {
 @keyframes li-pop-in { to { transform: scale(1); opacity: 1; } }
 
 /* ── Professional path card: company logos with years, spread down the card ── */
+.path-card { display: flex; flex-direction: column; }
+
+/* The Mesh cover's wash, a step lighter: blue settling into one corner and
+   magenta into the other. Lighter is also what keeps the years above 4.5:1 —
+   at the Mesh card's own strength they sit at 4.8:1, here at 5.2:1. */
+.path-card {
+  background:
+    radial-gradient(90% 120% at 18% 8%, rgba(39, 89, 222, 0.11), transparent 62%),
+    radial-gradient(90% 120% at 88% 92%, rgba(208, 38, 112, 0.095), transparent 62%),
+    var(--color-surface-card);
+}
+
+/* The wash holds one tint — the pale end of what it used to breathe through —
+   and travels sideways instead. The band is twice the card and carries the
+   same colour at both ends, so sliding it exactly one card width lands on an
+   identical image and the loop has no seam. */
+.english-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  background: linear-gradient(90deg,
+    var(--color-brand-start) 0%,
+    var(--color-brand-end) 50%,
+    var(--color-brand-start) 100%);
+  /* Multiplied rather than laid on top: the wash tints the card like ink
+     soaking through it instead of glowing on it. */
+  mix-blend-mode: multiply;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+  animation: wash-drift 26s linear infinite;
+}
+
+/* A touch quicker than the path card, and weighted towards the violet: the
+   magenta passes through as a narrow sweep rather than owning half the band. */
+.english-card::after {
+  animation-duration: 14.4s;
+  opacity: 0.11;
+  /* Two identical cycles across the band, not one. With a single cycle the
+     second half of the band is the mirror of the first, so sliding one card
+     width lands on a reversed image and the loop snaps back; with two, the
+     halves match exactly and the drift is continuous. */
+  background: linear-gradient(90deg,
+    var(--color-brand-start) 0%,
+    var(--color-brand-start) 11%,
+    var(--color-brand-end) 25%,
+    var(--color-brand-start) 39%,
+    var(--color-brand-start) 61%,
+    var(--color-brand-end) 75%,
+    var(--color-brand-start) 89%,
+    var(--color-brand-start) 100%);
+}
+
+@keyframes wash-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .english-card::after { animation: none; }
+}
+
 .path-card-inner {
   position: relative;
   z-index: 1;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -628,23 +932,73 @@ strong, b {
 
 .path-stop { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 
-.path-stop .career-logo { width: 150px; height: auto; }
+.path-stop .career-logo { display: block; width: 150px; }
 .path-stop .path-logo--ibm { width: 120px; }
+.path-stop .career-logo svg { display: block; width: 100%; height: auto; }
 
-.path-stop__years { font-size: 12px; color: var(--color-text-subtle); }
+/* Hovering the card draws every mark it holds, the way the LinkedIn icon is
+   drawn: the outline is traced at a constant speed and the fill follows. */
+.logo-shape {
+  stroke-dasharray: var(--len, 0);
+  stroke-dashoffset: var(--len, 0);
+  fill-opacity: 0;
+  animation:
+    logo-draw var(--draw, 0.6s) linear var(--d, 0s) both,
+    logo-ink 0.3s ease calc(var(--d, 0s) + var(--draw, 0.6s) * 0.7) both;
+}
 
-/* Slow breathing zoom on the content only; the card itself stays put like the rest */
-/* Runs only while hovered; cards.js eases the content back to rest on leave */
-.path-card-inner.is-breathing { animation: path-breathe 10s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+/* Shapes too small or too complex to measure just fade in */
+.logo-shape:not([style*='--len']) {
+  animation: logo-ink 0.4s ease var(--d, 0s) both;
+}
 
-@keyframes path-breathe {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.15); }
+@keyframes logo-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes logo-ink {
+  from { fill-opacity: 0; stroke-opacity: 1; }
+  to { fill-opacity: 1; stroke-opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .path-card-inner.is-breathing { animation: none; }
+  .logo-shape { animation: none; fill-opacity: 1; stroke-opacity: 0; }
 }
+
+/* Same treatment as the Resume card's title */
+/* Named like the projects are: the same pill, centred at the foot of the card. */
+/* Named at the foot of the card, in the same small caps the English level uses */
+.path-card-label {
+  position: relative;
+  z-index: 1;
+  padding: 0 20px 32px;
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #616161;
+}
+
+[data-theme='dark'] .path-card-label { color: var(--color-text-subtle); }
+
+/* Lighter than the usual subtle text but still AA: 4.57:1 on the card */
+/* Darker than it looks it needs to be: at the peak of the wash the card is a
+   shade of lavender, and this is what holds 4.6:1 against it. */
+.path-stop__years { font-size: 12px; color: #616161; }
+
+/* The years can't be traced like the marks (they're text, not geometry), so
+   they fade in over the same window the mark above them is drawn in. */
+.path-years-fade {
+  animation: path-years-in var(--draw, 0.6s) ease var(--d, 0s) both;
+}
+
+@keyframes path-years-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+[data-theme='dark'] .path-stop__years { color: #84849c; }
+
 
 /* ── Badge cards: NN/g, degree and resume share one layout ── */
 .badge-inner {
@@ -660,6 +1014,11 @@ strong, b {
 
 .badge-media { height: 80px; width: auto; flex-shrink: 0; }
 
+/* The two certificate marks are injected as SVG, like the company logos, so
+   they can be drawn on instead of faded in. */
+.badge-media[data-logo] { display: flex; align-items: center; }
+.badge-media[data-logo] svg { display: block; height: 80px; width: auto; }
+
 .badge-text { display: flex; flex-direction: column; gap: 2px; }
 
 .badge-title {
@@ -668,43 +1027,68 @@ strong, b {
   line-height: var(--leading-snug);
 }
 
-.badge-sub { font-size: 12px; color: var(--color-text-subtle); }
+/* The lightest grey that still clears 4.5:1 on the card: #747474 lands at
+   4.55:1 on the light surface, #8686a2 at 4.84:1 on the dark one. */
+.badge-sub {
+  font-size: 11px;
+  color: #747474;
+}
+
+[data-theme='dark'] .badge-sub { color: #8686a2; }
+
+/* The certificate names read like the other labels */
+.nng-card .badge-title,
+.cred-card .badge-title {
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
 
 /* Hover replays the logo: it vanishes, then fades back in over 2s */
-.nng-card:hover .nng-logo,
-.cred-card:hover .cred-mark { animation: badge-reveal 2s ease-out; }
+/* Outline marks are traced on, then the piece that animates on hover (the
+   arrow, the typing dots) takes over. */
+.draw-line--on {
+  stroke-dasharray: var(--len, 0);
+  stroke-dashoffset: var(--len, 0);
+  animation: outline-draw var(--draw, 0.45s) ease var(--d, 0s) both;
+}
 
-@keyframes badge-reveal {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+@keyframes outline-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* The front bubble is filled with the card colour to mask the one behind it,
+   so the fill has to wait for its own outline. */
+.ref-bubble--front.draw-line--on {
+  animation:
+    outline-draw var(--draw, 0.45s) ease var(--d, 0s) both,
+    outline-fill 0.2s ease calc(var(--d, 0s) + var(--draw, 0.45s)) both;
+}
+
+@keyframes outline-fill {
+  from { fill-opacity: 0; }
+  to { fill-opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nng-card:hover .nng-logo,
-  .cred-card:hover .cred-mark { animation: none; }
+  .draw-line--on,
+  .ref-bubble--front.draw-line--on { animation: none; stroke-dashoffset: 0; }
 }
 
 /* Transparent badge: back its circle in dark mode so the black "NN" stays legible */
-[data-theme='dark'] .nng-logo { background: radial-gradient(circle closest-side, #fff 96%, transparent 97%); }
+[data-theme='dark'] .nng-logo svg { background: radial-gradient(circle closest-side, #fff 96%, transparent 97%); }
 
 /* ── Degree card ── */
 /* Black artwork: flip to white in dark mode, hue-rotate keeps the red dots red */
-[data-theme='dark'] .cred-mark { filter: invert(1) hue-rotate(180deg); }
+[data-theme='dark'] .cred-mark svg { filter: invert(1) hue-rotate(180deg); }
 
 /* ── English level card ── */
-.english-card { position: relative; overflow: hidden; }
+.english-card { position: relative; overflow: hidden; border-color: var(--color-neutral-150); }
+[data-theme='dark'] .english-card { border-color: var(--color-border-card); }
 
-/* Soft brand wash behind the level, so the card reads as a badge */
-.english-card::after {
-  content: '';
-  position: absolute;
-  inset: -40% -20% auto -20%;
-  height: 150%;
-  background: var(--gradient-brand);
-  opacity: 0.1;
-  filter: blur(26px);
-  pointer-events: none;
-}
+/* The wash it shares with the Professional Path card is defined with it. */
 
 .english-inner {
   position: relative;
@@ -834,6 +1218,27 @@ strong, b {
   -webkit-text-fill-color: currentColor;
 }
 
+.key-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  margin-left: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  color: var(--color-text-subtle);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.key-copy:hover { color: var(--color-text-primary); background: var(--alpha-black-6); }
+[data-theme='dark'] .key-copy:hover { background: var(--alpha-white-10); }
+
+.key-copy svg { width: 14px; height: 14px; }
+.key-copy .key-copy-done { display: none; }
+.key-copy--done .key-copy-idle { display: none; }
+.key-copy--done .key-copy-done { display: block; color: var(--color-primary); }
+
 .cert-key code {
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
   font-size: 11px;
@@ -854,9 +1259,9 @@ strong, b {
   30%           { transform: translateY(-3px); opacity: 0.45; }
 }
 
-.references-card:hover .ref-dot { animation: ref-typing 0.9s ease-in-out infinite; }
-.references-card:hover .ref-dot--2 { animation-delay: 0.15s; }
-.references-card:hover .ref-dot--3 { animation-delay: 0.3s; }
+.references-card:hover .ref-dot { animation: ref-typing 0.9s ease-in-out 0.7s infinite; }
+.references-card:hover .ref-dot--2 { animation-delay: 0.85s; }
+.references-card:hover .ref-dot--3 { animation-delay: 1s; }
 
 @media (prefers-reduced-motion: reduce) {
   .references-card:hover .ref-dot { animation: none; }
@@ -868,36 +1273,41 @@ strong, b {
 .ref-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 18px;
+  gap: 24px;
+  padding: 24px 26px;
   border-radius: 20px;
   border: 1px solid var(--color-border-card);
   background: var(--color-surface-card);
 }
 
-.ref-initials {
-  display: grid;
-  place-items: center;
-  width: 48px; height: 48px;
+.ref-photo {
+  width: 72px; height: 72px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: var(--gradient-brand);
-  color: #fff;
-  font-size: 15px;
-  font-weight: var(--weight-bold);
+  object-fit: cover;
 }
 
-.ref-text { display: flex; flex-direction: column; gap: 2px; }
+.ref-text { display: flex; flex-direction: column; gap: 8px; }
 .ref-name { font-size: 16px; font-weight: var(--weight-semibold); }
+.ref-role { font-size: 13px; color: var(--color-text-subtle); }
+.ref-desc { font-size: 14px; line-height: var(--leading-relaxed); color: var(--color-text-primary); }
 .ref-contact { font-size: 13px; color: var(--color-text-subtle); }
+.ref-contact--link { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; color: var(--color-primary); text-decoration: underline; text-underline-offset: 3px; }
+.ref-contact__icon { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* Line breaks that only make sense at desktop widths */
+@media (max-width: 860px) {
+  .br-desktop { display: none; }
+}
 
 /* ── Resume card ── */
 .resume-file { width: 80px; color: var(--color-text-primary); opacity: 0.75; }
 
 .resume-file .rf-line { opacity: 0.45; }
 
-/* Arrow sits still until hover, then drops through the page on a loop */
-.resume-card:hover .rf-arrow { animation: rf-drop 1.1s ease-in-out infinite; }
+/* Arrow is hidden at rest and only appears on hover, dropping through the page on a loop */
+.rf-arrow { opacity: 0; }
+.resume-card:hover .rf-arrow { animation: rf-drop 1.1s ease-in-out 0.3s infinite; }
 
 @keyframes rf-drop {
   0%   { transform: translateY(-4px); opacity: 0; }
@@ -910,67 +1320,8 @@ strong, b {
 .resume-card:hover .resume-file { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-  .resume-card:hover .rf-arrow { animation: none; }
+  .resume-card:hover .rf-arrow { animation: none; opacity: 1; }
 }
-
-/* ── Areas of expertise card ── */
-.expertise-inner {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  gap: 14px;
-  padding: 28px 30px 54px;
-}
-
-.expertise-eyebrow {
-  font-size: 11px;
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-}
-
-.expertise-preview {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-
-.expertise-preview span,
-.tag-set span {
-  padding: 5px 11px;
-  border-radius: 100px;
-  background: var(--alpha-black-6);
-  font-size: 12px;
-  font-weight: var(--weight-medium);
-  color: var(--color-text-primary);
-  white-space: nowrap;
-}
-
-[data-theme='dark'] .expertise-preview span,
-[data-theme='dark'] .tag-set span { background: var(--alpha-white-10); }
-
-.expertise-preview span:last-child {
-  background: none;
-  color: var(--color-text-subtle);
-  padding-left: 2px;
-}
-
-/* Tag groups inside the expanded panel */
-.tag-group { margin-bottom: 24px; }
-.tag-group:last-child { margin-bottom: 0; }
-
-.tag-group__label {
-  font-size: 11px;
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-text-subtle);
-  margin-bottom: 10px;
-}
-
-.tag-set { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* ── Quote cards ──
    Display-only: a flat grey ground and no hover/press feedback, so they don't read as clickable. */
@@ -982,14 +1333,44 @@ strong, b {
   text-align: center;
   gap: 16px;
   padding: 32px 38px;
-  cursor: inherit;
 }
 
-.quote-card { background: #f2f2f2; }
-[data-theme='dark'] .quote-card { background: var(--color-surface-card); }
+.quote-card {
+  background: var(--color-surface-card);
+  border-color: var(--color-neutral-150);
+}
 
-.quote-card:hover,
-.quote-card:active { transform: none; box-shadow: var(--card-shadow-rest); }
+[data-theme='dark'] .quote-card { border-color: var(--color-border-card); }
+
+/* The quotes are the only cards with a surface of their own, and the panel
+   they open keeps it. */
+.expand-card.expand-card--quote { background: var(--color-surface-card); }
+
+.quote-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 100%;
+  padding: 8px;
+  text-align: center;
+}
+
+.quote-modal .quote-mark { font-size: 56px; }
+
+.quote-modal-text {
+  font-size: 26px;
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-loose);
+  max-width: 28ch;
+}
+
+.quote-modal-soon {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--color-text-subtle);
+}
 
 .quote-mark {
   font-size: 44px;
@@ -1191,6 +1572,40 @@ strong, b {
   animation: pics-zoom 5.6s ease-out forwards;
 }
 
+/* The two layers take turns, so running them in opposite directions is what
+   makes one photo push in and the next pull back out. */
+.pics-img:nth-child(2).is-active { animation-name: pics-zoom-out; }
+
+@keyframes pics-zoom-out {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1); }
+}
+
+/* Some Moments: the photos drift rightwards without stopping. The list is
+   rendered twice, so sliding the track by half its width loops seamlessly. */
+.pics-stack--flow { overflow: hidden; }
+
+.pics-flow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  width: max-content;
+  animation: pics-flow 126s linear infinite;
+}
+
+.pics-flow img {
+  width: auto;
+  height: 100%;
+  flex: none;
+  object-fit: cover;
+}
+
+@keyframes pics-flow {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 @keyframes pics-zoom {
   from { transform: scale(1); }
   to   { transform: scale(1.06); }
@@ -1198,6 +1613,7 @@ strong, b {
 
 @media (prefers-reduced-motion: reduce) {
   .pics-img.is-active { animation: none; }
+  .pics-flow { animation: none; }
 }
 
 .pictures-card::after {
@@ -1226,7 +1642,7 @@ strong, b {
 
 .pic-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
 
@@ -1248,15 +1664,22 @@ strong, b {
 
 .pic-card:hover img { transform: scale(1.06); }
 
+/* Same pill the project cards use for their tags */
 .pic-card figcaption {
   position: absolute;
-  left: 0; right: 0; bottom: 0;
-  padding: 22px 12px 10px;
-  background: linear-gradient(to top, rgba(8, 8, 16, 0.78), transparent);
-  color: #fff;
-  font-size: 12px;
+  left: 10px;
+  bottom: 10px;
+  width: max-content;
+  max-width: calc(100% - 20px);
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: var(--color-label-bg-dark);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--color-label-text-on-dark);
+  font-size: 11px;
   font-weight: var(--weight-semibold);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.02em;
   pointer-events: none;
 }
 
@@ -1266,7 +1689,7 @@ strong, b {
 
 @media (max-width: 560px) {
   .pic-grid { grid-template-columns: repeat(2, 1fr); }
-  .pic-card figcaption { font-size: 11px; padding: 18px 10px 8px; }
+  .pic-card figcaption { left: 8px; bottom: 8px; font-size: 10px; padding: 3px 8px; }
 }
 
 /* ══════════════════════════════════════
@@ -1289,17 +1712,12 @@ strong, b {
 .expand-card {
   position: fixed;
   z-index: 901;
-  background: var(--color-bg-body);
+  background: var(--color-surface-modal);
   border: 1px solid var(--color-border-card);
   box-shadow: 0 2px 200px var(--alpha-black-30);
   overflow: hidden;
   isolation: isolate;
   transition: background 0.5s ease, border-color 0.3s ease;
-}
-
-.expand-card {
-  /* Fast start, long soft landing (ease-out expo) */
-  --expand-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .expand-card--settled {
@@ -1309,8 +1727,23 @@ strong, b {
     width         var(--expand-dur, 0.5s) var(--expand-ease),
     height        var(--expand-dur, 0.5s) var(--expand-ease),
     border-radius var(--expand-dur, 0.5s) var(--expand-ease),
+    /* Only ever used on the way out: the panel dissolves into the card that is
+       already sitting underneath it, so the card's content is on screen well
+       before the panel has finished shrinking. */
+    opacity 0.42s ease 0.18s,
     background   0.5s ease,
     border-color 0.3s ease;
+}
+
+.expand-card--closing { opacity: 0; }
+
+/* The shared photo in flight between a card and its panel. */
+.expand-morph {
+  position: fixed;
+  z-index: 950;
+  object-fit: cover;
+  pointer-events: none;
+  will-change: left, top, width, height;
 }
 
 .expand-close {
@@ -1341,8 +1774,8 @@ strong, b {
   transition: opacity 0.25s ease;
 }
 
-.expand-card--settled .expand-content { transition: opacity 0.22s ease 0.18s; opacity: 1; }
-.expand-card--closing .expand-content { opacity: 0 !important; transition: opacity 0.1s ease; }
+.expand-card--settled .expand-content { transition: opacity 0.3s ease 0.12s; opacity: 1; }
+.expand-card--closing .expand-content { opacity: 0 !important; transition: opacity 0.18s ease; }
 
 .expand-avatar {
   width: 125px; height: 125px;
@@ -1374,7 +1807,7 @@ strong, b {
 .bio-link:hover { background-size: 100% 1.5px; }
 
 /* Always-underlined variant for links named inside running text */
-.bio-link--underline { font-weight: inherit; text-decoration: underline; text-underline-offset: 3px; background: none; }
+.bio-link--underline { font-weight: inherit; color: var(--color-primary); text-decoration: underline; text-underline-offset: 3px; background: none; }
 
 /* ══════════════════════════════════════
    CASE STUDY ARTICLE
@@ -1384,7 +1817,7 @@ strong, b {
 .cs {
   max-width: 860px;
   margin: 0 auto;
-  padding: 72px 32px 96px;
+  padding: 72px 64px 96px;
 
   /* Carbon palette, as used in the deck. Light-theme values here; the dark
      overrides below swap in the lighter steps so contrast holds either way. */
@@ -1400,9 +1833,25 @@ strong, b {
      colour modifiers below aren't out-specified in dark mode. */
   --cs-tile-bg: var(--alpha-black-4);
   --cs-pill-bg: var(--alpha-black-6);
+  --cs-side-bg: var(--color-surface-card);
+
+  /* Flat palette for the inline illustrations */
+  --cs-art-bg: #ffffff;
+  --cs-art-bar: #f1f1f4;
+  --cs-art-tile: #f6f6f8;
+  --cs-art-line: #d6d6de;
+  --cs-art-strong: #9a9aa8;
+  --cs-accent: var(--cs-magenta);
+  --cs-accent-soft: #f6d9e5;
 }
 
 [data-theme='dark'] .cs {
+  --cs-art-bg: #26262c;
+  --cs-art-bar: #31313a;
+  --cs-art-tile: #2e2e36;
+  --cs-art-line: #4b4b57;
+  --cs-art-strong: #8f8f9e;
+  --cs-accent-soft: #6b3350;
   --cs-blue: #78a9ff;
   --cs-blue-soft: #a6c8ff;
   --cs-cyan: #82cfff;
@@ -1410,6 +1859,7 @@ strong, b {
   --cs-magenta: #ff7eb6;
   --cs-tile-bg: var(--alpha-white-6);
   --cs-pill-bg: var(--alpha-white-10);
+  --cs-side-bg: var(--alpha-white-10);
 }
 
 .cs-head { margin-bottom: 40px; }
@@ -1417,9 +1867,30 @@ strong, b {
 .cs-tags {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
   margin-bottom: 20px;
 }
+
+/* Client mark at the end of the tags line, with no plate behind it. */
+.cs-logo {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  width: max-content;
+}
+
+/* No plate here, so the two single-file marks are recoloured instead: the MMI
+   wordmark is black and the Mesh one is white, and each would disappear into
+   one of the themes. */
+[data-theme='dark'] .cs-logo[data-logo='mmi'] [fill='black'] { fill: var(--color-text-primary); stroke: var(--color-text-primary); }
+.cs-logo[data-logo='mesh'] [fill='white'] { fill: var(--color-text-primary); stroke: var(--color-text-primary); }
+[data-theme='dark'] .cs-logo[data-logo='mesh'] [fill='white'] { fill: #fff; stroke: #fff; }
+
+.cs-logo svg { display: block; width: 92px; height: auto; }
+.cs-logo[data-logo='ibm'] svg { width: 52px; }
+.cs-logo[data-logo='rivian'] svg { width: 86px; }
+.cs-logo[data-logo='mmi'] svg { width: 100px; }
 
 .cs-tags span {
   padding: 5px 12px;
@@ -1549,7 +2020,176 @@ strong, b {
   border-color: color-mix(in srgb, var(--cs-magenta) 32%, transparent);
 }
 
+.cs-tile--problem { text-align: center; }
 .cs-tile--problem h4 { color: var(--cs-magenta); }
+
+.cs-tile-art {
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto 12px;
+  color: var(--cs-magenta);
+}
+
+/* Tiles whose copy is left-aligned keep the icon on the same edge. */
+.cs-tile-art--start { margin: 0 0 12px; }
+
+/* ── Two sides, one system ── */
+
+/* The flow across both offices. Lanes, numbered stops and the two people the
+   flow belongs to, so the hand-offs are visible instead of described. */
+.cs-flow { margin: 24px 0 36px; }
+
+.cs-flow-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cs-flow-num {
+  fill: #fff;
+  font-size: 13px;
+  font-weight: var(--weight-bold);
+  text-anchor: middle;
+}
+
+.cs-flow-step {
+  fill: var(--color-text-primary);
+  font-size: 14px;
+  text-anchor: middle;
+}
+
+.cs-flow-who {
+  fill: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: var(--weight-bold);
+  text-anchor: middle;
+}
+
+.cs-flow-lane {
+  fill: var(--cs-art-strong);
+  font-size: 12px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+}
+
+/* The shared components, with the people who build them either side and the
+   people who use them underneath. */
+.cs-shared { margin: 32px 0 0; }
+
+.cs-shared-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cs-shared-link {
+  flex: 1;
+  height: 0;
+  border-top: 2px dashed var(--cs-art-line);
+}
+
+.cs-shared-link--v {
+  display: block;
+  flex: none;
+  width: 0;
+  height: 36px;
+  margin: 0 auto 18px;
+  border-top: 0;
+  border-left: 2px dashed var(--cs-art-line);
+}
+
+.cs-shared-core { flex: 0 1 300px; text-align: center; }
+
+.cs-core-art { display: block; width: 100%; height: auto; }
+
+.cs-core-label {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: var(--weight-bold);
+  color: var(--color-text-subtle);
+}
+
+.cs-actor { flex: none; margin: 0 auto; text-align: center; }
+
+.cs-actor-art { display: block; width: 104px; height: 104px; margin: 0 auto; }
+
+.cs-actor figcaption {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: var(--weight-bold);
+}
+
+.cs-shared-text {
+  max-width: 62ch;
+  margin: 22px 0;
+}
+
+/* Introduces the drawing below it, so it sits closer to it than to the rule. */
+.cs-shared-text--lead { margin: 0 0 26px; }
+
+.cs-rule {
+  height: 0;
+  margin: 36px 0;
+  border: 0;
+  border-top: 1px solid var(--color-border-card);
+}
+
+@media (max-width: 720px) {
+  .cs-shared-row { flex-direction: column; }
+  .cs-shared-link { width: 0; height: 28px; flex: none; border-top: 0; border-left: 2px dashed var(--cs-art-line); }
+  .cs-shared-core { flex: none; width: 100%; }
+}
+
+/* Design principles — two per row, each with its own drawing. A soft gradient
+   wash rather than a drop shadow: inside an already-elevated modal, shadows on
+   tinted cards read as grime, and the gradient keeps both themes clean. */
+.cs-principles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 20px 0;
+}
+
+.cs-principle {
+  border-radius: 18px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--cs-magenta) 26%, transparent);
+  background:
+    linear-gradient(155deg,
+      color-mix(in srgb, var(--cs-magenta) 18%, transparent) 0%,
+      color-mix(in srgb, var(--cs-magenta) 6%, transparent) 46%,
+      transparent 100%);
+}
+
+/* The drawings follow the card's own colour */
+.cs-principle { --cs-accent: var(--cs-magenta); }
+
+.cs-principle-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.cs-principle h4 {
+  font-size: 17px;
+  font-weight: var(--weight-bold);
+  color: var(--cs-magenta);
+  margin-bottom: 6px;
+}
+
+.cs-principle p {
+  font-size: 14px;
+  line-height: var(--leading-relaxed);
+  opacity: 0.78;
+}
+
+@media (max-width: 720px) {
+  .cs-principles { grid-template-columns: 1fr; }
+}
 
 /* Goal tiles — blue, mirroring the deck */
 .cs-tile--goal {
@@ -1612,6 +2252,53 @@ strong, b {
 .cs-phases p { font-size: 14px; line-height: var(--leading-relaxed); opacity: 0.7; }
 
 /* ── Numbered steps: header pill + bare bullet list (slide 05) ── */
+/* Numbered pattern list (the three pieces every back office area repeats) */
+.cs-numbers {
+  list-style: none;
+  counter-reset: cs-number;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 20px 0 18px;
+}
+
+.cs-numbers li {
+  counter-increment: cs-number;
+  position: relative;
+  padding-left: 46px;
+  min-height: 32px;
+}
+
+.cs-numbers li::before {
+  content: counter(cs-number);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--cs-magenta) 16%, transparent);
+  color: var(--cs-magenta);
+  font-size: 14px;
+  font-weight: var(--weight-bold);
+}
+
+.cs-numbers h4 {
+  font-size: 15px;
+  font-weight: var(--weight-bold);
+  margin-bottom: 3px;
+  padding-top: 5px;
+}
+
+.cs-numbers p {
+  font-size: 14px;
+  line-height: var(--leading-relaxed);
+  opacity: 0.78;
+}
+
 .cs-steps {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -1727,6 +2414,317 @@ strong, b {
 }
 
 /* Figures */
+/* Deck cases (Hub, e-config): the exported slides are the whole case, so they
+   stack with no gaps, in the same content column the other case studies use. */
+.cs-deck {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 72px 64px 96px;
+}
+
+.cs-deck img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cs-deck img:first-of-type { border-radius: 20px 20px 0 0; }
+.cs-deck img:last-of-type { border-radius: 0 0 20px 20px; }
+
+/* Mesh: a placeholder cover until the case study is written */
+.mesh-card { background: #f7f7f9; }
+
+.mesh-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+  color: var(--color-text-primary);
+  background:
+    radial-gradient(90% 120% at 18% 8%, rgba(39, 89, 222, 0.16), transparent 62%),
+    radial-gradient(90% 120% at 88% 92%, rgba(208, 38, 112, 0.14), transparent 62%),
+    #f7f7f9;
+}
+
+.mesh-cover-logo {
+  position: static;
+  padding: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.mesh-cover-logo svg { width: min(62vw, 190px); }
+
+.mesh-cover-title {
+  font-size: clamp(28px, 6vw, 40px);
+  font-weight: var(--weight-extrabold);
+  letter-spacing: -0.02em;
+}
+
+.mesh-cover-note {
+  font-size: 12px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+/* ── Educational Design Artifacts ────────────────────────────────────────
+   The cover is live markup, not an export: two rows of icons drift in
+   opposite directions behind the title, in the colours of the source frame. */
+.edu-card {
+  background: #363636;
+}
+
+.edu-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 62px 0 34px;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.92);
+  background:
+    radial-gradient(70% 130% at 0% 0%, rgba(126, 96, 196, 0.42), transparent 62%),
+    radial-gradient(70% 130% at 100% 100%, rgba(126, 96, 196, 0.38), transparent 62%),
+    radial-gradient(80% 140% at 0% 100%, rgba(60, 140, 174, 0.38), transparent 64%),
+    radial-gradient(80% 140% at 100% 0%, rgba(60, 140, 174, 0.30), transparent 64%),
+    #363636;
+}
+
+.edu-marquee {
+  overflow: hidden;
+  flex: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.edu-track {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  width: max-content;
+  /* The icon list is rendered twice, so scrolling half the track loops seamlessly. */
+  animation: edu-scroll 46s linear infinite;
+}
+
+.edu-marquee--right .edu-track { animation-direction: reverse; }
+
+.edu-track svg {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  opacity: 0.85;
+}
+
+@keyframes edu-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.edu-cover-text {
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edu-cover-title {
+  font-size: clamp(26px, 5.4vw, 38px);
+  font-weight: var(--weight-extrabold);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  max-width: 11ch;
+}
+
+/* The switcher rides along the top of the case and steps aside while reading. */
+.case-switch {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: max-content;
+  margin: 0 auto 30px;
+  padding: 4px;
+  border-radius: 100px;
+  background: var(--color-surface-nav-blur);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 6px 24px var(--color-shadow-nav);
+}
+
+.case-switch-indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  border-radius: 100px;
+  background: var(--color-surface-nav);
+  box-shadow: 0 0 40px var(--color-shadow-nav);
+  pointer-events: none;
+  transition: left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+              width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.case-tab {
+  position: relative;
+  z-index: 1;
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  transition: color 0.2s;
+}
+
+.case-tab:hover { color: var(--color-primary); }
+
+/* The A/B export carries a 1px frame around each slide: a sliver of scale,
+   clipped by the panel, trims it off. */
+.edu-case .case-panel[data-case-panel='ab'] img {
+  transform: scale(1.005);
+  transform-origin: center;
+}
+
+.edu-case .case-panel[data-case-panel='ab'] {
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.case-panel { display: none; }
+.case-panel--on { display: block; }
+
+.case-panel--on img { animation: edu-fade-in 0.45s ease both; }
+
+@keyframes edu-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edu-track { animation: none; }
+}
+
+/* "What the Platform Does": front office and back office side by side */
+.cs-sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.cs-side {
+  /* Lighter than the generic tile: these two boxes carry a lot of text */
+  background: var(--cs-side-bg);
+  border: 1px solid var(--color-border-card);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.cs-side-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* The heading pair is centred over the list, with the label above the name */
+.cs-side-title {
+  margin-top: 6px;
+  font-size: 20px;
+  font-weight: var(--weight-extrabold);
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.cs-side-sub {
+  margin-top: 16px;
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cs-magenta);
+  text-align: center;
+}
+
+/* A hairline under the pair separates it from the features */
+.cs-side-title::after {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 2px;
+  margin: 12px auto 0;
+  border-radius: 2px;
+  background: var(--cs-magenta);
+  opacity: 0.4;
+}
+
+.cs-side-list {
+  margin-top: 14px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.cs-side-list li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: var(--leading-normal);
+}
+
+.cs-side-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cs-magenta);
+}
+
+.cs-banner {
+  margin: 28px 0 4px;
+  padding: 26px 28px;
+  border-radius: 20px;
+  background:
+    radial-gradient(120% 180% at 8% 0%, color-mix(in srgb, var(--cs-magenta) 55%, #ff9ec4) 0%, transparent 55%),
+    radial-gradient(110% 160% at 100% 100%, color-mix(in srgb, var(--cs-magenta) 70%, #6d1038) 0%, transparent 60%),
+    linear-gradient(118deg, #e8468c 0%, var(--cs-magenta) 48%, #a01350 100%);
+  color: #fff;
+  text-align: center;
+  text-wrap: balance;
+  font-size: 21px;
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 720px) {
+  .cs-banner { padding: 20px 18px; font-size: 17px; }
+}
+
+.cs-note {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--color-text-subtle);
+}
+
+@media (max-width: 720px) {
+  .cs-sides { grid-template-columns: 1fr; }
+}
+
 .cs-figure { margin: 28px 0; }
 
 .cs-figure img {
@@ -1743,7 +2741,62 @@ strong, b {
   text-align: center;
 }
 
+/* Inside a switcher the caption comes first, so it introduces the artefact
+   instead of explaining it after the fact. `balance` evens out the two lines. */
+.case-panel .cs-figure figcaption:first-child {
+  margin: 0 auto 12px;
+  max-width: 62ch;
+  font-size: 14px;
+  line-height: var(--leading-normal);
+  text-wrap: balance;
+}
+
 .cs-figure--hero { margin: 0 0 8px; }
+
+/* Tall screens: never upscaled past their own pixels, and the figure scrolls
+   instead of running down the page for thousands of pixels */
+.cs-figure--tall { max-height: 70vh; overflow-y: auto; overscroll-behavior-y: contain; }
+.cs-figure--tall img { width: auto; max-width: 100%; margin: 0 auto; }
+.cs-figure--tall figcaption { position: sticky; bottom: 0; }
+
+/* Wide artifacts (journeys, flows, IA): scroll sideways at full pixel size */
+.cs-figure--wide { overflow: visible; }
+.cs-figure--wide img { display: block; max-width: none; width: auto; }
+.cs-figure--wide figcaption { position: static; }
+
+.cs-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-bottom: 12px;
+}
+
+/* Discovery artefacts are thousands of pixels tall; cap them to the modal and
+   let the aspect ratio pull the width along. */
+.cs-scroll img {
+  max-height: 58vh;
+  width: auto;
+  max-width: none;
+}
+
+/* Overlay scrollbars hide themselves; this keeps the hint on screen. */
+.cs-scroll::-webkit-scrollbar {
+  height: 10px;
+  -webkit-appearance: none;
+}
+
+.cs-scroll::-webkit-scrollbar-track {
+  background: var(--alpha-black-6);
+  border-radius: 100px;
+}
+
+.cs-scroll::-webkit-scrollbar-thumb {
+  background: var(--cs-art-strong);
+  border-radius: 100px;
+}
+
+.cs-scroll::-webkit-scrollbar-thumb:hover { background: var(--cs-magenta); }
+
+[data-theme='dark'] .cs-scroll::-webkit-scrollbar-track { background: var(--alpha-white-10); }
 .cs-figure--hero img { border-radius: 24px; }
 
 .cs-closing {
@@ -1867,7 +2920,13 @@ strong, b {
 
   .back-to-top { display: none; }
 
-  .main { padding: 24px 16px 110px; }
+  .main {
+    /* Row layout would stand the page logo beside the grid; stacking puts it
+       on top and gives the cards the full width inside the padding. */
+    flex-direction: column;
+    align-items: stretch;
+    padding: 24px 16px 110px;
+  }
 
   .mobile-page-logo {
     display: block;
@@ -1880,12 +2939,15 @@ strong, b {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-auto-rows: auto;
     max-width: 520px;
+    margin-inline: auto;
     gap: 14px;
   }
 
   .bento-card[data-card='about'] { min-height: 220px; }
   .bento-card[data-card='gmail'], .bento-card[data-card='linkedin'] { aspect-ratio: 1; }
-  .bento-card[data-card='cpq'] { min-height: 280px; }
+  /* Case study covers are absolutely positioned, so on the auto-height mobile
+     grid the card has nothing to size against. */
+  .project-card { min-height: 280px; }
   .path-card-inner { padding: 16px 12px; }
   .path-stop .career-logo { width: 88px; }
   .path-stop .path-logo--ibm { width: 70px; }
@@ -1901,15 +2963,28 @@ strong, b {
   .badge-title { font-size: 13px; }
   .badge-sub { font-size: 11px; }
   .cert-figure { width: 100%; }
-  .bento-card[data-card='expertise'] { min-height: 200px; }
-  .bento-card[data-card='hobbies'], .bento-card[data-card='pictures'] { aspect-ratio: 1; }
+  /* Explicit rows rather than an aspect ratio: in an auto-height grid row the
+     ratio has nothing to resolve against, and the block spills over the card
+     above it. */
+  .bento-stack { grid-template-rows: 150px 150px; gap: 14px; }
+  .bento-stack--docs { grid-template-rows: 110px 110px; }
+
+  /* Both run the full width now, like the quotes */
+  .bento-card[data-card='hobbies'], .bento-card[data-card='pictures'] { aspect-ratio: 2 / 1; }
 
   .about-card-inner { flex-direction: column; align-items: flex-start; padding: 24px; padding-bottom: 56px; }
   .about-avatar { width: 109px; height: 109px; }
 
 
-  .card-tags { gap: 5px; max-width: calc(100% - 64px); }
-  .card-tag { font-size: 10px; padding: 3px 8px; }
+  .edu-cover { padding: 54px 0 28px; }
+  .edu-cover-text { padding: 0 18px; }
+
+  .case-switch { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .case-switch::-webkit-scrollbar { display: none; }
+  .case-tab { padding: 8px 12px; font-size: 13px; white-space: nowrap; }
+
+  .card-tags { gap: 4px; max-width: calc(100% - 56px); }
+  .card-tag { font-size: 9px; padding: 2px 7px; letter-spacing: 0; }
 }
 
 @media (max-width: 480px) {

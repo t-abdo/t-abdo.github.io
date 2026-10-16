@@ -30,30 +30,7 @@ function initIconReplay(selector) {
   });
 }
 
-// Hover-only loop that eases back to rest instead of snapping when the pointer leaves.
-function initHoverLoop(cardSelector, targetSelector) {
-  const card = document.querySelector(cardSelector);
-  const target = card?.querySelector(targetSelector);
-  if (!target) return;
-
-  card.addEventListener('mouseenter', () => {
-    target.style.transition = '';
-    target.style.transform = '';
-    target.classList.add('is-breathing');
-  });
-
-  card.addEventListener('mouseleave', () => {
-    const current = getComputedStyle(target).transform;
-    target.classList.remove('is-breathing');
-    target.style.transform = current;
-    target.getBoundingClientRect();
-    target.style.transition = 'transform 0.8s cubic-bezier(0.45, 0, 0.55, 1)';
-    target.style.transform = '';
-  });
-}
-
 export function initCards() {
-  initHoverLoop('.path-card', '.path-card-inner');
   initIconReplay('.gmail-card');
   initIconReplay('.linkedin-card');
   initIconReplay('.english-card');
@@ -75,6 +52,24 @@ export function initCards() {
       }, 2000);
     });
   }
+
+  // Copy buttons live inside cloned modal templates, so this listens on the
+  // document instead of binding at startup.
+  let keyRevert = null;
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-copy-key]');
+    if (!btn) return;
+    e.stopPropagation();
+    const ok = await copyText(btn.dataset.copyKey);
+    if (!ok) return;
+    btn.classList.add('key-copy--done');
+    window.setCursorTooltip?.(btn.dataset.copiedLabel || t('cards.gmail.copied'));
+    clearTimeout(keyRevert);
+    keyRevert = setTimeout(() => {
+      btn.classList.remove('key-copy--done');
+      window.setCursorTooltip?.(btn.dataset.tooltip);
+    }, 2000);
+  });
 
   // Anchors inside a card would otherwise also trigger the card's own handler
   document.querySelectorAll('.bento-card a.action-icon').forEach((link) => {

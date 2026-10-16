@@ -1,7 +1,7 @@
 :root {
   /* Neutral */
   --color-neutral-0: #ffffff;
-  --color-neutral-50: #faf9f7;
+  --color-neutral-50: #fcfcfb;
   --color-neutral-100: #f0f0f0;
   --color-neutral-150: #e0e0e0;
   --color-neutral-300: #aaaaaa;
@@ -12,7 +12,7 @@
   --color-neutral-1000: #000000;
 
   /* Page ground */
-  --color-ground-100: #e8ecef;
+  --color-ground-100: #f2ede9;
 
   /* Brand */
   --color-blue-600: #1560bd;
@@ -74,14 +74,30 @@
 
   /* Semantic */
   --color-primary: var(--color-blue-600);
-  --gradient-brand: linear-gradient(135deg, var(--color-blue-600) 0%, var(--color-magenta-600) 100%);
+  --color-link-hover: #0e4a94; /* 7.3:1 on the page ground */
+  /* Violet to magenta: close enough in hue that the ramp between them stays
+     short. White holds 5.8:1 on both ends, so it can carry labels. */
+  --color-brand-start: #7b45cc;
+  --color-brand-end: #bf1f6a;
+  --gradient-brand: linear-gradient(135deg, var(--color-brand-start) 0%, var(--color-brand-end) 100%);
+
+  /* Shared by the panel as it grows and by anything travelling with it, so it
+     has to live here: a clone parented to <body> can't read a custom property
+     declared on the panel, and an unresolved var() voids the whole shorthand. */
+  --expand-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  /* Closing leaves faster than it opens and still lands softly. */
+  --close-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   --color-bg-body: var(--color-ground-100);
+  /* Panels sit on the card surface, not on the page ground, so an open panel
+     reads as the card it grew out of. */
+  --color-surface-modal: var(--color-neutral-50);
   --color-border-card: var(--alpha-black-8);
   --color-surface-card: var(--color-neutral-50);
   --color-surface-nav: var(--color-neutral-50);
   --color-surface-nav-blur: var(--alpha-neutral50-50);
   --color-surface-action-icon: var(--color-neutral-50);
+  --color-border-action-icon: rgba(0, 0, 0, 0.05);
   --filter-action-icon: none;
 
   --color-text-primary: var(--color-neutral-750);
@@ -116,9 +132,11 @@
 
   --color-border-card: var(--alpha-white-6);
   --color-bg-body: var(--color-indigo-950);
+  --color-surface-modal: var(--color-bg-body);
 
   /* Accent lifts in dark mode so hover/selected states stay legible on indigo */
   --color-primary: var(--color-blue-400);
+  --color-link-hover: #4a8be3; /* darker than the accent, still 4.9:1+ on dark cards */
 
   --color-surface-card: var(--color-indigo-800);
   /* Nav sits directly on the near-black ground, so both the bar and the
@@ -126,6 +144,7 @@
   --color-surface-nav: #3a3a5c;
   --color-surface-nav-blur: rgba(46, 46, 72, 0.8);
   --color-surface-action-icon: var(--color-indigo-750);
+  --color-border-action-icon: rgba(255, 255, 255, 0.15);
   --filter-action-icon: brightness(0) invert(1);
 
   --color-text-primary: var(--color-indigo-100);
