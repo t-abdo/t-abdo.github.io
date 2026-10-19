@@ -1,8 +1,18 @@
+import { BREAKPOINTS } from './breakpoints.js';
+
 const OFFSET = 16;
 const EDGE = 8;
 
+// Set once the tooltip exists. It only does on a fine pointer, so on touch
+// screens setCursorTooltip() is a quiet no-op instead of a crash.
+let showText = null;
+
+export function setCursorTooltip(text) {
+  showText?.(text);
+}
+
 export function initCursor() {
-  const isFinePointer = window.matchMedia('(pointer: fine) and (min-width: 769px)').matches;
+  const isFinePointer = window.matchMedia(`(pointer: fine) and (min-width: ${BREAKPOINTS.mobile + 1}px)`).matches;
   if (!isFinePointer) return;
 
   const tooltip = document.getElementById('cursorTooltip');
@@ -64,5 +74,5 @@ export function initCursor() {
     }
   });
 
-  window.setCursorTooltip = setText;
+  showText = setText;
 }

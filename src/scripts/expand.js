@@ -1,7 +1,10 @@
 import { t } from './i18n.js';
 import { watchImages } from './skeleton.js';
 import { bindCaseSwitch } from './edu.js';
+import { bindCaseNav } from './case-nav.js';
+import { bindProtoScroll } from './proto-scroll.js';
 import { paintLogos } from './logos.js';
+import { isMobileLayout } from './breakpoints.js';
 
 // Single source for the grow/shrink durations; the CSS reads them via
 // --expand-dur. Closing is the quicker of the two.
@@ -19,6 +22,46 @@ const MORPH_EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
 const DEFAULT_MAX_W = 640;
 const DEFAULT_MAX_H = 680;
 
+/* Where a shared element actually is. A photo is its box; a paragraph's box
+   spans whatever width its parent gives it, so for text the width comes from
+   the lines themselves. The height stays the element's: a range only covers
+   the glyphs, which sit inside each line's leading, and a clone placed by it
+   would land that much low and hop up when swapped for the real text. */
+function boxOf(el) {
+  const box = el.getBoundingClientRect();
+  if (el.tagName === 'IMG') return box;
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const lines = range.getBoundingClientRect();
+  const rect = new DOMRect(lines.left, box.top, lines.width, box.height);
+  // Where the glyphs of the first line start, to land them exactly: the gap
+  // above them is snapped to whole pixels, so it doesn't scale in proportion.
+  rect.inkTop = lines.top;
+  return rect;
+}
+
+/* Runs `fn` once the start state of a transition has been painted. Two frames
+   are the clean way to separate the two states; rAF stops arriving in a hidden
+   tab, so a timeout stands in for it, and whichever comes first wins. */
+function afterPaint(fn) {
+  let done = false;
+  const run = () => {
+    if (done) return;
+    done = true;
+    fn();
+  };
+  requestAnimationFrame(() => requestAnimationFrame(run));
+  setTimeout(run, 60);
+}
+
+/* While a panel is open everything behind it is inert: out of the tab order,
+   out of the accessibility tree and deaf to clicks, so focus stays inside. */
+function setPageInert(on) {
+  document.querySelectorAll('body > nav, body > main, #backToTop').forEach((el) => {
+    el.inert = on;
+  });
+}
+
 export function initExpand() {
   const backdrop = document.createElement('div');
   backdrop.className = 'expand-backdrop';
@@ -28,16 +71,21 @@ export function initExpand() {
   // mode: 'full' fills the viewport (case studies), 'tall' keeps a constrained
   // width at a case study's full height, otherwise it's a centred panel.
   // inset: extra horizontal space (px per side) for a full-mode panel, desktop only.
-  function targetRect(maxW, maxH, mode, inset = 0) {
+  // edge: for a full-mode panel on a desktop, its own distance from the top and
+  // bottom of the screen, in place of the frame's (the case studies sit closer).
+  function targetRect(maxW, maxH, mode, inset = 0, edge = 0) {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
     const margin = 12;
 
     if (mode === 'full') {
-      // A full-height panel keeps the thin gap top and bottom but stands twice
-      // as far from the left and right edges.
-      const side = margin * 2 + (vw > 860 ? inset : 0);
-      return { left: side, top: margin, width: vw - side * 2, height: vh - margin * 2 };
+      // A full-height panel stands twice as far from the left and right edges
+      // as from the top and bottom. On a desktop the whole frame doubles, so a
+      // case study reads as a page laid on the grid rather than over it.
+      const gap = isMobileLayout(vw) ? margin : margin * 2;
+      const side = gap * 2 + (isMobileLayout(vw) ? 0 : inset);
+      const top = !isMobileLayout(vw) && edge ? edge : gap;
+      return { left: side, top, width: vw - side * 2, height: vh - top * 2 };
     }
 
     const width = Math.min(maxW, vw - 48);
@@ -47,22 +95,28 @@ export function initExpand() {
       return { left, top: margin, width, height: vh - margin * 2 };
     }
 
-    const height = Math.min(maxH, vh * 0.85);
+    // Centred panels keep at least 40px of page above and below them
+    const height = Math.min(maxH, vh - 80);
     return { left, top: Math.max(24, (vh - height) / 2), width, height };
   }
 
-  // TL;DR switch inside a case study collapses the long-form paragraphs.
-  // The labels live under `ui`: any case study can carry the toggle.
-  function bindTldr(root) {
-    const toggle = root.querySelector('.tldr-toggle');
-    const article = root.querySelector('.cs');
-    if (!toggle || !article) return;
-    const label = toggle.querySelector('.tldr-toggle__label');
-    toggle.addEventListener('click', () => {
-      const on = article.classList.toggle('cs--tldr');
-      toggle.setAttribute('aria-pressed', String(on));
-      if (label) label.textContent = t(on ? 'ui.tldrShort' : 'ui.tldrFullStory');
-    });
+  /* On a phone or tablet a panel is as tall as what it holds, up to the full
+     frame, and sits in the middle of the screen. Its natural height is read at
+     the width it will open to, with the fill-the-panel rules lifted for that
+     one measurement. */
+  function fitToContent(overlay, rect) {
+    if (!isMobileLayout()) return rect;
+    const vh = window.innerHeight;
+    const frame = vh - 24;
+    const width = overlay.style.width;
+    overlay.style.width = `${rect.width}px`;
+    overlay.classList.add('expand-card--measuring');
+    const border = overlay.offsetHeight - overlay.clientHeight;
+    const natural = Math.ceil(overlay.querySelector('.expand-inner').getBoundingClientRect().height) + border;
+    overlay.classList.remove('expand-card--measuring');
+    overlay.style.width = width;
+    const height = Math.min(natural, frame);
+    return { ...rect, top: (vh - height) / 2, height };
   }
 
   // Links inside one panel that hand off to another card's panel (career → case study).
@@ -90,6 +144,7 @@ export function initExpand() {
      flight into a jump. */
   function morph(img, from, to, endRadius, dur, ease, onDone) {
     if (!from.width || !to.width) return onDone();
+    if (img.tagName !== 'IMG') return morphText(img, from, to, dur, ease, onDone);
 
     // Deep clone and keep the original classes: what travels can be a line of
     // text as well as a photo, and text needs both its children and the rules
@@ -110,16 +165,13 @@ export function initExpand() {
     fly.style.width = `${from.width}px`;
     fly.style.height = `${from.height}px`;
     document.body.appendChild(fly);
-    // Resolve the start style straight away. Two frames are the clean way to
-    // separate the two states, but frames stop arriving in a hidden tab and the
-    // fallback timeout below would then set both states without the browser
-    // ever having computed the first one, which cancels the transition.
+    // Resolve the start style straight away: in a hidden tab the fallback in
+    // afterPaint() would otherwise set both states without the browser ever
+    // having computed the first one, which cancels the transition.
     fly.getBoundingClientRect();
 
-    let launched = false;
-    const launch = () => {
-      if (launched || !fly.isConnected) return;
-      launched = true;
+    afterPaint(() => {
+      if (!fly.isConnected) return;
       fly.style.transition = ['left', 'top', 'width', 'height', 'border-radius']
         .map((prop) => `${prop} ${dur}ms ${ease}`).join(', ');
       fly.style.left = `${to.left}px`;
@@ -134,12 +186,57 @@ export function initExpand() {
         fly.remove();
         onDone();
       }, dur + 120);
-    };
+    });
+  }
 
-    // rAF is throttled to nothing in a hidden tab, so a timeout backs it up:
-    // without it the clone would sit on the card and never be cleared.
-    requestAnimationFrame(() => requestAnimationFrame(launch));
-    setTimeout(launch, 60);
+  /* Text can't travel by resizing its box: the lines would rewrap all the way.
+     It flies at its own size instead and is scaled into place, which only
+     lands cleanly when both copies break their lines alike (the quotes share a
+     30ch measure for this). When they don't, as on a phone where the panel is
+     narrower than the measure, the text simply arrives with the panel. */
+  function morphText(el, from, to, dur, ease, onDone) {
+    const sx = to.width / from.width;
+    const sy = to.height / from.height;
+    if (Math.abs(sx - sy) / sx > 0.06) return onDone();
+
+    const fly = el.cloneNode(true);
+    fly.classList.add('expand-morph');
+    // Out of its card, the clone would lose what it inherits there.
+    const cs = getComputedStyle(el);
+    ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing',
+      'text-align', 'text-transform', 'color'].forEach((prop) => {
+      fly.style.setProperty(prop, cs.getPropertyValue(prop));
+    });
+    Object.assign(fly.style, {
+      visibility: 'visible',
+      opacity: '1',
+      margin: '0',
+      maxWidth: 'none',
+      // A pixel of slack, so rounding can't push a word onto a new line; the
+      // text is centred, so the box starts half of it early.
+      left: `${from.left - 0.5}px`,
+      top: `${from.top}px`,
+      width: `${from.width + 1}px`,
+      height: `${from.height}px`,
+      transformOrigin: '0 0',
+      transition: 'none',
+      willChange: 'transform',
+    });
+    document.body.appendChild(fly);
+    fly.getBoundingClientRect();
+
+    afterPaint(() => {
+      if (!fly.isConnected) return;
+      fly.style.transition = `transform ${dur}ms ${ease}`;
+      // Scaled from the box's corner, so the glyphs' own offset in it grows too
+      const dx = to.left - (from.left - 0.5) - 0.5 * sx;
+      const dy = to.inkTop - from.top - (from.inkTop - from.top) * sx;
+      fly.style.transform = `translate(${dx}px, ${dy}px) scale(${sx})`;
+      setTimeout(() => {
+        fly.remove();
+        onDone();
+      }, dur + 120);
+    });
   }
 
   function onKeydown(e) {
@@ -166,6 +263,9 @@ export function initExpand() {
     backdrop.getBoundingClientRect();
 
     const overlay = document.createElement('div');
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.tabIndex = -1;
     // A card can hand its own surface to the panel it opens (the quotes do).
     const theme = card.dataset.expandTheme;
     overlay.className = 'expand-card'
@@ -189,12 +289,27 @@ export function initExpand() {
     const content = document.createElement('div');
     content.className = 'expand-content';
     content.appendChild(template.content.cloneNode(true));
+    // While the panel grows, sections out of view are left unlaid, so a long
+    // case doesn't relayout all of itself on every frame of the opening.
+    content.classList.add('expand-content--opening');
+    setTimeout(() => content.classList.remove('expand-content--opening'), ANIM_MS + 100);
     watchImages(content);
     paintLogos(content);
     inner.appendChild(content);
-    bindTldr(content);
+    bindCaseNav(content, inner);
     bindCaseSwitch(content, inner);
+    bindProtoScroll(content);
     bindHandoffs(content);
+
+    // The panel is named by its own heading, or for a quote by the line that
+    // names it. About has neither and borrows the card's tooltip.
+    const heading = content.querySelector('.expand-title, .cs-title, .quote-label');
+    if (heading) {
+      heading.id = 'expandTitle';
+      overlay.setAttribute('aria-labelledby', heading.id);
+    } else {
+      overlay.setAttribute('aria-label', card.dataset.tooltip || '');
+    }
 
     overlay.append(closeBtn, inner);
     document.body.appendChild(overlay);
@@ -204,25 +319,33 @@ export function initExpand() {
     document.body.style.overflow = 'hidden';
     document.addEventListener('keydown', onKeydown);
 
-    state = { card, overlay, closing: false };
+    // Focus moves into the panel and, on close, back to whatever opened it. It
+    // lands on the panel itself rather than on the close button, so nothing is
+    // highlighted on arrival; the next Tab reaches the button.
+    const opener = document.activeElement;
+    setPageInert(true);
+    overlay.focus({ preventScroll: true });
 
-    // Two frames let the start rect paint before the transition begins. rAF is
-    // throttled to nothing while the tab is hidden, so a timeout backs it up —
-    // otherwise the overlay would stay stuck at card size.
-    let settled = false;
-    const settle = () => {
-      if (settled || !state) return;
-      settled = true;
+    state = { card, overlay, opener, closing: false };
+
+    // The start rect paints before the transition begins; without that the
+    // overlay would jump straight to its final size.
+    afterPaint(() => {
+      if (!state) return;
       backdrop.classList.add('expand-backdrop--visible');
       const maxW = Number(card.dataset.expandMaxw) || DEFAULT_MAX_W;
       const maxH = Number(card.dataset.expandMaxh) || DEFAULT_MAX_H;
-      const rect = targetRect(maxW, maxH, mode, Number(card.dataset.expandInset) || 0);
+      const rect = fitToContent(overlay,
+        targetRect(maxW, maxH, mode, Number(card.dataset.expandInset) || 0,
+          Number(card.dataset.expandEdge) || 0));
 
       const place = () => {
         overlay.style.left = `${rect.left}px`;
         overlay.style.top = `${rect.top}px`;
         overlay.style.width = `${rect.width}px`;
         overlay.style.height = `${rect.height}px`;
+        // The panel's final height, for what has to fit inside it (the case rail)
+        overlay.style.setProperty('--panel-height', `${rect.height}px`);
       };
 
       // Where the panel's copy of the shared photo will end up can only be read
@@ -232,14 +355,14 @@ export function initExpand() {
       const target = source && content.querySelector(`[data-morph="${source.dataset.morph}"]`);
       if (target) {
         place();
-        const to = target.getBoundingClientRect();
+        const to = boxOf(target);
         overlay.style.left = `${startRect.left}px`;
         overlay.style.top = `${startRect.top}px`;
         overlay.style.width = `${startRect.width}px`;
         overlay.style.height = `${startRect.height}px`;
         overlay.getBoundingClientRect();
         target.style.visibility = 'hidden';
-        morph(source, source.getBoundingClientRect(), to,
+        morph(source, boxOf(source), to,
               getComputedStyle(target).borderRadius, ANIM_MS, EASE,
               () => { target.style.visibility = ''; });
       }
@@ -247,16 +370,29 @@ export function initExpand() {
       overlay.classList.add('expand-card--settled');
       place();
       overlay.style.borderRadius = '32px';
-    };
 
-    requestAnimationFrame(() => requestAnimationFrame(settle));
-    setTimeout(settle, 60);
+      // A photo that arrives after opening makes the panel taller, until it
+      // reaches the frame.
+      if (isMobileLayout()) {
+        const refit = () => {
+          if (!state || state.closing || state.overlay !== overlay) return;
+          if (parseFloat(overlay.style.height) >= window.innerHeight - 25) return;
+          const next = fitToContent(overlay, rect);
+          if (Math.abs(next.height - parseFloat(overlay.style.height)) < 1) return;
+          overlay.style.top = `${next.top}px`;
+          overlay.style.height = `${next.height}px`;
+        };
+        content.querySelectorAll('img').forEach((img) => {
+          if (!img.complete) img.addEventListener('load', refit, { once: true });
+        });
+      }
+    });
   }
 
   function close() {
     if (!state || state.closing) return;
     state.closing = true;
-    const { card, overlay } = state;
+    const { card, overlay, opener } = state;
 
     const rect = card.getBoundingClientRect();
     const cs = getComputedStyle(card);
@@ -280,7 +416,7 @@ export function initExpand() {
     const source = overlay.querySelector('[data-morph]');
     const target = source && card.querySelector(`[data-morph="${source.dataset.morph}"]`);
     if (target) {
-      const from = source.getBoundingClientRect();
+      const from = boxOf(source);
       const onScreen = from.bottom > 0 && from.top < window.innerHeight
         && from.right > 0 && from.left < window.innerWidth;
       if (onScreen) {
@@ -288,8 +424,11 @@ export function initExpand() {
         // The card's own copy waits under the panel until the flying one lands,
         // so the two are never on screen together.
         target.style.visibility = 'hidden';
-        morph(source, from, target.getBoundingClientRect(),
-              getComputedStyle(target).borderRadius, CLOSE_MS, MORPH_EASE,
+        // A quote's text is the panel's own content, so it shrinks on the
+        // panel's curve rather than trailing behind it on the photo's.
+        morph(source, from, boxOf(target),
+              getComputedStyle(target).borderRadius, CLOSE_MS,
+              source.tagName === 'IMG' ? MORPH_EASE : CLOSE_EASE,
               () => { target.style.visibility = ''; });
       }
     }
@@ -307,6 +446,12 @@ export function initExpand() {
       backdrop.remove();
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
+      setPageInert(false);
+      // Only an element the reader actually focused gets it back; a click on
+      // the card itself leaves focus on the page.
+      if (opener && opener !== document.body && opener.isConnected) {
+        opener.focus({ preventScroll: true });
+      }
       state = null;
     }, CLOSE_MS + 30);
   }

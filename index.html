@@ -6,9 +6,14 @@
   <meta name="description" content="" data-i18n-attr="content:meta.description">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&amp;family=Inter:wght@400;500&amp;family=Rubik:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="icon" href="assets/site/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="src/styles/main.css">
+  <link rel="stylesheet" href="src/styles/tokens.css">
+  <link rel="stylesheet" href="src/styles/base.css">
+  <link rel="stylesheet" href="src/styles/cards.css">
+  <link rel="stylesheet" href="src/styles/panels.css">
+  <link rel="stylesheet" href="src/styles/case-studies.css">
+  <link rel="stylesheet" href="src/styles/responsive.css">
   <script>
     // Runs before first paint: apply the saved theme and skip the loader on repeat visits.
     // Without a saved choice the clock decides, as in theme.js: dark from 18:00
@@ -38,12 +43,12 @@
   <nav class="nav" id="nav">
     <a href="#" class="nav-logo logo-mark" aria-label="" data-i18n-attr="aria-label:nav.ariaLabel">t<span class="logo-dot">.</span>abdo</a>
 
-    <div class="nav-pills" id="navPills" data-tooltip="" data-i18n-attr="data-tooltip:nav.filtersTooltip">
+    <div class="nav-pills" id="navPills">
       <div class="nav-pill-indicator" id="navIndicator"></div>
-      <a href="#" class="nav-pill active" data-filter="all" data-i18n="nav.filterAll"></a>
-      <a href="#" class="nav-pill" data-filter="about" data-i18n="nav.filterAbout"></a>
-      <a href="#" class="nav-pill" data-filter="work" data-i18n="nav.filterWork"></a>
-      <a href="#" class="nav-pill" data-filter="personal" data-i18n="nav.filterPersonal"></a>
+      <button type="button" class="nav-pill active" data-filter="all" aria-pressed="true" data-tooltip="" data-i18n-attr="data-tooltip:nav.filterAllTooltip" data-i18n="nav.filterAll"></button>
+      <button type="button" class="nav-pill" data-filter="about" aria-pressed="false" data-tooltip="" data-i18n-attr="data-tooltip:nav.filterAboutTooltip" data-i18n="nav.filterAbout"></button>
+      <button type="button" class="nav-pill" data-filter="work" aria-pressed="false" data-tooltip="" data-i18n-attr="data-tooltip:nav.filterWorkTooltip" data-i18n="nav.filterWork"></button>
+      <button type="button" class="nav-pill" data-filter="personal" aria-pressed="false" data-tooltip="" data-i18n-attr="data-tooltip:nav.filterPersonalTooltip" data-i18n="nav.filterPersonal"></button>
     </div>
 
     <div class="nav-toggles">
@@ -87,13 +92,13 @@
       <div class="bento-stack" data-slot="stack">
         <!-- Gmail -->
         <article class="bento-card gmail-card" data-card="gmail" data-copy="talesabd@gmail.com" data-tooltip="" data-i18n-attr="data-tooltip:cards.gmail.tooltip">
-          <span class="action-icon">
+          <button class="action-icon" type="button" aria-label="" data-i18n-attr="aria-label:cards.gmail.ariaLabel">
             <svg class="gm-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"></path></svg>
             <span class="gm-copied-text">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"></path></svg>
               <span data-i18n="cards.gmail.copied"></span>
             </span>
-          </span>
+          </button>
           <div class="icon-card-inner">
             <svg class="gm-svg" viewBox="52 42 88 66" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
               <path class="gm-from-top" fill="#c5221f" d="M52 51v8l20 15V48l-5.6-4.2c-5.94-4.45-14.4-.22-14.4 7.2"></path>
@@ -107,7 +112,7 @@
 
         <!-- LinkedIn -->
         <article class="bento-card linkedin-card" data-card="linkedin" data-link="https://www.linkedin.com/in/tales-abdo" data-tooltip="" data-i18n-attr="data-tooltip:cards.linkedin.tooltip">
-          <a class="action-icon" href="https://www.linkedin.com/in/tales-abdo" target="_blank" rel="noopener noreferrer" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:cards.linkedin.tooltip2;aria-label:cards.linkedin.ariaLabel">
+          <a class="action-icon" href="https://www.linkedin.com/in/tales-abdo" target="_blank" rel="noopener noreferrer" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:cards.linkedin.actionTooltip;aria-label:cards.linkedin.ariaLabel">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6M10 14L21 3"></path></svg>
           </a>
           <div class="icon-card-inner">
@@ -115,7 +120,7 @@
               <circle class="li-dot" cx="11" cy="10" r="1.82"></circle>
               <path class="li-path" d="M11 15.5 L11 26" style="--len:11;--draw-dur:0.38s;--draw-delay:0.08s"></path>
               <path class="li-path" d="M17 15.5 L17 26" style="--len:11;--draw-dur:0.38s;--draw-delay:0.14s"></path>
-              <path class="li-path" d="M17 19.5 C17 17 19 15.5 21 15.5 C23 15.5 25 17 25 19.5 L25 26" style="--len:22;--draw-dur:0.42s;--draw-delay:0.20s"></path>
+              <path class="li-path" d="M17 19.5 C17 17 19 15.5 21 15.5 C23 15.5 25 17 25 19.5 L25 26" style="--len:22;--draw-dur:0.40s;--draw-delay:0.20s"></path>
             </svg>
           </div>
         </article>
@@ -129,12 +134,12 @@
             <svg class="c1-svg" viewBox="3.5 5.5 40.5 29" width="58" height="42" aria-hidden="true">
               <defs>
                 <linearGradient id="c1Gradient" x1="6" y1="8" x2="46" y2="32" gradientUnits="userSpaceOnUse">
-                  <stop offset="0" style="stop-color: var(--color-blue-600)"></stop>
-                  <stop offset="1" style="stop-color: var(--color-magenta-600)"></stop>
+                  <stop offset="0" style="stop-color: var(--color-mark-start)"></stop>
+                  <stop offset="1" style="stop-color: var(--color-mark-end)"></stop>
                 </linearGradient>
               </defs>
               <path class="c1-path" d="M24.7 10.05A12 12 0 1 0 24.7 29.95" style="--len:53;--draw-dur:0.46s;--draw-delay:0.08s"></path>
-              <path class="c1-path" d="M35 13.5L41.5 8.5V31.5" style="--len:32;--draw-dur:0.34s;--draw-delay:0.3s"></path>
+              <path class="c1-path" d="M35 13.5L41.5 8.5V31.5" style="--len:32;--draw-dur:0.34s;--draw-delay:0.26s"></path>
             </svg>
             <span class="visually-hidden" data-i18n="cards.english.text"></span>
             <span class="english-caption" data-i18n="cards.english.caption"></span>
@@ -146,15 +151,15 @@
       <div class="bento-stack bento-stack--docs" data-slot="docs">
         <!-- Resume download -->
         <article class="bento-card resume-card" data-card="resume" data-download="assets/docs/Tales-Abdo-CV.pdf" data-tooltip="" data-i18n-attr="data-tooltip:cards.resume.tooltip">
-          <a class="action-icon" href="assets/docs/Tales-Abdo-CV.pdf" download="" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:cards.resume.tooltip2;aria-label:cards.resume.ariaLabel">
+          <a class="action-icon" href="assets/docs/Tales-Abdo-CV.pdf" download="" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:cards.resume.actionTooltip;aria-label:cards.resume.ariaLabel">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"></path></svg>
           </a>
           <div class="badge-inner">
             <svg class="badge-media resume-file" viewBox="0 0 64 64" fill="none" data-draw aria-hidden="true">
               <defs>
                 <linearGradient id="rfArrowGradient" x1="26" y1="34" x2="38" y2="48" gradientUnits="userSpaceOnUse">
-                  <stop offset="0" style="stop-color: var(--color-blue-600)"></stop>
-                  <stop offset="1" style="stop-color: var(--color-magenta-600)"></stop>
+                  <stop offset="0" style="stop-color: var(--color-mark-start)"></stop>
+                  <stop offset="1" style="stop-color: var(--color-mark-end)"></stop>
                 </linearGradient>
               </defs>
               <path class="rf-page draw-line" d="M16 6h22l12 12v40a2 2 0 01-2 2H16a2 2 0 01-2-2V8a2 2 0 012-2z" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"></path>
@@ -182,8 +187,8 @@
             <svg class="badge-media ref-mark" viewBox="0 0 64 64" fill="none" data-draw aria-hidden="true">
               <defs>
                 <linearGradient id="refDotsGradient" x1="13" y1="30" x2="37" y2="36" gradientUnits="userSpaceOnUse">
-                  <stop offset="0" style="stop-color: var(--color-blue-600)"></stop>
-                  <stop offset="1" style="stop-color: var(--color-magenta-600)"></stop>
+                  <stop offset="0" style="stop-color: var(--color-mark-start)"></stop>
+                  <stop offset="1" style="stop-color: var(--color-mark-end)"></stop>
                 </linearGradient>
               </defs>
               <path class="ref-bubble--back draw-line" d="M30 10h22a6 6 0 016 6v14a6 6 0 01-6 6h-1v7l-7-7H30a6 6 0 01-6-6V16a6 6 0 016-6z" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"></path>
@@ -200,34 +205,34 @@
       </div>
 
       <!-- Work Experience -->
-      <article class="bento-card path-card" data-card="path" data-expand="full" data-expand-inset="50" data-tooltip="" data-i18n-attr="data-tooltip:cards.path.tooltip">
-        <ol class="path-card-inner" aria-label="" data-i18n-attr="aria-label:cards.path.ariaLabel">
+      <article class="bento-card path-card" data-card="path" data-expand="full" data-expand-inset="26" data-tooltip="" data-i18n-attr="data-tooltip:cards.path.tooltip">
+        <ol class="path-card-inner" aria-label="" data-i18n-attr="aria-label:cards.path.listAriaLabel">
           <li class="path-stop">
             <span class="career-logo" data-logo="ae"></span>
-            <span class="visually-hidden" data-i18n="cards.path.text"></span>
-            <span class="path-stop__years" data-i18n="cards.path.stopYears"></span>
+            <span class="visually-hidden" data-i18n="cards.path.aeName"></span>
+            <span class="path-stop__years" data-i18n="cards.path.aeYears"></span>
           </li>
           <li class="path-stop">
             <span class="career-logo" data-logo="rivian"></span>
-            <span class="visually-hidden" data-i18n="cards.path.text2"></span>
-            <span class="path-stop__years" data-i18n="cards.path.stopYears2"></span>
+            <span class="visually-hidden" data-i18n="cards.path.rivianName"></span>
+            <span class="path-stop__years" data-i18n="cards.path.rivianYears"></span>
           </li>
           <li class="path-stop">
             <span class="career-logo path-logo--ibm" data-logo="ibm"></span>
-            <span class="visually-hidden" data-i18n="cards.path.text3"></span>
-            <span class="path-stop__years" data-i18n="cards.path.stopYears3"></span>
+            <span class="visually-hidden" data-i18n="cards.path.ibmName"></span>
+            <span class="path-stop__years" data-i18n="cards.path.ibmYears"></span>
           </li>
         </ol>
         <span class="path-card-label" data-i18n="cards.path.label"></span>
-        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.path.ariaLabel2">
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.path.ariaLabel">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
         </button>
       </article>
 
-      <!-- What I Like -->
-      <article class="bento-card pictures-card" data-card="hobbies" data-expand="tall" data-expand-maxw="1092" data-tooltip="" data-i18n-attr="data-tooltip:cards.hobbies.tooltip">
+      <!-- A Few of My Favorite Things -->
+      <article class="bento-card photo-card hobbies-card" data-card="hobbies" data-expand="tall" data-expand-maxw="1092" data-tooltip="" data-i18n-attr="data-tooltip:cards.hobbies.tooltip">
         <div class="pics-stack" data-slideshow="assets/hobbies/dune.jpg, assets/hobbies/severance.jpg, assets/hobbies/league-of-legends.jpg, assets/hobbies/baldurs-gate-3.jpg">
-          <img width="1600" height="900" class="pics-img is-active" src="assets/hobbies/dune.jpg" alt="">
+          <img width="1600" height="900" class="pics-img is-active" src="assets/hobbies/dune.jpg" loading="lazy" alt="">
           <img class="pics-img" alt="">
         </div>
         <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.hobbies.ariaLabel">
@@ -237,7 +242,7 @@
       </article>
 
       <!-- Pictures -->
-      <article class="bento-card pictures-card" data-card="pictures" data-expand="tall" data-expand-maxw="1100" data-tooltip="" data-i18n-attr="data-tooltip:cards.pictures.tooltip">
+      <article class="bento-card photo-card pictures-card" data-card="pictures" data-expand="tall" data-expand-maxw="1100" data-tooltip="" data-i18n-attr="data-tooltip:cards.pictures.tooltip">
         <div class="pics-stack pics-stack--flow" id="picsStack" data-flow="pictures"></div>
         <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.pictures.ariaLabel">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
@@ -260,12 +265,12 @@
       </article>
 
       <!-- Bachelor's degree -->
-      <article class="bento-card cred-card" data-card="bachelor" data-expand="tall" data-expand-maxw="1056" data-tooltip="" data-i18n-attr="data-tooltip:cards.bachelor.tooltip">
+      <article class="bento-card bachelor-card" data-card="bachelor" data-expand="tall" data-expand-maxw="1056" data-tooltip="" data-i18n-attr="data-tooltip:cards.bachelor.tooltip">
         <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:ui.expand;aria-label:cards.bachelor.ariaLabel">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
         </button>
         <div class="badge-inner">
-          <span class="badge-media cred-mark" data-logo="unicamp" role="img" aria-label="" data-i18n-attr="aria-label:cards.bachelor.markAlt"></span>
+          <span class="badge-media bachelor-logo" data-logo="unicamp" role="img" aria-label="" data-i18n-attr="aria-label:cards.bachelor.markAlt"></span>
           <div class="badge-text">
             <h3 class="badge-title" data-i18n-html="cards.bachelor.title"></h3>
             <span class="badge-sub" data-i18n="cards.bachelor.sub"></span>
@@ -274,13 +279,13 @@
       </article>
 
       <!-- Quote: AI -->
-      <article class="bento-card quote-card" data-card="aiquote" data-expand-theme="quote" data-expand-maxw="760" data-expand-maxh="520" data-tooltip="" data-i18n-attr="data-tooltip:modals.quote.tooltip">
+      <article class="bento-card quote-card" data-card="aiquote" data-expand-theme="quote" data-expand-maxw="760" data-expand-maxh="680" data-tooltip="" data-i18n-attr="data-tooltip:modals.quote.tooltip">
         <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:modals.quote.tooltip;aria-label:cards.aiquote.ariaLabel">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
         </button>
         <span class="quote-mark" aria-hidden="true">”</span>
-        <p class="quote-text" data-i18n-html="cards.aiquote.text"></p>
-        <span class="quote-label" data-morph="aiquote" data-i18n="cards.aiquote.label"></span>
+        <p class="quote-text" data-morph="aiquote" data-i18n-html="cards.aiquote.text"></p>
+        <span class="quote-label" data-i18n="cards.aiquote.label"></span>
       </article>
 
       <!-- Quote: career -->
@@ -289,22 +294,41 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
         </button>
         <span class="quote-mark" aria-hidden="true">”</span>
-        <p class="quote-text" data-i18n-html="cards.careerquote.text"></p>
-        <span class="quote-label" data-morph="careerquote" data-i18n="cards.careerquote.label"></span>
+        <p class="quote-text" data-morph="careerquote" data-i18n-html="cards.careerquote.text"></p>
+        <span class="quote-label" data-i18n="cards.careerquote.label"></span>
       </article>
 
       <!-- Quote: leadership -->
-      <article class="bento-card quote-card" data-card="leadquote" data-expand-theme="quote" data-expand-maxw="760" data-expand-maxh="520" data-tooltip="" data-i18n-attr="data-tooltip:modals.quote.tooltip">
+      <article class="bento-card quote-card" data-card="leadquote" data-expand-theme="quote" data-expand-maxw="760" data-expand-maxh="780" data-tooltip="" data-i18n-attr="data-tooltip:modals.quote.tooltip">
         <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:modals.quote.tooltip;aria-label:cards.leadquote.ariaLabel">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
         </button>
         <span class="quote-mark" aria-hidden="true">”</span>
-        <p class="quote-text" data-i18n-html="cards.leadquote.text"></p>
-        <span class="quote-label" data-morph="leadquote" data-i18n="cards.leadquote.label"></span>
+        <p class="quote-text" data-morph="leadquote" data-i18n-html="cards.leadquote.text"></p>
+        <span class="quote-label" data-i18n="cards.leadquote.label"></span>
       </article>
 
       <!-- Case study: Mesh (content to come) -->
-      <article class="bento-card project-card mesh-card" data-card="mesh" data-expand="full" data-tooltip="" data-i18n-attr="data-tooltip:cards.mesh.tooltip">
+      <article class="bento-card project-card mesh-card live-card--light" data-card="mesh" data-expand="full" data-expand-inset="32" data-expand-edge="12" data-tooltip="" data-i18n-attr="data-tooltip:cards.mesh.tooltip">
+        <div class="live-cover" aria-hidden="true">
+          <div class="live-dots">
+            <span class="live-dot" style="--y:8%;--s:18px;--d:26s;--delay:0s"></span>
+            <span class="live-dot" style="--y:22%;--s:8px;--d:19s;--delay:-6s"></span>
+            <span class="live-dot" style="--y:35%;--s:14px;--d:23s;--delay:-12s"></span>
+            <span class="live-dot" style="--y:48%;--s:6px;--d:17s;--delay:-3s"></span>
+            <span class="live-dot" style="--y:60%;--s:22px;--d:29s;--delay:-15s"></span>
+            <span class="live-dot" style="--y:72%;--s:10px;--d:21s;--delay:-9s"></span>
+            <span class="live-dot" style="--y:84%;--s:16px;--d:25s;--delay:-18s"></span>
+            <span class="live-dot" style="--y:15%;--s:5px;--d:15s;--delay:-7s"></span>
+            <span class="live-dot" style="--y:55%;--s:12px;--d:27s;--delay:-21s"></span>
+            <span class="live-dot" style="--y:90%;--s:7px;--d:18s;--delay:-11s"></span>
+            <span class="live-dot" style="--y:40%;--s:26px;--d:31s;--delay:-4s"></span>
+            <span class="live-dot" style="--y:66%;--s:4px;--d:16s;--delay:-14s"></span>
+          </div>
+          <span class="live-float live-float--1" style="--size:64px;--c:#2759de;--d:21s;--delay:0s;--o:0.45"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="12" cy="13" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 6.2l10-.9M6.4 7.6l4.3 3.9M17.6 6.6l-4.2 4.8M10.7 14.6l-3.4 2.9M13.9 13.8l3.3 3M8 19.2l9-.9"/></svg></span>
+          <span class="live-float live-float--2" style="--size:48px;--c:#d02670;--d:18s;--delay:-7s;--o:0.35"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="12" cy="13" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 6.2l10-.9M6.4 7.6l4.3 3.9M17.6 6.6l-4.2 4.8M10.7 14.6l-3.4 2.9M13.9 13.8l3.3 3M8 19.2l9-.9"/></svg></span>
+          <span class="live-float live-float--3" style="--size:54px;--c:#2759de;--d:24s;--delay:-13s;--o:0.3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="12" cy="13" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 6.2l10-.9M6.4 7.6l4.3 3.9M17.6 6.6l-4.2 4.8M10.7 14.6l-3.4 2.9M13.9 13.8l3.3 3M8 19.2l9-.9"/></svg></span>
+        </div>
         <div class="mesh-cover">
           <span class="card-logo mesh-cover-logo" data-logo="mesh" data-logo-variant="light" role="img" aria-label="" data-i18n-attr="aria-label:cards.mesh.coverTitle"></span>
           <span class="mesh-cover-note" data-i18n="cards.mesh.soon"></span>
@@ -315,7 +339,7 @@
       </article>
 
       <!-- Case study: Educational Design Artifacts -->
-      <article class="bento-card project-card edu-card" data-card="edu" data-expand="full" data-tooltip="" data-i18n-attr="data-tooltip:cards.edu.tooltip">
+      <article class="bento-card project-card edu-card" data-card="edu" data-expand="full" data-expand-inset="32" data-expand-edge="12" data-tooltip="" data-i18n-attr="data-tooltip:cards.edu.tooltip">
         <div class="edu-cover">
           <div class="edu-marquee edu-marquee--left" aria-hidden="true"></div>
           <div class="edu-cover-text">
@@ -331,11 +355,33 @@
         <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:cards.edu.tooltip;aria-label:cards.edu.ariaLabel">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
         </button>
+        <span class="card-label" data-i18n="cards.edu.label"></span>
       </article>
 
-      <!-- Case study: Hub -->
-      <article class="bento-card project-card" data-card="hub" data-expand="full" data-tooltip="" data-i18n-attr="data-tooltip:cards.hub.tooltip">
-        <img width="1600" height="1115" class="project-card-img" src="assets/projects/hub/cover.jpg" alt="" data-i18n-attr="alt:cards.hub.imageAlt">
+      <!-- Case study: Raven Hub -->
+      <article class="bento-card project-card hub-card" data-card="hub" data-expand="full" data-expand-inset="32" data-expand-edge="12" data-tooltip="" data-i18n-attr="data-tooltip:cards.hub.tooltip">
+        <div class="live-cover" aria-hidden="true">
+          <div class="live-dots">
+            <span class="live-dot" style="--y:8%;--s:18px;--d:26s;--delay:0s"></span>
+            <span class="live-dot" style="--y:22%;--s:8px;--d:19s;--delay:-6s"></span>
+            <span class="live-dot" style="--y:35%;--s:14px;--d:23s;--delay:-12s"></span>
+            <span class="live-dot" style="--y:48%;--s:6px;--d:17s;--delay:-3s"></span>
+            <span class="live-dot" style="--y:60%;--s:22px;--d:29s;--delay:-15s"></span>
+            <span class="live-dot" style="--y:72%;--s:10px;--d:21s;--delay:-9s"></span>
+            <span class="live-dot" style="--y:84%;--s:16px;--d:25s;--delay:-18s"></span>
+            <span class="live-dot" style="--y:15%;--s:5px;--d:15s;--delay:-7s"></span>
+            <span class="live-dot" style="--y:55%;--s:12px;--d:27s;--delay:-21s"></span>
+            <span class="live-dot" style="--y:90%;--s:7px;--d:18s;--delay:-11s"></span>
+            <span class="live-dot" style="--y:40%;--s:26px;--d:31s;--delay:-4s"></span>
+            <span class="live-dot" style="--y:66%;--s:4px;--d:16s;--delay:-14s"></span>
+          </div>
+          <span class="live-float live-float--1 live-float--spin" style="--size:54px;--c:#be95ff;--d:19s;--delay:0s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5l1.4 2.7a7.5 7.5 0 011.8.8l2.9-1 1.4 1.4-1 2.9a7.5 7.5 0 01.8 1.8l2.7 1.4-2.7 1.4a7.5 7.5 0 01-.8 1.8l1 2.9-1.4 1.4-2.9-1a7.5 7.5 0 01-1.8.8L12 21.5l-1.4-2.7a7.5 7.5 0 01-1.8-.8l-2.9 1-1.4-1.4 1-2.9a7.5 7.5 0 01-.8-1.8L2.5 12l2.7-1.4a7.5 7.5 0 01.8-1.8l-1-2.9 1.4-1.4 2.9 1a7.5 7.5 0 011.8-.8z"/></svg></span>
+          <span class="live-float live-float--2" style="--size:38px;--c:#78a9ff;--d:16s;--delay:-6s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"/></svg></span>
+          <span class="live-float live-float--3" style="--size:58px;--c:#ffffff;--d:23s;--delay:-11s;--o:0.75"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 14l1.8-4.6A2 2 0 017.2 8h9.6a2 2 0 011.9 1.4l1.8 4.6v4h-2.3M3.5 14v4h2.3M3.5 14h17"/><circle cx="7.8" cy="18" r="1.8"/><circle cx="16.2" cy="18" r="1.8"/></svg></span>
+          <span class="live-float live-float--1" style="--size:45px;--c:#78a9ff;--d:21s;--delay:-14s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="7" width="17" height="10" rx="2"/><path d="M21.5 10.5v3M6 10v4M9.5 10v4M13 10v4"/></svg></span>
+          <span class="live-float live-float--3 live-float--spin" style="--size:35px;--c:#8a3ffc;--d:17s;--delay:-4s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5l1.4 2.7a7.5 7.5 0 011.8.8l2.9-1 1.4 1.4-1 2.9a7.5 7.5 0 01.8 1.8l2.7 1.4-2.7 1.4a7.5 7.5 0 01-.8 1.8l1 2.9-1.4 1.4-2.9-1a7.5 7.5 0 01-1.8.8L12 21.5l-1.4-2.7a7.5 7.5 0 01-1.8-.8l-2.9 1-1.4-1.4 1-2.9a7.5 7.5 0 01-.8-1.8L2.5 12l2.7-1.4a7.5 7.5 0 01.8-1.8l-1-2.9 1.4-1.4 2.9 1a7.5 7.5 0 011.8-.8z"/></svg></span>
+        </div>
+        <span class="card-logo live-cover-mark live-cover-logo" aria-hidden="true"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="hubRing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#be95ff"/><stop offset="1" stop-color="#4589ff"/></linearGradient></defs><circle cx="32" cy="32" r="25" fill="none" stroke="url(#hubRing)" stroke-width="7" stroke-linecap="round" stroke-dasharray="132 25" transform="rotate(-65 32 32)"/><path d="M27.5 23.5L19 32l8.5 8.5M36.5 23.5L45 32l-8.5 8.5" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="cards.hub.label"></span></span>
         <div class="card-tags">
           <span class="card-tag" data-i18n="cards.hub.tag1"></span>
           <span class="card-tag" data-i18n="cards.hub.tag2"></span>
@@ -349,8 +395,29 @@
       </article>
 
       <!-- Case study: e-config on Cloud -->
-      <article class="bento-card project-card" data-card="econfig" data-expand="full" data-tooltip="" data-i18n-attr="data-tooltip:cards.econfig.tooltip">
-        <img width="1600" height="1154" class="project-card-img" src="assets/projects/econfig/cover.jpg" alt="" data-i18n-attr="alt:cards.econfig.imageAlt">
+      <article class="bento-card project-card econfig-card" data-card="econfig" data-expand="full" data-expand-inset="32" data-expand-edge="12" data-tooltip="" data-i18n-attr="data-tooltip:cards.econfig.tooltip">
+        <div class="live-cover" aria-hidden="true">
+          <div class="live-dots">
+            <span class="live-dot" style="--y:8%;--s:18px;--d:26s;--delay:0s"></span>
+            <span class="live-dot" style="--y:22%;--s:8px;--d:19s;--delay:-6s"></span>
+            <span class="live-dot" style="--y:35%;--s:14px;--d:23s;--delay:-12s"></span>
+            <span class="live-dot" style="--y:48%;--s:6px;--d:17s;--delay:-3s"></span>
+            <span class="live-dot" style="--y:60%;--s:22px;--d:29s;--delay:-15s"></span>
+            <span class="live-dot" style="--y:72%;--s:10px;--d:21s;--delay:-9s"></span>
+            <span class="live-dot" style="--y:84%;--s:16px;--d:25s;--delay:-18s"></span>
+            <span class="live-dot" style="--y:15%;--s:5px;--d:15s;--delay:-7s"></span>
+            <span class="live-dot" style="--y:55%;--s:12px;--d:27s;--delay:-21s"></span>
+            <span class="live-dot" style="--y:90%;--s:7px;--d:18s;--delay:-11s"></span>
+            <span class="live-dot" style="--y:40%;--s:26px;--d:31s;--delay:-4s"></span>
+            <span class="live-dot" style="--y:66%;--s:4px;--d:16s;--delay:-14s"></span>
+          </div>
+          <span class="live-float live-float--1" style="--size:90px;--c:#ffffff;--d:26s;--delay:0s;--o:0.85"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18.5h10.2a4.3 4.3 0 00.6-8.55A6.2 6.2 0 006 9.6a4.45 4.45 0 001 8.9z"/></svg></span>
+          <span class="live-float live-float--2" style="--size:64px;--c:#ffffff;--d:22s;--delay:-9s;--o:0.7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18.5h10.2a4.3 4.3 0 00.6-8.55A6.2 6.2 0 006 9.6a4.45 4.45 0 001 8.9z"/></svg></span>
+          <span class="live-float live-float--3 live-float--spin" style="--size:42px;--c:#1f3a80;--d:19s;--delay:-5s;--o:0.6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5l1.4 2.7a7.5 7.5 0 011.8.8l2.9-1 1.4 1.4-1 2.9a7.5 7.5 0 01.8 1.8l2.7 1.4-2.7 1.4a7.5 7.5 0 01-.8 1.8l1 2.9-1.4 1.4-2.9-1a7.5 7.5 0 01-1.8.8L12 21.5l-1.4-2.7a7.5 7.5 0 01-1.8-.8l-2.9 1-1.4-1.4 1-2.9a7.5 7.5 0 01-.8-1.8L2.5 12l2.7-1.4a7.5 7.5 0 01.8-1.8l-1-2.9 1.4-1.4 2.9 1a7.5 7.5 0 011.8-.8z"/></svg></span>
+          <span class="live-float live-float--1" style="--size:42px;--c:#1f3a80;--d:20s;--delay:-13s;--o:0.6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></svg></span>
+          <span class="live-float live-float--3" style="--size:48px;--c:#ffffff;--d:24s;--delay:-17s;--o:0.6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18.5h10.2a4.3 4.3 0 00.6-8.55A6.2 6.2 0 006 9.6a4.45 4.45 0 001 8.9z"/></svg></span>
+        </div>
+        <span class="card-logo live-cover-mark live-cover-logo" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M38 14v-5M48.5 18.5l3.5-3.5M53 29h5M27.5 18.5L24 15"/><path d="M29.6 26a9.6 9.6 0 0117.7 6.4"/><path d="M17 50h28a8.5 8.5 0 001-16.94A12.5 12.5 0 0022 31.6 9.25 9.25 0 0017 50z" fill="rgba(255,255,255,0.18)"/></svg><span data-i18n="cards.econfig.label"></span></span>
         <div class="card-tags">
           <span class="card-tag" data-i18n="cards.econfig.tag1"></span>
           <span class="card-tag" data-i18n="cards.econfig.tag2"></span>
@@ -365,14 +432,32 @@
       </article>
 
       <!-- Case study: Monarch Master Injectors -->
-      <article class="bento-card project-card" data-card="mmi" data-expand="full" data-tooltip="" data-i18n-attr="data-tooltip:cards.mmi.tooltip">
-        <img width="1600" height="1137" class="project-card-img" src="assets/projects/mmi/bo-customers.jpg" alt="" data-i18n-attr="alt:cards.mmi.imageAlt">
+      <article class="bento-card project-card mmi-card live-card--light" data-card="mmi" data-expand="full" data-expand-inset="32" data-expand-edge="12" data-tooltip="" data-i18n-attr="data-tooltip:cards.mmi.tooltip">
+        <div class="live-cover" aria-hidden="true">
+          <div class="live-dots">
+            <span class="live-dot" style="--y:8%;--s:18px;--d:26s;--delay:0s"></span>
+            <span class="live-dot" style="--y:22%;--s:8px;--d:19s;--delay:-6s"></span>
+            <span class="live-dot" style="--y:35%;--s:14px;--d:23s;--delay:-12s"></span>
+            <span class="live-dot" style="--y:48%;--s:6px;--d:17s;--delay:-3s"></span>
+            <span class="live-dot" style="--y:60%;--s:22px;--d:29s;--delay:-15s"></span>
+            <span class="live-dot" style="--y:72%;--s:10px;--d:21s;--delay:-9s"></span>
+            <span class="live-dot" style="--y:84%;--s:16px;--d:25s;--delay:-18s"></span>
+            <span class="live-dot" style="--y:15%;--s:5px;--d:15s;--delay:-7s"></span>
+            <span class="live-dot" style="--y:55%;--s:12px;--d:27s;--delay:-21s"></span>
+            <span class="live-dot" style="--y:90%;--s:7px;--d:18s;--delay:-11s"></span>
+            <span class="live-dot" style="--y:40%;--s:26px;--d:31s;--delay:-4s"></span>
+            <span class="live-dot" style="--y:66%;--s:4px;--d:16s;--delay:-14s"></span>
+          </div>
+          <span class="live-float live-float--1" style="--size:38px;--c:#d26c87;--d:17s;--delay:0s;fill:currentColor"><svg viewBox="0 0 24 20" aria-hidden="true"><g class="live-wing"><path d="M12 10C9 1 2 0 1.5 5S7 11 12 10Z"/><path d="M12 10C9 12 4 15 5 18.5S10.5 15 12 10Z"/></g><g class="live-wing"><path d="M12 10C15 1 22 0 22.5 5S17 11 12 10Z"/><path d="M12 10C15 12 20 15 19 18.5S13.5 15 12 10Z"/></g><rect x="11.4" y="5" width="1.2" height="10" rx="0.6"/></svg></span>
+          <span class="live-float live-float--2" style="--size:30px;--c:#e48aa3;--d:21s;--delay:-8s;fill:currentColor"><svg viewBox="0 0 24 20" aria-hidden="true"><g class="live-wing"><path d="M12 10C9 1 2 0 1.5 5S7 11 12 10Z"/><path d="M12 10C9 12 4 15 5 18.5S10.5 15 12 10Z"/></g><g class="live-wing"><path d="M12 10C15 1 22 0 22.5 5S17 11 12 10Z"/><path d="M12 10C15 12 20 15 19 18.5S13.5 15 12 10Z"/></g><rect x="11.4" y="5" width="1.2" height="10" rx="0.6"/></svg></span>
+          <span class="live-float live-float--3" style="--size:24px;--c:#b95775;--d:25s;--delay:-15s;fill:currentColor"><svg viewBox="0 0 24 20" aria-hidden="true"><g class="live-wing"><path d="M12 10C9 1 2 0 1.5 5S7 11 12 10Z"/><path d="M12 10C9 12 4 15 5 18.5S10.5 15 12 10Z"/></g><g class="live-wing"><path d="M12 10C15 1 22 0 22.5 5S17 11 12 10Z"/><path d="M12 10C15 12 20 15 19 18.5S13.5 15 12 10Z"/></g><rect x="11.4" y="5" width="1.2" height="10" rx="0.6"/></svg></span>
+        </div>
+        <span class="card-logo live-cover-logo" data-logo="mmi" data-logo-variant="light" role="img" aria-label="" data-i18n-attr="aria-label:cards.mmi.label"></span>
         <div class="card-tags">
           <span class="card-tag" data-i18n="cards.mmi.tag1"></span>
           <span class="card-tag" data-i18n="cards.mmi.tag2"></span>
           <span class="card-tag" data-i18n="cards.mmi.tag3"></span>
           <span class="card-tag" data-i18n="cards.mmi.tag4"></span>
-          <span class="card-tag" data-i18n="cards.mmi.tag5"></span>
         </div>
         <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:cards.mmi.tooltip;aria-label:cards.mmi.ariaLabel">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
@@ -381,15 +466,36 @@
       </article>
 
       <!-- Case study: CPQ Hub -->
-      <article class="bento-card project-card" data-card="cpq" data-expand="full" data-tooltip="" data-i18n-attr="data-tooltip:cards.cpq.tooltip">
-        <img width="1600" height="900" class="project-card-img" src="assets/projects/cpq/hero-homepage.jpg" alt="" data-i18n-attr="alt:cards.cpq.projectCardImgAlt">
+      <article class="bento-card project-card cpq-card" data-card="cpq" data-expand="full" data-expand-inset="32" data-expand-edge="12" data-tooltip="" data-i18n-attr="data-tooltip:cards.cpq.tooltip">
+        <div class="live-cover" aria-hidden="true">
+          <div class="live-dots">
+            <span class="live-dot" style="--y:8%;--s:18px;--d:26s;--delay:0s"></span>
+            <span class="live-dot" style="--y:22%;--s:8px;--d:19s;--delay:-6s"></span>
+            <span class="live-dot" style="--y:35%;--s:14px;--d:23s;--delay:-12s"></span>
+            <span class="live-dot" style="--y:48%;--s:6px;--d:17s;--delay:-3s"></span>
+            <span class="live-dot" style="--y:60%;--s:22px;--d:29s;--delay:-15s"></span>
+            <span class="live-dot" style="--y:72%;--s:10px;--d:21s;--delay:-9s"></span>
+            <span class="live-dot" style="--y:84%;--s:16px;--d:25s;--delay:-18s"></span>
+            <span class="live-dot" style="--y:15%;--s:5px;--d:15s;--delay:-7s"></span>
+            <span class="live-dot" style="--y:55%;--s:12px;--d:27s;--delay:-21s"></span>
+            <span class="live-dot" style="--y:90%;--s:7px;--d:18s;--delay:-11s"></span>
+            <span class="live-dot" style="--y:40%;--s:26px;--d:31s;--delay:-4s"></span>
+            <span class="live-dot" style="--y:66%;--s:4px;--d:16s;--delay:-14s"></span>
+          </div>
+          <span class="live-float live-float--1" style="--size:48px;--c:#a6c8ff;--d:20s;--delay:0s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="5.5" rx="1.3"/><rect x="4" y="9.25" width="16" height="5.5" rx="1.3"/><rect x="4" y="15.5" width="16" height="5.5" rx="1.3"/><circle cx="7.3" cy="5.75" r=".7" fill="currentColor"/><circle cx="7.3" cy="12" r=".7" fill="currentColor"/><circle cx="7.3" cy="18.25" r=".7" fill="currentColor"/></svg></span>
+          <span class="live-float live-float--2 live-float--spin" style="--size:48px;--c:#d4bbff;--d:18s;--delay:-7s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5l1.4 2.7a7.5 7.5 0 011.8.8l2.9-1 1.4 1.4-1 2.9a7.5 7.5 0 01.8 1.8l2.7 1.4-2.7 1.4a7.5 7.5 0 01-.8 1.8l1 2.9-1.4 1.4-2.9-1a7.5 7.5 0 01-1.8.8L12 21.5l-1.4-2.7a7.5 7.5 0 01-1.8-.8l-2.9 1-1.4-1.4 1-2.9a7.5 7.5 0 01-.8-1.8L2.5 12l2.7-1.4a7.5 7.5 0 01.8-1.8l-1-2.9 1.4-1.4 2.9 1a7.5 7.5 0 011.8-.8z"/></svg></span>
+          <span class="live-float live-float--3" style="--size:45px;--c:#a6c8ff;--d:22s;--delay:-12s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3h-6.8a1.5 1.5 0 00-1 .45L3.2 13.4a1.5 1.5 0 000 2.1l5.3 5.3a1.5 1.5 0 002.1 0l10-10a1.5 1.5 0 00.4-1z"/><circle cx="16.8" cy="7.2" r="1.8"/></svg></span>
+          <span class="live-float live-float--1" style="--size:42px;--c:#d4bbff;--d:19s;--delay:-15s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 2.5h8l5 5v13a1 1 0 01-1 1h-12a1 1 0 01-1-1v-17a1 1 0 011-1z"/><path d="M14.5 2.5v5h5M8.5 13h7M8.5 16.5h5"/></svg></span>
+          <span class="live-float live-float--2" style="--size:32px;--c:#78a9ff;--d:24s;--delay:-3s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="5.5" rx="1.3"/><rect x="4" y="9.25" width="16" height="5.5" rx="1.3"/><rect x="4" y="15.5" width="16" height="5.5" rx="1.3"/><circle cx="7.3" cy="5.75" r=".7" fill="currentColor"/><circle cx="7.3" cy="12" r=".7" fill="currentColor"/><circle cx="7.3" cy="18.25" r=".7" fill="currentColor"/></svg></span>
+        </div>
+        <span class="card-logo live-cover-mark live-cover-logo" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="21" height="16" rx="3"/><rect x="36" y="9" width="19" height="11" rx="3"/><rect x="9" y="31" width="19" height="11" rx="3"/><rect x="36" y="26" width="19" height="16" rx="3"/><path d="M9 52h46" stroke="#a56eff" stroke-width="4" stroke-linecap="round"/></svg><span data-i18n="cards.cpq.label"></span></span>
         <div class="card-tags">
-          <span class="card-tag" data-i18n="cards.cpq.tag"></span>
+          <span class="card-tag" data-i18n="cards.cpq.tag1"></span>
           <span class="card-tag" data-i18n="cards.cpq.tag2"></span>
           <span class="card-tag" data-i18n="cards.cpq.tag3"></span>
           <span class="card-tag" data-i18n="cards.cpq.tag4"></span>
         </div>
-        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:cards.cpq.tooltip2;aria-label:cards.cpq.ariaLabel">
+        <button class="action-icon" data-tooltip="" aria-label="" data-i18n-attr="data-tooltip:cards.cpq.tooltip;aria-label:cards.cpq.ariaLabel">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
         </button>
         <span class="card-label" data-i18n="cards.cpq.label"></span>
@@ -406,7 +512,7 @@
   <template id="tpl-about">
     <img width="480" height="480" class="expand-avatar" data-morph="about" src="assets/about/profile.png" alt="" data-i18n-attr="alt:modals.about.avatarAlt">
     <div class="expand-body">
-      <p data-i18n-html="modals.about.text"></p>
+      <p data-i18n-html="modals.about.text1"></p>
       <p data-i18n-html="modals.about.text2"></p>
       <p data-i18n-html="modals.about.text3"></p>
       <p data-i18n-html="modals.about.text4"></p>
@@ -448,7 +554,7 @@
         <span class="career-dot" aria-hidden="true"></span>
         <div class="career-card">
           <a class="career-company" href="https://agileengine.com/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row1.ariaLabel">
-            <img width="256" height="96" class="career-logo career-logo--light" src="assets/path/aelight.png" alt=""><img width="256" height="96" class="career-logo career-logo--dark" src="assets/path/aedark.png" alt="">
+            <img width="256" height="96" class="career-logo career-logo--light" src="assets/path/aelight.png" alt="" loading="lazy"><img width="256" height="96" class="career-logo career-logo--dark" src="assets/path/aedark.png" alt="" loading="lazy">
           </a>
           <div class="career-tags"><span data-i18n="modals.path.row1.tag1"></span><span data-i18n="modals.path.row1.tag2"></span><span data-i18n="modals.path.row1.tag3"></span><span data-i18n="modals.path.row1.tag4"></span><span data-i18n="modals.path.row1.tag5"></span><span data-i18n="modals.path.row1.tag6"></span><span data-i18n="modals.path.row1.tag7"></span><span data-i18n="modals.path.row1.tag8"></span></div>
           <div class="career-desc">
@@ -472,7 +578,7 @@
         <span class="career-dot" aria-hidden="true"></span>
         <div class="career-card">
           <a class="career-company" href="https://www.rivian.com/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row2.ariaLabel">
-            <img width="460" height="96" class="career-logo career-logo--rivian career-logo--light" src="assets/path/rivianlight.png" alt=""><img width="460" height="96" class="career-logo career-logo--rivian career-logo--dark" src="assets/path/riviandark.png" alt="">
+            <img width="966" height="202" class="career-logo career-logo--rivian career-logo--light" src="assets/path/rivian.svg" alt="" loading="lazy"><img width="966" height="202" class="career-logo career-logo--rivian career-logo--dark" src="assets/path/rivian-dark.svg" alt="" loading="lazy">
           </a>
           <div class="career-tags"><span data-i18n="modals.path.row2.tag1"></span><span data-i18n="modals.path.row2.tag2"></span><span data-i18n="modals.path.row2.tag3"></span><span data-i18n="modals.path.row2.tag4"></span><span data-i18n="modals.path.row2.tag5"></span><span data-i18n="modals.path.row2.tag6"></span></div>
           <div class="career-desc">
@@ -496,7 +602,7 @@
         <span class="career-dot" aria-hidden="true"></span>
         <div class="career-card">
           <a class="career-company" href="https://www.ibm.com/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row3.ariaLabel">
-            <img width="239" height="96" class="career-logo career-logo--ibm career-logo--light" src="assets/path/ibmlight.png" alt=""><img width="239" height="96" class="career-logo career-logo--ibm career-logo--dark" src="assets/path/ibmdark.png" alt="">
+            <img width="239" height="96" class="career-logo career-logo--ibm career-logo--light" src="assets/path/ibmlight.png" alt="" loading="lazy"><img width="239" height="96" class="career-logo career-logo--ibm career-logo--dark" src="assets/path/ibmdark.png" alt="" loading="lazy">
           </a>
           <div class="career-tags"><span data-i18n="modals.path.row3.tag1"></span><span data-i18n="modals.path.row3.tag2"></span><span data-i18n="modals.path.row3.tag3"></span><span data-i18n="modals.path.row3.tag4"></span><span data-i18n="modals.path.row3.tag5"></span><span data-i18n="modals.path.row3.tag6"></span><span data-i18n="modals.path.row3.tag7"></span><span data-i18n="modals.path.row3.tag8"></span></div>
           <div class="career-desc">
@@ -520,7 +626,7 @@
         <span class="career-dot" aria-hidden="true"></span>
         <div class="career-card">
           <a class="career-company" href="https://www.ibm.com/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row4.ariaLabel">
-            <img width="239" height="96" class="career-logo career-logo--ibm career-logo--light" src="assets/path/ibmlight.png" alt=""><img width="239" height="96" class="career-logo career-logo--ibm career-logo--dark" src="assets/path/ibmdark.png" alt="">
+            <img width="239" height="96" class="career-logo career-logo--ibm career-logo--light" src="assets/path/ibmlight.png" alt="" loading="lazy"><img width="239" height="96" class="career-logo career-logo--ibm career-logo--dark" src="assets/path/ibmdark.png" alt="" loading="lazy">
           </a>
           <div class="career-tags"><span data-i18n="modals.path.row4.tag1"></span><span data-i18n="modals.path.row4.tag2"></span><span data-i18n="modals.path.row4.tag3"></span><span data-i18n="modals.path.row4.tag4"></span><span data-i18n="modals.path.row4.tag5"></span><span data-i18n="modals.path.row4.tag6"></span><span data-i18n="modals.path.row4.tag7"></span><span data-i18n="modals.path.row4.tag8"></span></div>
           <div class="career-desc">
@@ -538,7 +644,7 @@
         <span class="career-dot" aria-hidden="true"></span>
         <div class="career-card">
           <a class="career-company" href="https://www.ibm.com/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row5.ariaLabel">
-            <img width="239" height="96" class="career-logo career-logo--ibm career-logo--light" src="assets/path/ibmlight.png" alt=""><img width="239" height="96" class="career-logo career-logo--ibm career-logo--dark" src="assets/path/ibmdark.png" alt="">
+            <img width="239" height="96" class="career-logo career-logo--ibm career-logo--light" src="assets/path/ibmlight.png" alt="" loading="lazy"><img width="239" height="96" class="career-logo career-logo--ibm career-logo--dark" src="assets/path/ibmdark.png" alt="" loading="lazy">
           </a>
           <div class="career-tags"><span data-i18n="modals.path.row5.tag1"></span><span data-i18n="modals.path.row5.tag2"></span><span data-i18n="modals.path.row5.tag3"></span><span data-i18n="modals.path.row5.tag4"></span></div>
           <div class="career-desc">
@@ -556,7 +662,7 @@
         <span class="career-dot" aria-hidden="true"></span>
         <div class="career-card">
           <a class="career-company" href="https://www.unicamp.br/" target="_blank" rel="noopener noreferrer" aria-label="" data-i18n-attr="aria-label:modals.path.row6.ariaLabel">
-            <img width="320" height="339" class="career-logo career-logo--mono" src="assets/path/unicamp.png" alt="">
+            <img width="320" height="339" class="career-logo career-logo--mono" src="assets/path/unicamp.png" alt="" loading="lazy">
           </a>
           <div class="career-tags"><span data-i18n="modals.path.row6.tag1"></span><span data-i18n="modals.path.row6.tag2"></span><span data-i18n="modals.path.row6.tag3"></span><span data-i18n="modals.path.row6.tag4"></span></div>
           <div class="career-desc">
@@ -571,27 +677,37 @@
   <template id="tpl-aiquote">
     <article class="quote-modal">
       <span class="quote-mark" aria-hidden="true">&rdquo;</span>
-      <p class="quote-modal-text" data-i18n-html="cards.aiquote.text"></p>
-      <span class="quote-label" data-morph="aiquote" data-i18n="cards.aiquote.label"></span>
-      <p class="quote-modal-soon" data-i18n="modals.aiquote.note"></p>
+      <p class="quote-modal-text" data-morph="aiquote" data-i18n-html="cards.aiquote.text"></p>
+      <div class="quote-modal-description">
+        <p data-i18n="modals.aiquote.description1"></p>
+        <p data-i18n="modals.aiquote.description2"></p>
+        <p data-i18n="modals.aiquote.description3"></p>
+      </div>
+      <span class="quote-label" data-i18n="cards.aiquote.label"></span>
     </article>
   </template>
 
   <template id="tpl-careerquote">
     <article class="quote-modal">
       <span class="quote-mark" aria-hidden="true">&rdquo;</span>
-      <p class="quote-modal-text" data-i18n-html="cards.careerquote.text"></p>
-      <span class="quote-label" data-morph="careerquote" data-i18n="cards.careerquote.label"></span>
-      <p class="quote-modal-soon" data-i18n="modals.careerquote.note"></p>
+      <p class="quote-modal-text" data-morph="careerquote" data-i18n-html="cards.careerquote.text"></p>
+      <div class="quote-modal-description">
+        <p data-i18n="modals.careerquote.description1"></p>
+      </div>
+      <span class="quote-label" data-i18n="cards.careerquote.label"></span>
     </article>
   </template>
 
   <template id="tpl-leadquote">
     <article class="quote-modal">
       <span class="quote-mark" aria-hidden="true">&rdquo;</span>
-      <p class="quote-modal-text" data-i18n-html="cards.leadquote.text"></p>
-      <span class="quote-label" data-morph="leadquote" data-i18n="cards.leadquote.label"></span>
-      <p class="quote-modal-soon" data-i18n="modals.leadquote.note"></p>
+      <p class="quote-modal-text" data-morph="leadquote" data-i18n-html="cards.leadquote.text"></p>
+      <div class="quote-modal-description">
+        <p data-i18n="modals.leadquote.description1"></p>
+        <p data-i18n="modals.leadquote.description2"></p>
+        <p data-i18n="modals.leadquote.description3"></p>
+      </div>
+      <span class="quote-label" data-i18n="cards.leadquote.label"></span>
     </article>
   </template>
 
@@ -680,7 +796,7 @@
     <article class="cs">
       <header class="cs-head">
         <div class="cs-tags">
-          <span data-i18n="modals.mmi.head.tag1"></span><span data-i18n="modals.mmi.head.tag2"></span><span data-i18n="modals.mmi.head.tag3"></span><span data-i18n="modals.mmi.head.tag4"></span><span data-i18n="modals.mmi.head.tag5"></span><div class="cs-logo" data-logo="mmi" role="img" aria-label="" data-i18n-attr="aria-label:cards.mmi.label"></div>
+          <span data-i18n="modals.mmi.head.tag1"></span><span data-i18n="modals.mmi.head.tag2"></span><span data-i18n="modals.mmi.head.tag3"></span><span data-i18n="modals.mmi.head.tag4"></span><div class="cs-logo" data-logo="mmi" role="img" aria-label="" data-i18n-attr="aria-label:cards.mmi.label"></div>
         </div>
         <h1 class="cs-title" data-i18n="modals.mmi.head.title"></h1>
         <p class="cs-lede" data-i18n="modals.mmi.head.lede"></p>
@@ -768,7 +884,6 @@
             </ul>
           </div>
         </div>
-        <p class="cs-note" data-i18n="modals.mmi.platform.note"></p>
       </section>
 
       <section class="cs-section">
@@ -916,22 +1031,55 @@
       <section class="cs-section">
         <h2 class="cs-section-title" data-i18n="modals.mmi.frontoffice.title"></h2>
         <p class="cs-text" data-i18n="modals.mmi.frontoffice.text"></p>
-      <figure class="cs-figure cs-full cs-figure--tall">
-        <img width="1440" height="5568" src="assets/projects/mmi/fo-home.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.mmi.frontoffice.fig1Alt">
-        <figcaption data-i18n="modals.mmi.frontoffice.fig1Cap"></figcaption>
-      </figure>
-      <figure class="cs-figure cs-full cs-figure--tall">
-        <img width="1440" height="5094" src="assets/projects/mmi/fo-trainings.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.mmi.frontoffice.fig2Alt">
-        <figcaption data-i18n="modals.mmi.frontoffice.fig2Cap"></figcaption>
-      </figure>
-      <figure class="cs-figure cs-full cs-figure--tall">
-        <img width="1138" height="1600" src="assets/projects/mmi/fo-checkout.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.mmi.frontoffice.fig3Alt">
-        <figcaption data-i18n="modals.mmi.frontoffice.fig3Cap"></figcaption>
-      </figure>
-      <figure class="cs-figure cs-full cs-figure--tall">
-        <img width="188" height="1600" src="assets/projects/mmi/fo-dashboard-mobile.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.mmi.frontoffice.fig4Alt">
-        <figcaption data-i18n="modals.mmi.frontoffice.fig4Cap"></figcaption>
-      </figure>
+
+        <div class="case-switch" data-switch-pinned role="tablist" aria-label="" data-i18n-attr="aria-label:modals.mmi.frontoffice.switchLabel">
+          <span class="case-switch-indicator" aria-hidden="true"></span>
+          <button class="case-tab active" type="button" role="tab" aria-selected="true" data-case="home" data-i18n="modals.mmi.frontoffice.tab1"></button>
+          <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="trainings" data-i18n="modals.mmi.frontoffice.tab2"></button>
+          <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="checkout" data-i18n="modals.mmi.frontoffice.tab3"></button>
+          <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="dashboard" data-i18n="modals.mmi.frontoffice.tab4"></button>
+        </div>
+
+        <div class="case-panel" data-case-panel="home">
+          <figure class="cs-figure cs-full cs-proto">
+            <figcaption data-i18n="modals.mmi.frontoffice.fig1Cap"></figcaption>
+            <div class="cs-proto-frame">
+              <div class="cs-proto-scroll" tabindex="0">
+                <img width="1440" height="5568" src="assets/projects/mmi/fo-home.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.mmi.frontoffice.fig1Alt">
+              </div>
+            </div>
+          </figure>
+        </div>
+        <div class="case-panel" data-case-panel="trainings">
+          <figure class="cs-figure cs-full cs-proto">
+            <figcaption data-i18n="modals.mmi.frontoffice.fig2Cap"></figcaption>
+            <div class="cs-proto-frame">
+              <div class="cs-proto-scroll" tabindex="0">
+                <img width="1440" height="5094" src="assets/projects/mmi/fo-trainings.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.mmi.frontoffice.fig2Alt">
+              </div>
+            </div>
+          </figure>
+        </div>
+        <div class="case-panel" data-case-panel="checkout">
+          <figure class="cs-figure cs-full cs-proto">
+            <figcaption data-i18n="modals.mmi.frontoffice.fig3Cap"></figcaption>
+            <div class="cs-proto-frame">
+              <div class="cs-proto-scroll" tabindex="0">
+                <img width="1138" height="1600" src="assets/projects/mmi/fo-checkout.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.mmi.frontoffice.fig3Alt">
+              </div>
+            </div>
+          </figure>
+        </div>
+        <div class="case-panel" data-case-panel="dashboard">
+          <figure class="cs-figure cs-full cs-proto">
+            <figcaption data-i18n="modals.mmi.frontoffice.fig4Cap"></figcaption>
+            <div class="cs-proto-frame">
+              <div class="cs-proto-scroll" tabindex="0">
+                <img width="188" height="1600" src="assets/projects/mmi/fo-dashboard-mobile.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.mmi.frontoffice.fig4Alt">
+              </div>
+            </div>
+          </figure>
+        </div>
       </section>
       <section class="cs-section">
         <h2 class="cs-section-title" data-i18n="modals.mmi.backoffice.title"></h2>
@@ -1079,337 +1227,366 @@
     <article class="cs">
       <header class="cs-head">
         <div class="cs-tags">
-          <span data-i18n="modals.cpq.head.text"></span><span data-i18n="modals.cpq.head.text2"></span><span data-i18n="modals.cpq.head.text3"></span><span data-i18n="modals.cpq.head.text4"></span><div class="cs-logo" data-logo="ibm" role="img" aria-label="" data-i18n-attr="aria-label:cards.cpq.logoLabel"></div>
+          <span data-i18n="modals.cpq.head.tag1"></span><span data-i18n="modals.cpq.head.tag2"></span><span data-i18n="modals.cpq.head.tag3"></span><span data-i18n="modals.cpq.head.tag4"></span><span data-i18n="modals.cpq.head.tag5"></span><div class="cs-logo" data-logo="ibm" role="img" aria-label="" data-i18n-attr="aria-label:cards.cpq.logoLabel"></div>
         </div>
         <h1 class="cs-title" data-i18n="modals.cpq.head.title"></h1>
         <p class="cs-lede" data-i18n="modals.cpq.head.lede"></p>
-        <button class="tldr-toggle" type="button" aria-pressed="false">
-          <span class="tldr-toggle__label" data-i18n="ui.tldrFullStory"></span>
-        </button>
       </header>
 
       <figure class="cs-figure cs-figure--hero">
-        <img width="1600" height="900" src="assets/projects/cpq/hero-homepage.jpg" alt="" data-i18n-attr="alt:modals.cpq.imageAlt">
+        <img width="1878" height="1358" src="assets/projects/cpq/hero.jpg" alt="" data-i18n-attr="alt:modals.cpq.imageAlt">
       </figure>
 
       <section class="cs-section">
         <h2 class="cs-section-title" data-i18n="modals.cpq.myRole.sectionTitle"></h2>
         <p class="cs-meta" data-i18n-html="modals.cpq.myRole.meta"></p>
-        <p class="cs-text cs-full" data-i18n="modals.cpq.myRole.text"></p>
+        <p class="cs-text cs-full" data-i18n-html="modals.cpq.myRole.text"></p>
       </section>
 
       <section class="cs-section">
         <h2 class="cs-section-title" data-i18n="modals.cpq.impact.sectionTitle"></h2>
 
-        <h3 class="cs-sub" data-i18n="modals.cpq.impact.sub"></h3>
-        <p class="cs-text cs-full" data-i18n="modals.cpq.impact.text"></p>
-
-        <h3 class="cs-sub" data-i18n="modals.cpq.impact.sub2"></h3>
-        <p class="cs-text cs-full" data-i18n="modals.cpq.impact.text2"></p>
-
-        <h3 class="cs-sub" data-i18n="modals.cpq.impact.sub3"></h3>
-        <p class="cs-text cs-full" data-i18n="modals.cpq.impact.text3"></p>
-
-        <h3 class="cs-sub" data-i18n="modals.cpq.impact.sub4"></h3>
-        <p class="cs-text cs-full" data-i18n="modals.cpq.impact.text4"></p>
-
-        <h3 class="cs-sub" data-i18n="modals.cpq.impact.sub5"></h3>
-        <p class="cs-text cs-full" data-i18n="modals.cpq.impact.text5"></p>
+        <ul class="cs-impact">
+          <li><span class="cs-impact-icon" aria-hidden="true" data-i18n="modals.cpq.impact.icon5"></span><div><h3 data-i18n="modals.cpq.impact.sub5"></h3><p class="cs-full" data-i18n="modals.cpq.impact.text5"></p></div></li>
+          <li><span class="cs-impact-icon" aria-hidden="true" data-i18n="modals.cpq.impact.icon1"></span><div><h3 data-i18n="modals.cpq.impact.sub1"></h3><p class="cs-full" data-i18n="modals.cpq.impact.text1"></p></div></li>
+          <li><span class="cs-impact-icon" aria-hidden="true" data-i18n="modals.cpq.impact.icon2"></span><div><h3 data-i18n="modals.cpq.impact.sub2"></h3><p class="cs-full" data-i18n="modals.cpq.impact.text2"></p></div></li>
+          <li><span class="cs-impact-icon" aria-hidden="true" data-i18n="modals.cpq.impact.icon3"></span><div><h3 data-i18n="modals.cpq.impact.sub3"></h3><p class="cs-full" data-i18n="modals.cpq.impact.text3"></p></div></li>
+          <li><span class="cs-impact-icon" aria-hidden="true" data-i18n="modals.cpq.impact.icon4"></span><div><h3 data-i18n="modals.cpq.impact.sub4"></h3><p class="cs-full" data-i18n="modals.cpq.impact.text4"></p></div></li>
+        </ul>
       </section>
 
       <section class="cs-section">
         <span class="cs-eyebrow cs-eyebrow--observe" data-i18n="modals.cpq.problem.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.problem.sectionTitle"></h2>
-        <p class="cs-text" data-i18n-html="modals.cpq.problem.text"></p>
+        <p class="cs-text" data-i18n-html="modals.cpq.problem.text1"></p>
         <p class="cs-text cs-full" data-i18n="modals.cpq.problem.text2"></p>
-        <div class="cs-grid">
-          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile1.title"></h4></div>
-          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile2.title"></h4></div>
-          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile3.title"></h4></div>
-          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile4.title"></h4><p data-i18n="modals.cpq.problem.tile4.text"></p></div>
-          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile5.title"></h4></div>
-          <div class="cs-tile cs-tile--problem"><h4 data-i18n="modals.cpq.problem.tile6.title"></h4></div>
-        </div>
+        <div class="deck" data-deck="problem"><div class="deck-canvas" style="--deck-w:1647;aspect-ratio:1647/956">
+        <div class="deck-box" style="left:45.355%;top:0%;width:18.215%;height:31.381%;background:#d7306d"></div>
+        <div class="deck-text" style="left:45.962%;top:10.356%;width:17.001%;height:10.669%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*32);font-weight:700;line-height:1.6;color:#ffffff;text-align:center"><span data-i18n-html="modals.cpq.deck.problem.t1"></span></div>
+        <div class="deck-box" style="left:81.785%;top:0%;width:18.215%;height:31.381%;background:#ee538b"></div>
+        <div class="deck-text" style="left:82.392%;top:10.356%;width:17.001%;height:10.669%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*32);font-weight:400;line-height:1.6;color:#ffffff;text-align:center"><span data-i18n-html="modals.cpq.deck.problem.t2"></span></div>
+        <div class="deck-box" style="left:81.785%;top:31.381%;width:18.215%;height:31.381%;background:#740937"></div>
+        <div class="deck-text" style="left:83.06%;top:38.285%;width:15.665%;height:17.573%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*22);font-weight:400;line-height:1.6;color:#ffffff;text-align:center"><span style="font-size:calc(var(--u)*32);line-height:1.6" data-i18n-html="modals.cpq.deck.problem.t3"></span><br><span data-i18n-html="modals.cpq.deck.problem.t4"></span></div>
+        <div class="deck-box" style="left:63.57%;top:0%;width:18.215%;height:31.381%;background:#a11950"></div>
+        <div class="deck-text" style="left:64.177%;top:7.688%;width:17.001%;height:16.004%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*32);font-weight:400;line-height:1.6;color:#ffffff;text-align:center"><span data-i18n-html="modals.cpq.deck.problem.t5"></span></div>
+        <img class="deck-img" style="left:0%;top:35.356%;width:65.331%;height:64.644%" src="assets/projects/cpq/deck/problem-1.png" alt="" loading="lazy">
+        <div class="deck-box" style="left:81.785%;top:62.762%;width:18.215%;height:31.381%;background:#a11950"></div>
+        <div class="deck-text" style="left:82.392%;top:70.45%;width:17.001%;height:16.004%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*32);font-weight:400;line-height:1.6;color:#ffffff;text-align:center"><span data-i18n-html="modals.cpq.deck.problem.t6"></span></div>
+        <div class="deck-box" style="left:63.57%;top:62.762%;width:18.215%;height:31.381%;background:#d7306d"></div>
+        <div class="deck-text" style="left:64.177%;top:70.45%;width:17.001%;height:16.004%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*32);font-weight:400;line-height:1.6;color:#ffffff;text-align:center"><span data-i18n-html="modals.cpq.deck.problem.t7"></span></div>
+        <div class="deck-text" style="left:0%;top:19.351%;width:32.301%;height:7.531%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*20);font-weight:400;line-height:1.6;color:var(--deck-ink);text-align:left;white-space:nowrap"><span style="font-size:calc(var(--u)*26);line-height:1.6" data-i18n-html="modals.cpq.deck.problem.t8"></span><br><span data-i18n-html="modals.cpq.deck.problem.t9"></span></div>
+        </div></div>
       </section>
 
       <section class="cs-section">
         <span class="cs-eyebrow cs-eyebrow--define" data-i18n="modals.cpq.goals.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.goals.sectionTitle"></h2>
-        <ul class="cs-list">
-          <li data-i18n="modals.cpq.goals.item"></li>
-          <li data-i18n="modals.cpq.goals.item2"></li>
-          <li data-i18n="modals.cpq.goals.item3"></li>
-        </ul>
-        <div class="cs-grid">
-          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile1.title"></h4><p data-i18n="modals.cpq.goals.tile1.text"></p></div>
-          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile2.title"></h4><p data-i18n="modals.cpq.goals.tile2.text"></p></div>
-          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile3.title"></h4></div>
-          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile4.title"></h4></div>
-          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile5.title"></h4></div>
-          <div class="cs-tile cs-tile--goal"><h4 data-i18n="modals.cpq.goals.tile6.title"></h4></div>
-        </div>
+        <div class="deck" data-deck="goals"><div class="deck-canvas" style="--deck-w:1501;aspect-ratio:1501/921">
+        <div class="deck-text" style="left:41.173%;top:35.396%;width:51.899%;height:5.212%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*28);font-weight:400;line-height:1.714;color:var(--deck-ink);text-align:left"><span data-i18n-html="modals.cpq.deck.goals.t1"></span></div>
+        <div class="deck-text" style="left:41.173%;top:44.951%;width:51.899%;height:5.212%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*28);font-weight:400;line-height:1.714;color:var(--deck-ink);text-align:left"><span data-i18n-html="modals.cpq.deck.goals.t2"></span></div>
+        <div class="deck-text" style="left:41.173%;top:54.506%;width:51.899%;height:5.212%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*28);font-weight:400;line-height:1.714;color:var(--deck-ink);text-align:left"><span data-i18n-html="modals.cpq.deck.goals.t3"></span></div>
+        <div class="deck-box" style="left:0.067%;top:24.973%;width:33.311%;height:24.973%;background:#6fa9ff"></div>
+        <img class="deck-img" style="left:2.199%;top:33.116%;width:5.33%;height:8.686%" src="assets/projects/cpq/deck/goals-1.png" alt="" loading="lazy">
+        <div class="deck-text" style="left:9.66%;top:30.456%;width:21.586%;height:14.007%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*20);font-weight:400;line-height:1.6;color:#ffffff;text-align:center"><span style="font-size:calc(var(--u)*32);line-height:1.6" data-i18n-html="modals.cpq.deck.goals.t4"></span><br><span data-i18n-html="modals.cpq.deck.goals.t5"></span></div>
+        <div class="deck-box" style="left:66.689%;top:74.919%;width:33.311%;height:24.973%;background:#4589ff"></div>
+        <img class="deck-img" style="left:68.821%;top:83.238%;width:5.981%;height:8.334%" src="assets/projects/cpq/deck/goals-2.png" alt="" loading="lazy">
+        <div class="deck-text" style="left:76.882%;top:81.868%;width:20.986%;height:11.075%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*32);font-weight:400;line-height:1.6;color:#ffffff;text-align:center"><span data-i18n-html="modals.cpq.deck.goals.t6"></span><br><span data-i18n-html="modals.cpq.deck.goals.t7"></span></div>
+        <div class="deck-box" style="left:0.067%;top:49.946%;width:33.311%;height:24.973%;background:#4589ff"></div>
+        <img class="deck-img" style="left:2.199%;top:58.089%;width:5.33%;height:8.686%" src="assets/projects/cpq/deck/goals-3.png" alt="" loading="lazy">
+        <div class="deck-text" style="left:9.66%;top:56.895%;width:21.586%;height:11.075%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*32);font-weight:400;line-height:1.6;color:#ffffff;text-align:center"><span data-i18n-html="modals.cpq.deck.goals.t8"></span><br><span data-i18n-html="modals.cpq.deck.goals.t9"></span></div>
+        <div class="deck-box" style="left:0.067%;top:0%;width:33.311%;height:24.973%;background:#003687"></div>
+        <img class="deck-img" style="left:2.199%;top:8.143%;width:5.33%;height:8.686%" src="assets/projects/cpq/deck/goals-4.png" alt="" loading="lazy">
+        <div class="deck-text" style="left:9.66%;top:3.746%;width:21.586%;height:17.481%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*20);font-weight:400;line-height:1.6;color:#ffffff;text-align:center"><span style="font-size:calc(var(--u)*32);line-height:1.6" data-i18n-html="modals.cpq.deck.goals.t10"></span><br><span style="font-size:calc(var(--u)*32);line-height:1.6" data-i18n-html="modals.cpq.deck.goals.t11"></span><br><span data-i18n-html="modals.cpq.deck.goals.t12"></span></div>
+        <div class="deck-box" style="left:0.067%;top:74.919%;width:33.311%;height:24.973%;background:#001d6c"></div>
+        <img class="deck-img" style="left:2.199%;top:83.062%;width:5.33%;height:8.686%" src="assets/projects/cpq/deck/goals-5.png" alt="" loading="lazy">
+        <div class="deck-text" style="left:9.66%;top:79.045%;width:21.586%;height:16.721%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*32);font-weight:400;line-height:1.6;color:#ffffff;text-align:center"><span data-i18n-html="modals.cpq.deck.goals.t13"></span></div>
+        <div class="deck-box" style="left:33.378%;top:74.919%;width:33.311%;height:24.973%;background:#0e61fe"></div>
+        <img class="deck-img" style="left:35.51%;top:83.062%;width:5.33%;height:8.686%" src="assets/projects/cpq/deck/goals-6.png" alt="" loading="lazy">
+        <div class="deck-text" style="left:42.971%;top:81.868%;width:21.586%;height:11.075%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*32);font-weight:400;line-height:1.6;color:#ffffff;text-align:center"><span data-i18n-html="modals.cpq.deck.goals.t14"></span><br><span data-i18n-html="modals.cpq.deck.goals.t15"></span></div>
+        </div></div>
       </section>
 
       <section class="cs-section">
         <span class="cs-eyebrow cs-eyebrow--define" data-i18n="modals.cpq.solution.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.solution.sectionTitle"></h2>
-        <p class="cs-text" data-i18n="modals.cpq.solution.text"></p>
-        <div class="cs-solution">
-          <span class="cs-solution__brand">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-              <rect x="3" y="3" width="8" height="6" rx="1.2"></rect><rect x="14" y="3" width="7" height="4" rx="1.2"></rect>
-              <rect x="3" y="12" width="7" height="4" rx="1.2"></rect><rect x="14" y="10" width="7" height="6" rx="1.2"></rect>
-            </svg>
-            <span data-i18n="modals.cpq.solution.solutionBrandLabel"></span>
-          </span>
-          <ul class="cs-solution__items">
-            <li>
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
-                <rect x="8" y="6" width="32" height="11" rx="2.5"></rect>
-                <rect x="8" y="18.5" width="32" height="11" rx="2.5"></rect>
-                <rect x="8" y="31" width="32" height="11" rx="2.5"></rect>
-                <circle cx="14.5" cy="11.5" r="1.7" fill="currentColor" stroke="none"></circle>
-                <circle cx="14.5" cy="24" r="1.7" fill="currentColor" stroke="none"></circle>
-                <circle cx="14.5" cy="36.5" r="1.7" fill="currentColor" stroke="none"></circle>
-              </svg>
-              <span data-i18n="modals.cpq.solution.text2"></span>
-            </li>
-            <li>
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="24" cy="24" r="7.5"></circle>
-                <path d="M24 4.5l2.7 5.3a15 15 0 013.6 1.5L36 9.4l2.6 2.6-1.9 5.7a15 15 0 011.5 3.6l5.3 2.7-5.3 2.7a15 15 0 01-1.5 3.6l1.9 5.7L36 38.6l-5.7-1.9a15 15 0 01-3.6 1.5L24 43.5l-2.7-5.3a15 15 0 01-3.6-1.5L12 38.6 9.4 36l1.9-5.7a15 15 0 01-1.5-3.6L4.5 24l5.3-2.7a15 15 0 011.5-3.6L9.4 12 12 9.4l5.7 1.9a15 15 0 013.6-1.5z"></path>
-              </svg>
-              <span data-i18n="modals.cpq.solution.text3"></span>
-            </li>
-            <li>
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                <path d="M43 5.5H29.4a3 3 0 00-2.1.9L6.4 27.3a3 3 0 000 4.2l10.1 10.1a3 3 0 004.2 0l20.9-20.9a3 3 0 00.9-2.1z"></path>
-                <circle cx="34.5" cy="13.5" r="3.6"></circle>
-              </svg>
-              <span data-i18n="modals.cpq.solution.text4"></span>
-            </li>
-            <li>
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 5h16l10 10v26a2.5 2.5 0 01-2.5 2.5h-23.5A2.5 2.5 0 019.5 41V7.5A2.5 2.5 0 0112 5z"></path>
-                <path d="M28 5v10h10"></path>
-                <path d="M17 26h14M17 33h10"></path>
-              </svg>
-              <span data-i18n="modals.cpq.solution.text5"></span>
-            </li>
-          </ul>
-        </div>
+        <div class="deck" data-deck="solution"><div class="deck-canvas" style="--deck-w:1629;aspect-ratio:1629/812">
+        <div class="deck-text" style="left:0.552%;top:0%;width:99.448%;height:41.379%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*24);font-weight:400;line-height:2;color:var(--deck-ink);text-align:left"><span data-i18n-html="modals.cpq.deck.solution.t1"></span><br><br><span data-i18n-html="modals.cpq.deck.solution.t2"></span></div>
+        <div class="deck-box" style="left:10.399%;top:46.305%;width:72.192%;height:27.586%;background:#a56eff"></div>
+        <img class="deck-img" style="left:39.217%;top:49.064%;width:4.125%;height:8.276%" src="assets/projects/cpq/deck/solution-1.png" alt="" loading="lazy">
+        <div class="deck-text" style="left:44.442%;top:49.692%;width:9.331%;height:7.02%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*35.84);font-weight:500;line-height:1.6;color:#6e32c9;text-align:left;white-space:nowrap"><span data-i18n-html="modals.cpq.deck.solution.t3"></span></div>
+        <img class="deck-img" style="left:17.825%;top:59.202%;width:64.766%;height:14.69%" src="assets/projects/cpq/deck/solution-2.png" alt="" loading="lazy">
+        <div class="deck-box" style="left:17.962%;top:73.892%;width:72.192%;height:26.069%;background:#6e32c9"></div>
+        <img class="deck-img" style="left:17.962%;top:73.892%;width:64.629%;height:14.69%" src="assets/projects/cpq/deck/solution-3.png" alt="" loading="lazy">
+        <div class="deck-text" style="left:20.575%;top:90.03%;width:9.822%;height:7.02%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*35.84);font-weight:400;line-height:1.6;color:#dbaefb;text-align:left;white-space:nowrap"><span data-i18n-html="modals.cpq.deck.solution.t4"></span></div>
+        <div class="deck-text" style="left:35.426%;top:90.03%;width:14.18%;height:7.02%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*35.84);font-weight:400;line-height:1.6;color:#dbaefb;text-align:left;white-space:nowrap"><span data-i18n-html="modals.cpq.deck.solution.t5"></span></div>
+        <div class="deck-text" style="left:56.395%;top:90.03%;width:5.279%;height:7.02%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*35.84);font-weight:400;line-height:1.6;color:#dbaefb;text-align:left;white-space:nowrap"><span data-i18n-html="modals.cpq.deck.solution.t6"></span></div>
+        <div class="deck-text" style="left:72.553%;top:90.03%;width:6.2%;height:7.02%;font-family:'Rubik',var(--font-primary);font-size:calc(var(--u)*35.84);font-weight:400;line-height:1.6;color:#dbaefb;text-align:left;white-space:nowrap"><span data-i18n-html="modals.cpq.deck.solution.t7"></span></div>
+        </div></div>
       </section>
 
       <section class="cs-section">
         <span class="cs-eyebrow" data-i18n="modals.cpq.designProcess.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.designProcess.sectionTitle"></h2>
-        <ol class="cs-phases">
-          <li style="--c:var(--cs-blue)"><h4 data-i18n="modals.cpq.designProcess.title"></h4><p data-i18n="modals.cpq.designProcess.text"></p></li>
-          <li style="--c:var(--cs-blue-soft)"><h4 data-i18n="modals.cpq.designProcess.title2"></h4><p data-i18n="modals.cpq.designProcess.text2"></p></li>
-          <li style="--c:var(--cs-purple)"><h4 data-i18n="modals.cpq.designProcess.title3"></h4><p data-i18n="modals.cpq.designProcess.text3"></p></li>
-          <li style="--c:var(--cs-magenta)"><h4 data-i18n="modals.cpq.designProcess.title4"></h4><p data-i18n="modals.cpq.designProcess.text4"></p></li>
-        </ol>
-        <div class="cs-steps cs-full">
-          <section class="cs-step" style="--c:var(--cs-blue)">
-            <h4 data-i18n="modals.cpq.section7.title"></h4>
-            <ul>
-              <li data-i18n="modals.cpq.section7.item"></li>
-              <li data-i18n="modals.cpq.section7.item2"></li>
-              <li data-i18n="modals.cpq.section7.item3"></li>
-              <li data-i18n="modals.cpq.section7.item4"></li>
-              <li data-i18n="modals.cpq.section7.item5"></li>
-              <li data-i18n="modals.cpq.section7.item6"></li>
-            </ul>
-          </section>
-          <section class="cs-step" style="--c:var(--cs-purple)">
-            <h4 data-i18n="modals.cpq.section8.title"></h4>
-            <ul>
-              <li data-i18n="modals.cpq.section8.item"></li>
-              <li data-i18n="modals.cpq.section8.item2"></li>
-              <li data-i18n="modals.cpq.section8.item3"></li>
-              <li data-i18n="modals.cpq.section8.item4"></li>
-              <li data-i18n="modals.cpq.section8.item5"></li>
-            </ul>
-          </section>
-          <section class="cs-step" style="--c:var(--cs-blue-soft)">
-            <h4 data-i18n="modals.cpq.section9.title"></h4>
-            <ul>
-              <li data-i18n="modals.cpq.section9.item"></li>
-              <li data-i18n="modals.cpq.section9.item2"></li>
-              <li data-i18n="modals.cpq.section9.item3"></li>
-              <li data-i18n="modals.cpq.section9.item4"></li>
-              <li data-i18n="modals.cpq.section9.item5"></li>
-            </ul>
-          </section>
-          <section class="cs-step" style="--c:var(--cs-magenta)">
-            <h4 data-i18n="modals.cpq.section10.title"></h4>
-            <ul>
-              <li data-i18n="modals.cpq.section10.item"></li>
-              <li data-i18n="modals.cpq.section10.item2"></li>
-              <li data-i18n="modals.cpq.section10.item3"></li>
-              <li data-i18n="modals.cpq.section10.item4"></li>
-              <li data-i18n="modals.cpq.section10.item5"></li>
-            </ul>
-          </section>
-          <section class="cs-step" style="--c:var(--cs-magenta)">
-            <h4 data-i18n="modals.cpq.section11.title"></h4>
-            <ul>
-              <li data-i18n="modals.cpq.section11.item"></li>
-              <li data-i18n="modals.cpq.section11.item2"></li>
-              <li data-i18n="modals.cpq.section11.item3"></li>
-              <li data-i18n="modals.cpq.section11.item4"></li>
-              <li data-i18n="modals.cpq.section11.item5"></li>
-            </ul>
-          </section>
-          <section class="cs-step" style="--c:var(--cs-cyan)">
-            <h4 data-i18n="modals.cpq.section12.title"></h4>
-            <ul>
-              <li data-i18n="modals.cpq.section12.item"></li>
-              <li data-i18n="modals.cpq.section12.item2"></li>
-              <li data-i18n="modals.cpq.section12.item3"></li>
-            </ul>
-          </section>
-        </div>
+<div class="deck deck--slide" data-deck="process"><div class="deck-canvas" style="--deck-w:1544">
+<i class="deck-loop" aria-hidden="true"></i><ol class="deck-phases"><li style="--c:#77a9ff"><i class="deck-node"></i><h4 data-i18n="modals.cpq.designProcess.title1"></h4><p data-i18n="modals.cpq.designProcess.text1"></p></li><li style="--c:#77a9ff"><i class="deck-node"></i><h4 data-i18n="modals.cpq.designProcess.title2"></h4><p data-i18n="modals.cpq.designProcess.text2"></p></li><li style="--c:#a56eff"><i class="deck-node"></i><h4 data-i18n="modals.cpq.designProcess.title3"></h4><p data-i18n="modals.cpq.designProcess.text3"></p></li><li style="--c:#ee5396;--t:#ff7eb6"><i class="deck-node"></i><h4 data-i18n="modals.cpq.designProcess.title4"></h4><p data-i18n="modals.cpq.designProcess.text4"></p></li></ol>
+<div class="deck-stages cs-full"><section style="--c:#77a9ff"><h4 data-i18n="modals.cpq.section7.title"></h4><ul><li data-i18n="modals.cpq.section7.item1"></li><li data-i18n="modals.cpq.section7.item2"></li><li data-i18n="modals.cpq.section7.item3"></li><li data-i18n="modals.cpq.section7.item4"></li><li data-i18n="modals.cpq.section7.item5"></li><li data-i18n="modals.cpq.section7.item6"></li></ul></section><section style="--c:#be95ff"><h4 data-i18n="modals.cpq.section8.title"></h4><ul><li data-i18n="modals.cpq.section8.item1"></li><li data-i18n="modals.cpq.section8.item2"></li><li data-i18n="modals.cpq.section8.item3"></li><li data-i18n="modals.cpq.section8.item4"></li><li data-i18n="modals.cpq.section8.item5"></li></ul></section><section style="--c:#be95ff"><h4 data-i18n="modals.cpq.section9.title"></h4><ul><li data-i18n="modals.cpq.section9.item1"></li><li data-i18n="modals.cpq.section9.item2"></li><li data-i18n="modals.cpq.section9.item3"></li><li data-i18n="modals.cpq.section9.item4"></li><li data-i18n="modals.cpq.section9.item5"></li></ul></section><section style="--c:#ff7eb6"><h4 data-i18n="modals.cpq.section10.title"></h4><ul><li data-i18n="modals.cpq.section10.item1"></li><li data-i18n="modals.cpq.section10.item2"></li><li data-i18n="modals.cpq.section10.item3"></li><li data-i18n="modals.cpq.section10.item4"></li><li data-i18n="modals.cpq.section10.item5"></li></ul></section><section style="--c:#ff7eb6"><h4 data-i18n="modals.cpq.section11.title"></h4><ul><li data-i18n="modals.cpq.section11.item1"></li><li data-i18n="modals.cpq.section11.item2"></li><li data-i18n="modals.cpq.section11.item3"></li><li data-i18n="modals.cpq.section11.item4"></li><li data-i18n="modals.cpq.section11.item5"></li></ul></section><section style="--c:#77a9ff"><h4 data-i18n="modals.cpq.section12.title"></h4><ul><li data-i18n="modals.cpq.section12.item1"></li><li data-i18n="modals.cpq.section12.item2"></li><li data-i18n="modals.cpq.section12.item3"></li></ul></section></div>
+</div></div>
       </section>
 
       <section class="cs-section">
         <span class="cs-eyebrow" data-i18n="modals.cpq.designStrategy.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.designStrategy.sectionTitle"></h2>
-        <p class="cs-text" data-i18n="modals.cpq.designStrategy.text"></p>
-        <div class="cs-tile" style="margin:20px 0;">
-          <h4 data-i18n="modals.cpq.designStrategy.tile1.title"></h4>
-          <p data-i18n="modals.cpq.designStrategy.tile1.text"></p>
-        </div>
-        <div class="cs-grid cs-full">
-          <div class="cs-tile">
-            <h4 data-i18n="modals.cpq.designStrategy.tile1.title2"></h4>
-            <ul class="cs-list"><li data-i18n="modals.cpq.designStrategy.tile1.item"></li><li data-i18n="modals.cpq.designStrategy.tile1.item2"></li><li data-i18n="modals.cpq.designStrategy.tile1.item3"></li><li data-i18n="modals.cpq.designStrategy.tile1.item4"></li></ul>
-          </div>
-          <div class="cs-tile">
-            <h4 data-i18n="modals.cpq.designStrategy.tile2.title"></h4>
-            <ul class="cs-list"><li data-i18n="modals.cpq.designStrategy.tile2.item"></li><li data-i18n="modals.cpq.designStrategy.tile2.item2"></li><li data-i18n="modals.cpq.designStrategy.tile2.item3"></li></ul>
-          </div>
-          <div class="cs-tile">
-            <h4 data-i18n="modals.cpq.designStrategy.tile3.title"></h4>
-            <ul class="cs-list"><li data-i18n="modals.cpq.designStrategy.tile3.item"></li><li data-i18n="modals.cpq.designStrategy.tile3.item2"></li><li data-i18n="modals.cpq.designStrategy.tile3.item3"></li><li data-i18n="modals.cpq.designStrategy.tile3.item4"></li><li data-i18n="modals.cpq.designStrategy.tile3.item5"></li></ul>
-          </div>
-          <div class="cs-tile">
-            <h4 data-i18n="modals.cpq.designStrategy.tile4.title"></h4>
-            <ul class="cs-list"><li data-i18n="modals.cpq.designStrategy.tile4.item"></li><li data-i18n="modals.cpq.designStrategy.tile4.item2"></li><li data-i18n="modals.cpq.designStrategy.tile4.item3"></li><li data-i18n="modals.cpq.designStrategy.tile4.item4"></li><li data-i18n="modals.cpq.designStrategy.tile4.item5"></li><li data-i18n="modals.cpq.designStrategy.tile4.item6"></li></ul>
-          </div>
-        </div>
+        <div class="deck deck--slide deck--gradient" data-deck="strategy"><div class="deck-canvas deck-strategy" style="--deck-w:1552">
+<div class="deck-strategy-top"><p class="deck-strategy-lede" data-i18n-html="modals.cpq.deck.strategy.t16"></p><section class="deck-card deck-card--wide"><h4 data-i18n-html="modals.cpq.deck.strategy.t1"></h4><p data-i18n-html="modals.cpq.deck.strategy.t2"></p></section></div>
+<div class="deck-strategy-cards"><section class="deck-card"><h4 data-i18n-html="modals.cpq.deck.strategy.t17"></h4><ul><li data-i18n-html="modals.cpq.deck.strategy.t18"></li><li data-i18n-html="modals.cpq.deck.strategy.t19"></li><li data-i18n-html="modals.cpq.deck.strategy.t20"></li><li data-i18n-html="modals.cpq.deck.strategy.t21"></li></ul></section><section class="deck-card"><h4 data-i18n-html="modals.cpq.deck.strategy.t22"></h4><ul><li data-i18n-html="modals.cpq.deck.strategy.t23"></li><li data-i18n-html="modals.cpq.deck.strategy.t24"></li><li data-i18n-html="modals.cpq.deck.strategy.t25"></li></ul></section><section class="deck-card"><h4 data-i18n-html="modals.cpq.deck.strategy.t3"></h4><ul><li data-i18n-html="modals.cpq.deck.strategy.t4"></li><li data-i18n-html="modals.cpq.deck.strategy.t5"></li><li data-i18n-html="modals.cpq.deck.strategy.t6"></li><li data-i18n-html="modals.cpq.deck.strategy.t7"></li><li data-i18n-html="modals.cpq.deck.strategy.t8"></li></ul></section><section class="deck-card"><h4 data-i18n-html="modals.cpq.deck.strategy.t9"></h4><ul><li data-i18n-html="modals.cpq.deck.strategy.t10"></li><li data-i18n-html="modals.cpq.deck.strategy.t11"></li><li data-i18n-html="modals.cpq.deck.strategy.t12"></li><li data-i18n-html="modals.cpq.deck.strategy.t13"></li><li data-i18n-html="modals.cpq.deck.strategy.t14"></li><li data-i18n-html="modals.cpq.deck.strategy.t15"></li></ul></section></div>
+</div></div>
       </section>
 
       <section class="cs-section">
         <span class="cs-eyebrow cs-eyebrow--reflect" data-i18n="modals.cpq.applicationFlow.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.applicationFlow.sectionTitle"></h2>
-        <figure class="cs-figure">
-          <img width="1600" height="900" src="assets/projects/cpq/application-flow.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.applicationFlow.imageAlt">
-        </figure>
+<div class="deck deck--slide" data-deck="flow"><div class="deck-canvas deck-canvas--clip" style="--deck-w:1804;aspect-ratio:1804/992">
+<div class="dk " style="--x:413.12;--y:239;--w:1055.06;--h:588.72;background:#007d79;border-radius:calc(var(--u)*13.11)"></div>
+<div class="dk " style="--x:433.33;--y:259.21;--w:1015.74;--h:429.54;background:#4c4b4b;border-radius:calc(var(--u)*10.11)"></div>
+<div class="dk " style="--x:446.3;--y:272.27;--w:806.99;--h:403.49;background:#363636;border-radius:calc(var(--u)*9.68)"></div>
+<div class="dk deck-center" style="--x:0;--y:274.37;--w:161.4;--h:403.49;background:#363636;border-radius:calc(var(--u)*9.68)"><p class="dk-t" style="--fs:19.37;color:#fff;text-align:center" data-i18n-html="modals.cpq.deck.flow.t1"></p></div>
+<div class="dk deck-center" style="--x:0;--y:729.18;--w:161.71;--h:161.71;background:#363636;border-radius:calc(var(--u)*9.68)"><p class="dk-t" style="--fs:19.37;color:#fff;text-align:center" data-i18n-html="modals.cpq.deck.flow.t2"></p></div>
+<div class="dk deck-center" style="--x:213.05;--y:274.37;--w:161.4;--h:403.49;background:#363636;border-radius:calc(var(--u)*9.68)"><p class="dk-t" style="--fs:19.37;color:#fff;text-align:left;width:calc(var(--u)*115.37)" data-i18n-html="modals.cpq.deck.flow.t3"></p></div>
+<div class="dk deck-center" style="--x:1274.62;--y:272.27;--w:161.4;--h:403.49;background:#363636;border-radius:calc(var(--u)*9.68)"><p class="dk-t" style="--fs:19.37;color:#fff;text-align:left;width:calc(var(--u)*124.14)" data-i18n-html="modals.cpq.deck.flow.t4"></p></div>
+<div class="dk deck-center" style="--x:1496.97;--y:729.05;--w:192.03;--h:80.7;background:#363636;border-radius:calc(var(--u)*9.68)"><p class="dk-t" style="--fs:17.69;color:#fff;text-align:left;line-height:1.57" data-i18n-html="modals.cpq.deck.flow.t5"></p></div>
+<div class="dk deck-center" style="--x:212.24;--y:729.18;--w:161.71;--h:218.56;background:#363636;border-radius:calc(var(--u)*9.68);gap:calc(var(--u)*16.14)"><figure class="deck-person" style="background:#be95ff;--fs:13.9;line-height:2.18"><img src="assets/projects/cpq/deck/person-seller.jpg" alt="" loading="lazy" style="width:calc(var(--u)*88.43);height:calc(var(--u)*87.88)"><figcaption data-i18n="modals.cpq.deck.flow.t6"></figcaption></figure><p class="dk-t" style="--fs:19.37;color:#fff" data-i18n-html="modals.cpq.deck.flow.t7"></p></div>
+<div class="dk deck-tools" style="--x:433.33;--y:729.18;--w:1015.74;--h:80.7"><div class="deck-tool"><i class="deck-ic deck-ic--apps" style="--s:30.32"></i><p class="dk-t" data-i18n-html="modals.cpq.deck.flow.t8"></p></div><div class="deck-tool"><i class="deck-ic deck-ic--apps" style="--s:30.32"></i><p class="dk-t" data-i18n-html="modals.cpq.deck.flow.t9"></p></div><div class="deck-tool"><i class="deck-ic deck-ic--apps" style="--s:30.32"></i><p class="dk-t" data-i18n-html="modals.cpq.deck.flow.t10"></p></div><div class="deck-tool"><i class="deck-ic deck-ic--apps" style="--s:30.32"></i><p class="dk-t" data-i18n-html="modals.cpq.deck.flow.t11"></p></div><div class="deck-tool"><i class="deck-ic deck-ic--apps" style="--s:30.32"></i><p class="dk-t" data-i18n-html="modals.cpq.deck.flow.t12"></p></div></div>
+<div class="dk deck-row" style="--x:461.31;--y:284.51;gap:calc(var(--u)*12.63);color:#3ddbd9"><i class="deck-ic deck-ic--hub" style="--s:40.43"></i><p class="dk-t" style="--fs:19.37" data-i18n-html="modals.cpq.deck.flow.t13"></p></div>
+<p class="dk dk-t" style="--x:1227.26;--y:313.89;--fs:22.74;font-family:Inter,var(--font-primary);color:#cfcfcf;background:#4c4b4b;padding:calc(var(--u)*7.58) calc(var(--u)*12.63);border-radius:calc(var(--u)*3.23);line-height:1.2" data-i18n-html="modals.cpq.deck.flow.t14"></p>
+<figure class="dk deck-person" style="--x:480.26;--y:415;--w:88.43;background:#be95ff;--fs:13.9;line-height:2.18"><img src="assets/projects/cpq/deck/person-seller.jpg" alt="" loading="lazy" style="width:calc(var(--u)*88.43);height:calc(var(--u)*87.88)"><figcaption data-i18n="modals.cpq.deck.flow.t6"></figcaption></figure>
+<figure class="dk deck-person" style="--x:609.12;--y:415;--w:88.43;background:#418cff;--fs:12.63;line-height:2.4"><img src="assets/projects/cpq/deck/person-champion.jpg" alt="" loading="lazy" style="width:calc(var(--u)*88.43);height:calc(var(--u)*87.88)"><figcaption data-i18n="modals.cpq.deck.flow.t15"></figcaption></figure>
+<figure class="dk deck-person" style="--x:737.98;--y:415;--w:88.43;background:#be95ff;--fs:13.9;line-height:2.18"><img src="assets/projects/cpq/deck/person-tech-bp.jpg" alt="" loading="lazy" style="width:calc(var(--u)*88.43);height:calc(var(--u)*87.88)"><figcaption data-i18n="modals.cpq.deck.flow.t16"></figcaption></figure>
+<figure class="dk deck-person" style="--x:866.84;--y:415;--w:88.43;background:#418cff;--fs:13.9;line-height:2.18"><img src="assets/projects/cpq/deck/person-tech-int.jpg" alt="" loading="lazy" style="width:calc(var(--u)*88.43);height:calc(var(--u)*87.88)"><figcaption data-i18n="modals.cpq.deck.flow.t16"></figcaption></figure>
+<figure class="dk deck-person" style="--x:995.7;--y:415;--w:88.43;background:#be95ff;--fs:13.9;line-height:2.18"><img src="assets/projects/cpq/deck/person-pricer-bp.jpg" alt="" loading="lazy" style="width:calc(var(--u)*88.43);height:calc(var(--u)*87.88)"><figcaption data-i18n="modals.cpq.deck.flow.t17"></figcaption></figure>
+<figure class="dk deck-person" style="--x:1124.56;--y:415;--w:88.43;background:#be95ff;--fs:13.9;line-height:2.18"><img src="assets/projects/cpq/deck/person-ops-bp.jpg" alt="" loading="lazy" style="width:calc(var(--u)*88.43);height:calc(var(--u)*87.88)"><figcaption data-i18n="modals.cpq.deck.flow.t18"></figcaption></figure>
+<figure class="dk deck-person" style="--x:1102.38;--y:873.21;--w:88.43;background:#418cff;--fs:13.9;line-height:2.18"><img src="assets/projects/cpq/deck/person-pricer-int.jpg" alt="" loading="lazy" style="width:calc(var(--u)*88.43);height:calc(var(--u)*87.7)"><figcaption data-i18n="modals.cpq.deck.flow.t17"></figcaption></figure>
+<figure class="dk deck-person" style="--x:1308.42;--y:873.21;--w:88.43;background:#418cff;--fs:13.9;line-height:2.18"><img src="assets/projects/cpq/deck/person-ops-int.jpg" alt="" loading="lazy" style="width:calc(var(--u)*88.43);height:calc(var(--u)*87.7)"><figcaption data-i18n="modals.cpq.deck.flow.t18"></figcaption></figure>
+<div class="dk deck-legend-dock" style="--y:0"><div class="deck-legend"><p class="deck-row" style="gap:calc(var(--u)*16)"><i class="deck-ic deck-ic--hub" style="--s:32"></i><span data-i18n="modals.cpq.deck.flow.t19"></span></p><p class="deck-row" style="gap:calc(var(--u)*16)"><i class="deck-ic deck-ic--apps" style="--s:32"></i><span data-i18n="modals.cpq.deck.flow.t20"></span></p></div><p class="deck-pill" style="--fs:24;line-height:1.667;background:#be95ff;--edge:#d4bbff" data-i18n-html="modals.cpq.deck.flow.t21"></p><p class="deck-pill" style="--fs:40;line-height:1.2;background:#418cff;--edge:#a6c8ff" data-i18n-html="modals.cpq.deck.flow.t22"></p></div>
+<svg class="deck-wires" viewBox="116 32 1804 992" aria-hidden="true">
+<defs><marker id="deck-arrow-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 1 9 5 0 9z" fill="#a0a0a0"/></marker></defs>
+<g fill="none" stroke="#a0a0a0" stroke-width="1.6">
+<polyline points="277.4,381.6 329,381.6" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="490.5,381.6 561,381.6" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="196.7,709.9 196.7,760" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="409.8,709.9 409.8,760" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="468,709.9 468,738 510,738 510,866.4 1398,866.4"/>
+<polyline points="577.2,866.4 577.2,843.5" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="778.8,866.4 778.8,843.5" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="987.6,866.4 987.6,843.5" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="1190.4,866.4 1190.4,843.5" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="1398,866.4 1398,843.5" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="867.6,566 867.6,760" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="1027.2,566 1027.2,760" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="1008,566 1008,735.6 928.8,735.6 928.8,760" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="1185.6,566 1185.6,760" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="1286.4,566 1286.4,741.6 1417.2,741.6 1417.2,760" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="1565.1,801.6 1611.5,801.6" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="1263.4,889 1263.4,843.5" marker-end="url(#deck-arrow-flow)"/>
+<polyline points="1468.7,889 1468.7,843.5" marker-end="url(#deck-arrow-flow)"/>
+</g><g fill="#3ddbd9">
+<line x1="640.48" y1="432" x2="1284.78" y2="432" stroke="#3ddbd9" stroke-width="2.5"/>
+<circle cx="640.48" cy="432" r="5.06"/>
+<circle cx="769.34" cy="432" r="5.06"/>
+<circle cx="898.2" cy="432" r="5.06"/>
+<circle cx="1027.06" cy="432" r="5.06"/>
+<circle cx="1155.92" cy="432" r="5.06"/>
+<circle cx="1284.78" cy="432" r="5.06"/>
+<circle cx="1263.38" cy="894.25" r="5.06"/>
+<circle cx="1468.68" cy="894.25" r="5.06"/>
+</g></svg>
+</div></div>
       </section>
 
       <section class="cs-section">
         <span class="cs-eyebrow cs-eyebrow--reflect" data-i18n="modals.cpq.userJourney.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.userJourney.sectionTitle"></h2>
-        <figure class="cs-figure">
-          <img width="1600" height="900" src="assets/projects/cpq/user-journey.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.userJourney.imageAlt">
-        </figure>
+<div class="deck deck--slide" data-deck="journey"><div class="deck-canvas" style="--deck-w:1850;aspect-ratio:1850/933">
+<div class="dk " style="--x:512.36;--y:257.91;--w:1337.29;--h:417.22;background:#363636;clip-path:polygon(0 0,89.08% 0,100% 50%,89.08% 100%,0 100%)"></div>
+<svg class="deck-wires" viewBox="70 77 1850 933" aria-hidden="true">
+<defs><marker id="deck-arrow-journey" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#fff"/></marker></defs>
+<g stroke="#595959" stroke-width="3.6">
+<line x1="674.78" y1="334.91" x2="1596.2" y2="334.91"/>
+<line x1="674.78" y1="752.13" x2="1596.2" y2="752.13"/>
+</g><g fill="#595959">
+<circle cx="674.78" cy="334.91" r="10.87"/>
+<circle cx="674.78" cy="752.13" r="10.87"/>
+<circle cx="1145" cy="334.91" r="10.87"/>
+<circle cx="1145" cy="752.13" r="10.87"/>
+<circle cx="1596.2" cy="334.91" r="10.87"/>
+<circle cx="1596.2" cy="752.13" r="10.87"/>
+</g><g stroke="#fff" stroke-width="3.6">
+<line x1="601" y1="542.4" x2="1212" y2="542.4"/>
+<line x1="1533.6" y1="542.4" x2="1890" y2="542.4" marker-end="url(#deck-arrow-journey)"/>
+</g></svg>
+<p class="dk deck-pill deck-pill--card" style="--x:39;--y:302;--w:268;--h:120;--fs:24;line-height:1.667;background:#be95ff;--edge:#d4bbff" data-i18n-html="modals.cpq.deck.journey.t1"></p>
+<p class="dk deck-pill deck-pill--card" style="--x:39;--y:512;--w:268;--h:120;--fs:32;line-height:1.5;background:#418cff;--edge:#a6c8ff" data-i18n-html="modals.cpq.deck.journey.t2"></p>
+<div class="dk" style="--x:0;--y:813"><div class="deck-legend"><p class="deck-row" style="gap:calc(var(--u)*16)"><i class="deck-ic deck-ic--hub" style="--s:32"></i><span data-i18n="modals.cpq.deck.journey.t3"></span></p><p class="deck-row" style="gap:calc(var(--u)*16)"><i class="deck-ic deck-ic--apps" style="--s:32"></i><span data-i18n="modals.cpq.deck.journey.t4"></span></p></div></div>
+<figure class="dk deck-person" style="--x:523.24;--y:4.08;--w:163.08;background:#be95ff;--fs:21.74;line-height:1.5;gap:calc(var(--u)*8.15);padding-bottom:calc(var(--u)*8.15)"><img src="assets/projects/cpq/deck/person-tech-bp.jpg" alt="" loading="lazy" style="width:calc(var(--u)*163.08);height:calc(var(--u)*161.72)"><figcaption data-i18n="modals.cpq.deck.journey.t5"></figcaption></figure>
+<figure class="dk deck-person" style="--x:993.46;--y:7.93;--w:163.08;background:#be95ff;--fs:21.74;line-height:1.5;gap:calc(var(--u)*8.15);padding-bottom:calc(var(--u)*8.15)"><img src="assets/projects/cpq/deck/person-pricer-bp.jpg" alt="" loading="lazy" style="width:calc(var(--u)*163.08);height:calc(var(--u)*161.72)"><figcaption data-i18n="modals.cpq.deck.journey.t6"></figcaption></figure>
+<figure class="dk deck-person" style="--x:1444.66;--y:7.93;--w:163.08;background:#be95ff;--fs:21.74;line-height:1.5;gap:calc(var(--u)*8.15);padding-bottom:calc(var(--u)*8.15)"><img src="assets/projects/cpq/deck/person-ops-bp.jpg" alt="" loading="lazy" style="width:calc(var(--u)*163.08);height:calc(var(--u)*161.72)"><figcaption data-i18n="modals.cpq.deck.journey.t7"></figcaption></figure>
+<figure class="dk deck-person" style="--x:523.24;--y:714.91;--w:163.08;background:#418cff;--fs:21.74;line-height:1.5;gap:calc(var(--u)*8.15);padding-bottom:calc(var(--u)*8.15)"><img src="assets/projects/cpq/deck/person-tech-int.jpg" alt="" loading="lazy" style="width:calc(var(--u)*163.08);height:calc(var(--u)*161.72)"><figcaption data-i18n="modals.cpq.deck.journey.t5"></figcaption></figure>
+<figure class="dk deck-person" style="--x:993.46;--y:714.91;--w:163.08;background:#418cff;--fs:21.74;line-height:1.5;gap:calc(var(--u)*8.15);padding-bottom:calc(var(--u)*8.15)"><img src="assets/projects/cpq/deck/person-pricer-int.jpg" alt="" loading="lazy" style="width:calc(var(--u)*163.08);height:calc(var(--u)*161.72)"><figcaption data-i18n="modals.cpq.deck.journey.t6"></figcaption></figure>
+<figure class="dk deck-person" style="--x:1444.66;--y:714.91;--w:163.08;background:#418cff;--fs:21.74;line-height:1.5;gap:calc(var(--u)*8.15);padding-bottom:calc(var(--u)*8.15)"><img src="assets/projects/cpq/deck/person-ops-int.jpg" alt="" loading="lazy" style="width:calc(var(--u)*163.08);height:calc(var(--u)*161.72)"><figcaption data-i18n="modals.cpq.deck.journey.t7"></figcaption></figure>
+<figure class="dk deck-person" style="--x:352;--y:257.91;--w:161.05;background:#be95ff;--fs:21.74;line-height:1.5;gap:calc(var(--u)*8.15);padding-bottom:calc(var(--u)*8.15)"><img src="assets/projects/cpq/deck/person-seller.jpg" alt="" loading="lazy" style="width:calc(var(--u)*160.77);height:calc(var(--u)*159.77)"><figcaption data-i18n="modals.cpq.deck.journey.t8"></figcaption></figure>
+<figure class="dk deck-person" style="--x:352;--y:466.6;--w:161.05;background:#418cff;--fs:21.74;line-height:1.5;gap:calc(var(--u)*8.15);padding-bottom:calc(var(--u)*8.15)"><img src="assets/projects/cpq/deck/person-champion.jpg" alt="" loading="lazy" style="width:calc(var(--u)*160.77);height:calc(var(--u)*159.77)"><figcaption data-i18n="modals.cpq.deck.journey.t9"></figcaption></figure>
+<ul class="dk deck-steps" style="--x:708.06;--y:109.4;gap:calc(var(--u)*6.6);color:var(--deck-ink);translate:0 -50%;white-space:nowrap"><li><span data-i18n-html="modals.cpq.deck.journey.t10"></span></li><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t11"></span><i class="deck-ic deck-ic--hub" style="--s:32.62;color:#0ea39f"></i></li><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t12"></span><i class="deck-ic deck-ic--hub" style="--s:32.62;color:#0ea39f"></i></li><li><span data-i18n-html="modals.cpq.deck.journey.t13"></span></li><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t12"></span><i class="deck-ic deck-ic--apps" style="--s:32.62;color:#0ea39f"></i></li><li><span data-i18n-html="modals.cpq.deck.journey.t14"></span></li></ul>
+<ul class="dk deck-steps" style="--x:1178.28;--y:113.25;gap:calc(var(--u)*10);color:var(--deck-ink);translate:0 -50%;white-space:nowrap"><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t15"></span><i class="deck-ic deck-ic--hub" style="--s:32.62;color:#0ea39f"></i></li><li><span data-i18n-html="modals.cpq.deck.journey.t16"></span></li><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t17"></span><i class="deck-ic deck-ic--apps" style="--s:32.62;color:#0ea39f"></i></li></ul>
+<ul class="dk deck-steps" style="--x:1629.48;--y:113.25;--w:187.43;gap:calc(var(--u)*10);color:var(--deck-ink);translate:0 -50%"><li><span data-i18n-html="modals.cpq.deck.journey.t18"></span></li><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t19"></span><i class="deck-ic deck-ic--hub" style="--s:32.62;color:#0ea39f"></i></li><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t20"></span><i class="deck-ic deck-ic--apps" style="--s:32.62;color:#0ea39f"></i></li></ul>
+<ul class="dk deck-steps" style="--x:708.06;--y:820.2;--w:212;gap:calc(var(--u)*10);color:var(--deck-ink);translate:0 -50%"><li><span data-i18n-html="modals.cpq.deck.journey.t21"></span></li><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t22"></span><i class="deck-ic deck-ic--apps" style="--s:32.62;color:#0ea39f"></i></li></ul>
+<ul class="dk deck-steps" style="--x:1178.28;--y:820.2;gap:calc(var(--u)*10);color:var(--deck-ink);translate:0 -50%;white-space:nowrap"><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t23"></span><i class="deck-ic deck-ic--apps" style="--s:32.62;color:#0ea39f"></i></li><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t24"></span><i class="deck-ic deck-ic--apps" style="--s:32.62;color:#0ea39f"></i></li></ul>
+<ul class="dk deck-steps" style="--x:1629.48;--y:820.2;gap:calc(var(--u)*10);color:var(--deck-ink);translate:0 -50%;white-space:nowrap"><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t25"></span><i class="deck-ic deck-ic--apps" style="--s:32.62;color:#0ea39f"></i></li><li><span data-i18n-html="modals.cpq.deck.journey.t26"></span></li></ul>
+<p class="dk dk-t " style="--x:544.98;--y:270.14;--w:282.68;--fs:16.31;font-weight:400;color:#d8d8d8;line-height:1.33" data-i18n-html="modals.cpq.deck.journey.t27"></p>
+<p class="dk dk-t " style="--x:994.82;--y:278.29;--fs:16.31;font-weight:400;color:#d8d8d8;line-height:2;white-space:nowrap" data-i18n-html="modals.cpq.deck.journey.t28"></p>
+<p class="dk dk-t " style="--x:1455.53;--y:278.29;--fs:16.31;font-weight:400;color:#d8d8d8;line-height:2;white-space:nowrap" data-i18n-html="modals.cpq.deck.journey.t29"></p>
+<ul class="dk deck-steps" style="--x:544.98;--y:347;gap:calc(var(--u)*6);color:#d8d8d8;white-space:nowrap"><li><span data-i18n-html="modals.cpq.deck.journey.t30"></span></li><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t31"></span><i class="deck-ic deck-ic--hub" style="--s:32.62;color:#0ea39f"></i></li><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t32"></span><i class="deck-ic deck-ic--hub" style="--s:32.62;color:#0ea39f"></i></li></ul>
+<ul class="dk deck-steps" style="--x:544.98;--y:470.7;gap:calc(var(--u)*10);color:#d8d8d8;white-space:nowrap"><li><span data-i18n-html="modals.cpq.deck.journey.t10"></span></li><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t33"></span><i class="deck-ic deck-ic--hub" style="--s:32.62;color:#0ea39f"></i></li><li><span data-i18n-html="modals.cpq.deck.journey.t34"></span></li></ul>
+<ul class="dk deck-steps" style="--x:1155.19;--y:421.5;--w:294.91;gap:calc(var(--u)*16);color:#d8d8d8"><li class="deck-strong"><span data-i18n-html="modals.cpq.deck.journey.t35"></span><i class="deck-ic deck-ic--hub" style="--s:32.62;color:#0ea39f"></i></li><li><span data-i18n-html="modals.cpq.deck.journey.t36"></span></li></ul>
+</div></div>
       </section>
 
       <section class="cs-section">
         <span class="cs-eyebrow" data-i18n="modals.cpq.designSystem.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.designSystem.sectionTitle"></h2>
-        <div class="cs-grid">
-          <div class="cs-tile"><h4 data-i18n="modals.cpq.designSystem.tile1.title"></h4><ul class="cs-list"><li data-i18n="modals.cpq.designSystem.tile1.item"></li><li data-i18n="modals.cpq.designSystem.tile1.item2"></li></ul></div>
-          <div class="cs-tile"><h4 data-i18n="modals.cpq.designSystem.tile2.title"></h4><ul class="cs-list"><li data-i18n="modals.cpq.designSystem.tile2.item"></li><li data-i18n="modals.cpq.designSystem.tile2.item2"></li><li data-i18n="modals.cpq.designSystem.tile2.item3"></li></ul></div>
-        </div>
-        <figure class="cs-figure cs-full">
-          <img width="1600" height="900" src="assets/projects/cpq/design-system-tokens.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.designSystem.imageAlt">
-        </figure>
+<div class="deck" data-deck="tools"><div class="deck-canvas deck-ds deck-tools-slide" style="--deck-w:1200">
+<div class="deck-ds-row" style="gap:calc(var(--u)*120)"><span class="deck-bar" style="--len:200;--fs:18;letter-spacing:calc(var(--u)*4)" data-i18n="modals.cpq.designSystem.tile1.title"></span><figure style="gap:calc(var(--u)*8)"><figcaption class="dk-t" style="--fs:24" data-i18n="modals.cpq.designSystem.tile1.item1"></figcaption><img src="assets/projects/cpq/deck/tools-figma.png" alt="" loading="lazy" style="width:calc(var(--u)*236);height:calc(var(--u)*236)"></figure><figure style="gap:calc(var(--u)*27);padding-left:calc(var(--u)*55)"><figcaption class="dk-t" style="--fs:24" data-i18n="modals.cpq.designSystem.tile1.item2"></figcaption><img src="assets/projects/cpq/deck/tools-xd.png" alt="" loading="lazy" style="width:calc(var(--u)*205.07);height:calc(var(--u)*200)"></figure></div>
+<div class="deck-ds-row" style="gap:calc(var(--u)*120)"><span class="deck-bar" style="--len:200;--fs:18;letter-spacing:calc(var(--u)*4)" data-i18n="modals.cpq.designSystem.tile2.title"></span><figure style="gap:calc(var(--u)*24)"><figcaption class="dk-t" style="--fs:24" data-i18n="modals.cpq.designSystem.tile2.item1"></figcaption><img src="assets/projects/cpq/deck/tools-carbon.png" alt="" loading="lazy" style="width:calc(var(--u)*238);height:calc(var(--u)*224)"></figure><figure style="gap:calc(var(--u)*24)"><figcaption class="dk-t" style="--fs:24" data-i18n="modals.cpq.designSystem.tile2.item2"></figcaption><img src="assets/projects/cpq/deck/tools-edt.svg" alt="" loading="lazy" style="width:calc(var(--u)*224);height:calc(var(--u)*224)"></figure><figure style="gap:calc(var(--u)*44)"><figcaption class="dk-t" style="--fs:24" data-i18n="modals.cpq.designSystem.tile2.item3"></figcaption><img src="assets/projects/cpq/deck/tools-equal-access.png" alt="" loading="lazy" style="width:calc(var(--u)*235);height:calc(var(--u)*188)"></figure></div>
+</div></div>
+<div class="deck cs-full" data-deck="tokens"><div class="deck-canvas deck-ds" style="--deck-w:1767">
+<div class="deck-ds-row" style="gap:calc(var(--u)*44.62)"><span class="deck-bar" style="--len:348.12;--fs:17.85;letter-spacing:calc(var(--u)*5.95)" data-i18n="modals.cpq.deck.tokens.t17"></span><div class="deck-palettes"><div class="deck-brackets"><div class="deck-bracket" style="--x:107;--w:238"><span data-i18n="modals.cpq.deck.tokens.t8"></span></div><div class="deck-bracket" style="--x:583;--w:714"><span data-i18n="modals.cpq.deck.tokens.t9"></span></div><div class="deck-bracket deck-bracket--bare" style="--x:1535;--w:0"><span data-i18n="modals.cpq.deck.tokens.t10"></span></div></div><div class="deck-cards"><img src="assets/projects/cpq/deck/palette-blue.png" width="214" height="292" alt="" data-i18n-attr="alt:modals.cpq.deck.tokens.t1" loading="lazy"><img src="assets/projects/cpq/deck/palette-gray.png" width="214" height="292" alt="" data-i18n-attr="alt:modals.cpq.deck.tokens.t2" loading="lazy"><img src="assets/projects/cpq/deck/palette-cyan.png" width="214" height="292" alt="" data-i18n-attr="alt:modals.cpq.deck.tokens.t3" loading="lazy"><img src="assets/projects/cpq/deck/palette-teal.png" width="214" height="292" alt="" data-i18n-attr="alt:modals.cpq.deck.tokens.t4" loading="lazy"><img src="assets/projects/cpq/deck/palette-purple.png" width="214" height="292" alt="" data-i18n-attr="alt:modals.cpq.deck.tokens.t5" loading="lazy"><img src="assets/projects/cpq/deck/palette-magenta.png" width="214" height="292" alt="" data-i18n-attr="alt:modals.cpq.deck.tokens.t6" loading="lazy"><img src="assets/projects/cpq/deck/palette-alert.png" width="214" height="116" alt="" data-i18n-attr="alt:modals.cpq.deck.tokens.t7" loading="lazy"></div></div></div>
+<div class="deck-ds-row" style="gap:calc(var(--u)*44.62)"><span class="deck-bar" style="--len:232.08;--fs:17.85;letter-spacing:calc(var(--u)*5.95)" data-i18n="modals.cpq.deck.tokens.t18"></span><div class="deck-families"><div class="deck-family" style="font-family:var(--font-primary)"><h4 class="dk-t" style="--fs:41.65" data-i18n="modals.cpq.deck.tokens.t19"></h4><div><div style="font-weight:300"><p class="dk-t" style="--fs:23.8" data-i18n="modals.cpq.deck.tokens.t11"></p><p class="dk-t deck-alpha" style="--fs:15.36;line-height:1.6;width:calc(var(--u)*140.12)" data-i18n="modals.cpq.deck.tokens.t16"></p></div><div style="font-weight:400"><p class="dk-t" style="--fs:23.8" data-i18n="modals.cpq.deck.tokens.t12"></p><p class="dk-t deck-alpha" style="--fs:15.36;line-height:1.6;width:calc(var(--u)*140.12)" data-i18n="modals.cpq.deck.tokens.t16"></p></div><div style="font-weight:500"><p class="dk-t" style="--fs:23.8" data-i18n="modals.cpq.deck.tokens.t13"></p><p class="dk-t deck-alpha" style="--fs:15.36;line-height:1.6;width:calc(var(--u)*140.12)" data-i18n="modals.cpq.deck.tokens.t16"></p></div><div style="font-weight:600"><p class="dk-t" style="--fs:23.8" data-i18n="modals.cpq.deck.tokens.t14"></p><p class="dk-t deck-alpha" style="--fs:15.36;line-height:1.6;width:calc(var(--u)*140.12)" data-i18n="modals.cpq.deck.tokens.t16"></p></div><div style="font-weight:700"><p class="dk-t" style="--fs:23.8" data-i18n="modals.cpq.deck.tokens.t15"></p><p class="dk-t deck-alpha" style="--fs:15.36;line-height:1.6;width:calc(var(--u)*140.12)" data-i18n="modals.cpq.deck.tokens.t16"></p></div></div></div><div class="deck-family" style="font-family:var(--font-mono)"><h4 class="dk-t" style="--fs:41.65" data-i18n="modals.cpq.deck.tokens.t20"></h4><div><div style="font-weight:300"><p class="dk-t" style="--fs:23.8" data-i18n="modals.cpq.deck.tokens.t11"></p><p class="dk-t deck-alpha" style="--fs:16.36;line-height:1.6;width:calc(var(--u)*132.38)" data-i18n="modals.cpq.deck.tokens.t16"></p></div><div style="font-weight:400"><p class="dk-t" style="--fs:23.8" data-i18n="modals.cpq.deck.tokens.t12"></p><p class="dk-t deck-alpha" style="--fs:16.36;line-height:1.6;width:calc(var(--u)*132.38)" data-i18n="modals.cpq.deck.tokens.t16"></p></div><div style="font-weight:500"><p class="dk-t" style="--fs:23.8" data-i18n="modals.cpq.deck.tokens.t13"></p><p class="dk-t deck-alpha" style="--fs:16.36;line-height:1.6;width:calc(var(--u)*132.38)" data-i18n="modals.cpq.deck.tokens.t16"></p></div><div style="font-weight:600"><p class="dk-t" style="--fs:23.8" data-i18n="modals.cpq.deck.tokens.t14"></p><p class="dk-t deck-alpha" style="--fs:16.36;line-height:1.6;width:calc(var(--u)*132.38)" data-i18n="modals.cpq.deck.tokens.t16"></p></div><div style="font-weight:700"><p class="dk-t" style="--fs:23.8" data-i18n="modals.cpq.deck.tokens.t15"></p><p class="dk-t deck-alpha" style="--fs:16.36;line-height:1.6;width:calc(var(--u)*132.38)" data-i18n="modals.cpq.deck.tokens.t16"></p></div></div></div></div></div>
+<div class="deck-ds-row" style="gap:calc(var(--u)*37.18)"><span class="deck-bar" style="--len:232.08;--fs:17.85;letter-spacing:calc(var(--u)*5.95)" data-i18n="modals.cpq.deck.tokens.t21"></span><div class="deck-icons"><h4 class="dk-t" style="--fs:41.65" data-i18n="modals.cpq.deck.tokens.t22"></h4><img class="deck-strip" src="assets/projects/cpq/deck/icons.png" width="1667" height="60" alt="" loading="lazy"></div></div>
+</div></div>
       </section>
 
       <section class="cs-section">
         <span class="cs-eyebrow cs-eyebrow--make" data-i18n="modals.cpq.interfaces.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.interfaces.sectionTitle"></h2>
-
-        <figure class="cs-figure">
-          <img width="1600" height="900" src="assets/projects/cpq/folder-creation.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt">
-          <figcaption data-i18n="modals.cpq.interfaces.caption"></figcaption>
-        </figure>
-
-        <figure class="cs-figure">
-          <img width="1600" height="900" src="assets/projects/cpq/folder-details.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt2">
-          <figcaption data-i18n="modals.cpq.interfaces.caption2"></figcaption>
-        </figure>
-
-        <figure class="cs-figure cs-full">
-          <img width="1600" height="900" src="assets/projects/cpq/process-steps.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt3">
-        </figure>
-
-        <figure class="cs-figure cs-full">
-          <img width="1600" height="900" src="assets/projects/cpq/deal-scenario.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt4">
-        </figure>
-
-        <figure class="cs-figure">
-          <img width="1600" height="900" src="assets/projects/cpq/web-components.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt5">
-          <figcaption data-i18n="modals.cpq.interfaces.caption3"></figcaption>
-        </figure>
-
-        <figure class="cs-figure cs-full">
-          <img width="1600" height="900" src="assets/projects/cpq/assets-access.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt6">
-        </figure>
-
-        <figure class="cs-figure">
-          <img width="1600" height="900" src="assets/projects/cpq/object-creation.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt7">
-          <figcaption data-i18n="modals.cpq.interfaces.caption4"></figcaption>
-        </figure>
-
-        <figure class="cs-figure cs-full">
-          <img width="1600" height="900" src="assets/projects/cpq/flow-options.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt8">
-        </figure>
-
-        <figure class="cs-figure">
-          <img width="1600" height="900" src="assets/projects/cpq/help.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt9">
-          <figcaption data-i18n="modals.cpq.interfaces.caption5"></figcaption>
-        </figure>
-
-        <figure class="cs-figure cs-full">
-          <img width="1600" height="900" src="assets/projects/cpq/feedback-validation.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt10">
-        </figure>
-
-        <figure class="cs-figure cs-full">
-          <img width="1600" height="900" src="assets/projects/cpq/access-control.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt11">
-        </figure>
+<div class="deck" data-deck="ui-homepage"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
+<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
+<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
+<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-homepage.jpg" alt="" data-i18n-attr="alt:modals.cpq.imageAlt" loading="lazy">
+<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
+<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
+<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
+<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
+<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t2"></p>
+</div></div>
+<div class="deck" data-deck="ui-folder-creation"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
+<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
+<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
+<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-folder-creation.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt1" loading="lazy">
+<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
+<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
+<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
+<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
+<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t3"></p>
+</div></div>
+<div class="deck" data-deck="ui-folder-details"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
+<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
+<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
+<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-folder-details.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt2" loading="lazy">
+<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
+<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
+<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
+<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
+<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t4"></p>
+</div></div>
+<div class="deck cs-full" data-deck="ui-steps"><div class="deck-canvas" style="--deck-w:1840;aspect-ratio:1840/1000">
+<img class="dk deck-shot" style="--x:205.5;--y:208;--w:497;--h:330" src="assets/projects/cpq/deck/ui-steps-1.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt3" loading="lazy">
+<img class="dk deck-shot" style="--x:0;--y:598;--w:908;--h:402" src="assets/projects/cpq/deck/ui-steps-2.jpg" alt="" loading="lazy">
+<img class="dk deck-shot" style="--x:843;--y:0;--w:997;--h:430" src="assets/projects/cpq/deck/ui-steps-3.jpg" alt="" loading="lazy">
+<img class="dk deck-shot" style="--x:1399;--y:682;--w:409;--h:251" src="assets/projects/cpq/deck/ui-steps-4.jpg" alt="" loading="lazy">
+<img class="dk deck-shot" style="--x:1145;--y:485;--w:176;--h:489" src="assets/projects/cpq/deck/ui-steps-5.jpg" alt="" loading="lazy">
+<p class="dk dk-t " style="--x:361;--y:52;--w:186;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71" data-i18n-html="modals.cpq.deck.ui.t5"></p>
+<p class="dk dk-t " style="--x:1462;--y:485;--w:284;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71" data-i18n-html="modals.cpq.deck.ui.t6"></p>
+</div></div>
+<div class="deck cs-full" data-deck="ui-scenario"><div class="deck-canvas" style="--deck-w:1817;aspect-ratio:1817/831">
+<img class="dk deck-shot" style="--x:0;--y:188;--w:1340;--h:553" src="assets/projects/cpq/deck/ui-scenario-1.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt4" loading="lazy">
+<img class="dk deck-shot" style="--x:1377;--y:97;--w:440;--h:734" src="assets/projects/cpq/deck/ui-scenario-2.jpg" alt="" loading="lazy">
+<p class="dk dk-t " style="--x:24;--y:0;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71;white-space:nowrap" data-i18n-html="modals.cpq.deck.ui.t7"></p>
+</div></div>
+<div class="deck" data-deck="ui-web-components"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
+<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
+<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
+<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-web-components.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt5" loading="lazy">
+<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
+<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
+<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
+<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
+<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t8"></p>
+</div></div>
+<div class="deck cs-full" data-deck="ui-assets"><div class="deck-canvas" style="--deck-w:1840;aspect-ratio:1840/1000">
+<img class="dk deck-shot" style="--x:0;--y:376;--w:918;--h:624" src="assets/projects/cpq/deck/ui-assets-1.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt6" loading="lazy">
+<img class="dk deck-shot" style="--x:940;--y:0;--w:900;--h:657" src="assets/projects/cpq/deck/ui-assets-2.jpg" alt="" loading="lazy">
+<p class="dk dk-t " style="--x:255;--y:102;--w:407;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71" data-i18n-html="modals.cpq.deck.ui.t9"></p>
+<p class="dk dk-t " style="--x:1187;--y:765;--w:407;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71" data-i18n-html="modals.cpq.deck.ui.t10"></p>
+</div></div>
+<div class="deck" data-deck="ui-object-creation"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
+<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
+<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
+<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-object-creation.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt7" loading="lazy">
+<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
+<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
+<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
+<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
+<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t11"></p>
+</div></div>
+<div class="deck cs-full" data-deck="ui-options"><div class="deck-canvas" style="--deck-w:1599;aspect-ratio:1599/1002">
+<img class="dk deck-shot" style="--x:449;--y:189.5;--w:548;--h:623" src="assets/projects/cpq/deck/ui-options-1.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt8" loading="lazy">
+<img class="dk deck-shot" style="--x:1141;--y:0;--w:457.96;--h:1002" src="assets/projects/cpq/deck/ui-options-2.jpg" alt="" loading="lazy">
+<p class="dk dk-t " style="--x:0;--y:405;--w:305;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71" data-i18n-html="modals.cpq.deck.ui.t12"></p>
+</div></div>
+<div class="deck" data-deck="ui-help"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
+<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
+<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
+<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-help.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt9" loading="lazy">
+<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
+<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
+<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
+<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
+<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t13"></p>
+</div></div>
+<div class="deck cs-full" data-deck="ui-feedback"><div class="deck-canvas" style="--deck-w:1846;aspect-ratio:1846/962">
+<img class="dk deck-shot" style="--x:0;--y:290;--w:699;--h:544" src="assets/projects/cpq/deck/ui-feedback-1.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt10" loading="lazy">
+<img class="dk deck-shot" style="--x:792;--y:72;--w:308;--h:289" src="assets/projects/cpq/deck/ui-feedback-2.jpg" alt="" loading="lazy">
+<img class="dk deck-shot" style="--x:792;--y:433;--w:308;--h:293" src="assets/projects/cpq/deck/ui-feedback-3.jpg" alt="" loading="lazy">
+<img class="dk deck-shot" style="--x:1194.5;--y:113;--w:650;--h:263" src="assets/projects/cpq/deck/ui-feedback-4.jpg" alt="" loading="lazy">
+<img class="dk deck-shot" style="--x:1195;--y:416;--w:649;--h:253" src="assets/projects/cpq/deck/ui-feedback-5.jpg" alt="" loading="lazy">
+<img class="dk deck-shot" style="--x:1194.5;--y:709;--w:650;--h:253" src="assets/projects/cpq/deck/ui-feedback-6.jpg" alt="" loading="lazy">
+<p class="dk dk-t " style="--x:198;--y:129;--w:303;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71" data-i18n-html="modals.cpq.deck.ui.t14"></p>
+<p class="dk dk-t " style="--x:792;--y:798;--w:308;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71" data-i18n-html="modals.cpq.deck.ui.t15"></p>
+<p class="dk dk-t " style="--x:1193;--y:0;--w:653;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71;text-align:center" data-i18n-html="modals.cpq.deck.ui.t16"></p>
+</div></div>
+<div class="deck cs-full" data-deck="ui-access"><div class="deck-canvas" style="--deck-w:1920;aspect-ratio:1920/1005">
+<img class="dk deck-shot" style="--x:0;--y:123;--w:485.91;--h:463.45" src="assets/projects/cpq/deck/ui-access-1.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt11" loading="lazy">
+<img class="dk deck-shot" style="--x:536.77;--y:123;--w:823.91;--h:463.45" src="assets/projects/cpq/deck/ui-access-2.jpg" alt="" loading="lazy">
+<img class="dk deck-shot" style="--x:1434.7;--y:123;--w:485.3;--h:463.45" src="assets/projects/cpq/deck/ui-access-3.jpg" alt="" loading="lazy">
+<img class="dk deck-shot" style="--x:0;--y:672.06;--w:485.91;--h:332.94" src="assets/projects/cpq/deck/ui-access-4.jpg" alt="" loading="lazy">
+<img class="dk deck-shot" style="--x:536.77;--y:672.06;--w:823.91;--h:332.94" src="assets/projects/cpq/deck/ui-access-5.jpg" alt="" loading="lazy">
+<img class="dk deck-shot" style="--x:1434.7;--y:672.06;--w:485.3;--h:332.94" src="assets/projects/cpq/deck/ui-access-6.jpg" alt="" loading="lazy">
+<p class="dk dk-t " style="--x:0;--y:0;--w:1920;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71;text-align:center" data-i18n-html="modals.cpq.deck.ui.t17"></p>
+</div></div>
       </section>
 
       <section class="cs-section">
         <span class="cs-eyebrow" data-i18n="modals.cpq.myParticipation.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.myParticipation.sectionTitle"></h2>
-        <div class="cs-grid">
-          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile1.title"></h4><p data-i18n="modals.cpq.myParticipation.tile1.text"></p></div>
-          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile2.title"></h4><p data-i18n="modals.cpq.myParticipation.tile2.text"></p></div>
-          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile3.title"></h4><p data-i18n="modals.cpq.myParticipation.tile3.text"></p></div>
-          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile4.title"></h4><p data-i18n="modals.cpq.myParticipation.tile4.text"></p></div>
-          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile5.title"></h4><p data-i18n="modals.cpq.myParticipation.tile5.text"></p></div>
-          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile6.title"></h4><p data-i18n="modals.cpq.myParticipation.tile6.text"></p></div>
-          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile7.title"></h4><p data-i18n="modals.cpq.myParticipation.tile7.text"></p></div>
-          <div class="cs-tile"><h4 data-i18n="modals.cpq.myParticipation.tile8.title"></h4><p data-i18n="modals.cpq.myParticipation.tile8.text"></p></div>
-        </div>
+<div class="deck deck--slide deck--gradient" data-deck="roles"><div class="deck-canvas" style="--deck-w:1722">
+<ul class="deck-roles"><li><img src="assets/projects/cpq/deck/role-1.svg" alt="" loading="lazy"><h4 data-i18n="modals.cpq.myParticipation.tile1.title"></h4><p data-i18n="modals.cpq.myParticipation.tile1.text"></p></li><li><img src="assets/projects/cpq/deck/role-2.svg" alt="" loading="lazy"><h4 data-i18n="modals.cpq.myParticipation.tile2.title"></h4><p data-i18n="modals.cpq.myParticipation.tile2.text"></p></li><li><img src="assets/projects/cpq/deck/role-3.svg" alt="" loading="lazy"><h4 data-i18n="modals.cpq.myParticipation.tile3.title"></h4><p data-i18n="modals.cpq.myParticipation.tile3.text"></p></li><li><img src="assets/projects/cpq/deck/role-4.svg" alt="" loading="lazy"><h4 data-i18n="modals.cpq.myParticipation.tile4.title"></h4><p data-i18n="modals.cpq.myParticipation.tile4.text"></p></li><li><img src="assets/projects/cpq/deck/role-5.svg" alt="" loading="lazy"><h4 data-i18n="modals.cpq.myParticipation.tile5.title"></h4><p data-i18n="modals.cpq.myParticipation.tile5.text"></p></li><li><img src="assets/projects/cpq/deck/role-6.svg" alt="" loading="lazy"><h4 data-i18n="modals.cpq.myParticipation.tile6.title"></h4><p data-i18n="modals.cpq.myParticipation.tile6.text"></p></li><li><img src="assets/projects/cpq/deck/role-7.svg" alt="" loading="lazy"><h4 data-i18n="modals.cpq.myParticipation.tile7.title"></h4><p data-i18n="modals.cpq.myParticipation.tile7.text"></p></li><li><img src="assets/projects/cpq/deck/role-8.svg" alt="" loading="lazy"><h4 data-i18n="modals.cpq.myParticipation.tile8.title"></h4><p data-i18n="modals.cpq.myParticipation.tile8.text"></p></li></ul>
+</div></div>
       </section>
 
       <section class="cs-section">
         <span class="cs-eyebrow cs-eyebrow--improve" data-i18n="modals.cpq.failures.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.failures.sectionTitle"></h2>
-        <div class="cs-grid">
-          <div class="cs-tile cs-tile--failure">
-            <h4 data-i18n="modals.cpq.failures.tile1.title"></h4>
-            <p data-i18n="modals.cpq.failures.tile1.text"></p>
-          </div>
-          <div class="cs-tile cs-tile--failure">
-            <h4 data-i18n="modals.cpq.failures.tile2.title"></h4>
-            <p data-i18n="modals.cpq.failures.tile2.text"></p>
-          </div>
-        </div>
+<div class="deck" data-deck="failures"><div class="deck-canvas" style="--deck-w:1680">
+<ul class="deck-failures"><li><div><img src="assets/projects/cpq/deck/failure-1.svg" alt="" loading="lazy"><h4 data-i18n="modals.cpq.failures.tile1.title"></h4></div><p data-i18n="modals.cpq.failures.tile1.text"></p></li><li><div><img src="assets/projects/cpq/deck/failure-2.svg" alt="" loading="lazy"><h4 data-i18n="modals.cpq.failures.tile2.title"></h4></div><p data-i18n="modals.cpq.failures.tile2.text"></p></li></ul>
+</div></div>
       </section>
 
       <p class="cs-closing" data-i18n="modals.cpq.closing"></p>
@@ -1442,7 +1619,7 @@
 
         <div class="cert-action">
           <a class="cert-btn" href="https://www.linkedin.com/pulse/my-experience-taking-ux-certification-from-nielsen-abdo-dos-santos/" target="_blank" rel="noopener noreferrer">
-            <span data-i18n="modals.nng.btnLabel2"></span>
+            <span data-i18n="modals.nng.articleLabel"></span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6M10 14L21 3"></path></svg>
           </a>
         </div>
@@ -1506,13 +1683,13 @@
       <div class="hobby-row">
         <article class="pick-card">
           <img width="1600" height="900" class="pick-card__img" src="assets/hobbies/dune.jpg" alt="" loading="lazy">
-          <h4 data-i18n="modals.hobbies.watchingReading.pickCard1.title"></h4>
-          <p data-i18n="modals.hobbies.watchingReading.pickCard1.text"></p>
+          <h4 data-i18n="modals.hobbies.watchingReading.dune.title"></h4>
+          <p data-i18n="modals.hobbies.watchingReading.dune.text"></p>
         </article>
         <article class="pick-card">
           <img width="1600" height="1066" class="pick-card__img" src="assets/hobbies/severance.jpg" alt="" loading="lazy">
-          <h4 data-i18n="modals.hobbies.watchingReading.pickCard2.title"></h4>
-          <p data-i18n="modals.hobbies.watchingReading.pickCard2.text"></p>
+          <h4 data-i18n="modals.hobbies.watchingReading.severance.title"></h4>
+          <p data-i18n="modals.hobbies.watchingReading.severance.text"></p>
         </article>
       </div>
     </section>
@@ -1522,38 +1699,38 @@
       <div class="hobby-row hobby-row--songs">
         <a class="song-card" href="https://www.youtube.com/watch?v=_Xqexqiqkdk" target="_blank" rel="noopener noreferrer" data-tooltip="" data-i18n-attr="data-tooltip:ui.playOnYoutube">
           <span class="song-card__art">
-            <img width="1280" height="720" src="assets/hobbies/music/on-wires.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.hobbies.listening.songCard1.imageAlt">
+            <img width="1280" height="720" src="assets/hobbies/music/on-wires.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.hobbies.listening.onWires.imageAlt">
             <span class="song-card__play" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
             </span>
           </span>
           <span class="song-card__meta">
-            <strong data-i18n="modals.hobbies.listening.songCard1.text"></strong>
-            <span data-i18n="modals.hobbies.listening.songCard1.text2"></span>
+            <strong data-i18n="modals.hobbies.listening.onWires.title"></strong>
+            <span data-i18n="modals.hobbies.listening.onWires.artist"></span>
           </span>
         </a>
         <a class="song-card" href="https://www.youtube.com/watch?v=vBHild0PiTE" target="_blank" rel="noopener noreferrer" data-tooltip="" data-i18n-attr="data-tooltip:ui.playOnYoutube">
           <span class="song-card__art">
-            <img width="1280" height="720" src="assets/hobbies/music/chemtrails-over-the-country-club.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.hobbies.listening.songCard2.imageAlt">
+            <img width="1280" height="720" src="assets/hobbies/music/chemtrails-over-the-country-club.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.hobbies.listening.chemtrailsOverTheCountryClub.imageAlt">
             <span class="song-card__play" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
             </span>
           </span>
           <span class="song-card__meta">
-            <strong data-i18n="modals.hobbies.listening.songCard2.text"></strong>
-            <span data-i18n="modals.hobbies.listening.songCard2.text2"></span>
+            <strong data-i18n="modals.hobbies.listening.chemtrailsOverTheCountryClub.title"></strong>
+            <span data-i18n="modals.hobbies.listening.chemtrailsOverTheCountryClub.artist"></span>
           </span>
         </a>
         <a class="song-card" href="https://www.youtube.com/watch?v=aWpw-Ynl0Yc" target="_blank" rel="noopener noreferrer" data-tooltip="" data-i18n-attr="data-tooltip:ui.playOnYoutube">
           <span class="song-card__art">
-            <img width="1280" height="720" src="assets/hobbies/music/bass-persuades.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.hobbies.listening.songCard3.imageAlt">
+            <img width="1280" height="720" src="assets/hobbies/music/bass-persuades.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.hobbies.listening.bassPersuades.imageAlt">
             <span class="song-card__play" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
             </span>
           </span>
           <span class="song-card__meta">
-            <strong data-i18n="modals.hobbies.listening.songCard3.text"></strong>
-            <span data-i18n="modals.hobbies.listening.songCard3.text2"></span>
+            <strong data-i18n="modals.hobbies.listening.bassPersuades.title"></strong>
+            <span data-i18n="modals.hobbies.listening.bassPersuades.artist"></span>
           </span>
         </a>
       </div>
@@ -1564,13 +1741,13 @@
       <div class="hobby-row">
         <article class="pick-card">
           <img width="900" height="531" class="pick-card__img" src="assets/hobbies/league-of-legends.jpg" alt="" loading="lazy">
-          <h4 data-i18n="modals.hobbies.playing.pickCard1.title"></h4>
-          <p data-i18n-html="modals.hobbies.playing.pickCard1.text"></p>
+          <h4 data-i18n="modals.hobbies.playing.leagueOfLegends.title"></h4>
+          <p data-i18n-html="modals.hobbies.playing.leagueOfLegends.text"></p>
         </article>
         <article class="pick-card">
           <img width="900" height="506" class="pick-card__img" src="assets/hobbies/baldurs-gate-3.jpg" alt="" loading="lazy">
-          <h4 data-i18n="modals.hobbies.playing.pickCard2.title"></h4>
-          <p data-i18n="modals.hobbies.playing.pickCard2.text"></p>
+          <h4 data-i18n="modals.hobbies.playing.baldursGate3.title"></h4>
+          <p data-i18n="modals.hobbies.playing.baldursGate3.text"></p>
         </article>
       </div>
     </section>
@@ -1578,48 +1755,7 @@
 
   <template id="tpl-pictures">
     <h2 class="expand-title" data-i18n="modals.pictures.title"></h2>
-    <div class="pic-grid">
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/companion.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.companion.imageAlt"><figcaption data-i18n="modals.pictures.companion.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/at-the-grill.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.atTheGrill.imageAlt"><figcaption data-i18n="modals.pictures.atTheGrill.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/family-barbecue.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.familyBarbecue.imageAlt"><figcaption data-i18n="modals.pictures.familyBarbecue.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/match-with-a-friend.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.matchWithAFriend.imageAlt"><figcaption data-i18n="modals.pictures.matchWithAFriend.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/tennis-court.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.tennisCourt.imageAlt"><figcaption data-i18n="modals.pictures.tennisCourt.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/tennis-class.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.tennisClass.imageAlt"><figcaption data-i18n="modals.pictures.tennisClass.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/indian-cake.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.indianCake.imageAlt"><figcaption data-i18n="modals.pictures.indianCake.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/coffee-shop.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.coffeeShop.imageAlt"><figcaption data-i18n="modals.pictures.coffeeShop.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/ducks-at-the-park.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.ducksAtThePark.imageAlt"><figcaption data-i18n="modals.pictures.ducksAtThePark.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/game-night.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.gameNight.imageAlt"><figcaption data-i18n="modals.pictures.gameNight.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/lotus-pie.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.lotusPie.imageAlt"><figcaption data-i18n="modals.pictures.lotusPie.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/another-city.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.anotherCity.imageAlt"><figcaption data-i18n="modals.pictures.anotherCity.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/among-the-flowers.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.amongTheFlowers.imageAlt"><figcaption data-i18n="modals.pictures.amongTheFlowers.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/orchids.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.orchids.imageAlt"><figcaption data-i18n="modals.pictures.orchids.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/bouquet.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.bouquet.imageAlt"><figcaption data-i18n="modals.pictures.bouquet.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/carnations.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.carnations.imageAlt"><figcaption data-i18n="modals.pictures.carnations.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/dessert-first.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.dessertFirst.imageAlt"><figcaption data-i18n="modals.pictures.dessertFirst.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/garden-fountain.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.gardenFountain.imageAlt"><figcaption data-i18n="modals.pictures.gardenFountain.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/garden-statues.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.gardenStatues.imageAlt"><figcaption data-i18n="modals.pictures.gardenStatues.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/donuts.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.donuts.imageAlt"><figcaption data-i18n="modals.pictures.donuts.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/gym.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.gym.imageAlt"><figcaption data-i18n="modals.pictures.gym.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/match-day.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.matchDay.imageAlt"><figcaption data-i18n="modals.pictures.matchDay.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/office-day.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.officeDay.imageAlt"><figcaption data-i18n="modals.pictures.officeDay.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/family-gathering.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.familyGathering.imageAlt"><figcaption data-i18n="modals.pictures.familyGathering.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/angry-macaw.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.angryMacaw.imageAlt"><figcaption data-i18n="modals.pictures.angryMacaw.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/on-the-mower.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.onTheMower.imageAlt"><figcaption data-i18n="modals.pictures.onTheMower.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/at-the-zoo.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.atTheZoo.imageAlt"><figcaption data-i18n="modals.pictures.atTheZoo.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/beach-day.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.beachDay.imageAlt"><figcaption data-i18n="modals.pictures.beachDay.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/cafe-with-a-friend.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.cafeWithAFriend.imageAlt"><figcaption data-i18n="modals.pictures.cafeWithAFriend.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/stained-glass.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.stainedGlass.imageAlt"><figcaption data-i18n="modals.pictures.stainedGlass.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/dessert-day.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.dessertDay.imageAlt"><figcaption data-i18n="modals.pictures.dessertDay.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/dino-at-the-office.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.dinoAtTheOffice.imageAlt"><figcaption data-i18n="modals.pictures.dinoAtTheOffice.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/finishing-the-cake.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.finishingTheCake.imageAlt"><figcaption data-i18n="modals.pictures.finishingTheCake.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/natural-spring.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.naturalSpring.imageAlt"><figcaption data-i18n="modals.pictures.naturalSpring.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/little-chick.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.littleChick.imageAlt"><figcaption data-i18n="modals.pictures.littleChick.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/monkey-on-the-trail.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.monkeyOnTheTrail.imageAlt"><figcaption data-i18n="modals.pictures.monkeyOnTheTrail.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/stroll-together.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.strollTogether.imageAlt"><figcaption data-i18n="modals.pictures.strollTogether.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/playing-tennis.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.playingTennis.imageAlt"><figcaption data-i18n="modals.pictures.playingTennis.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/playing-pool.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.playingPool.imageAlt"><figcaption data-i18n="modals.pictures.playingPool.caption"></figcaption></figure>
-      <figure class="pic-card"><img width="600" height="600" src="assets/pictures/volleyball-tournament.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.pictures.volleyballTournament.imageAlt"><figcaption data-i18n="modals.pictures.volleyballTournament.caption"></figcaption></figure>
-    </div>
+    <div class="pic-grid"></div>
   </template>
 
   <script type="module" src="src/scripts/main.js"></script>

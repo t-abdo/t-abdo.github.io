@@ -1,43 +1,51 @@
+import { t } from './i18n.js';
+
 const INTERVAL_MS = 5000;
 
-// Some Moments order: a shuffled-looking spread so consecutive frames don't repeat a theme.
-const PICTURES = [
-  'companion',
+/* Some of My Days, in one list: the card's drift and the panel's grid both read
+   it, so a photo is added here once. The order alternates people, places, food,
+   sport and nature, so neighbouring frames never repeat a theme. Each slug has
+   a caption and alt text under modals.pictures in texts.js, keyed in camelCase. */
+const PICTURE_NAMES = [
   'at-the-grill',
+  'companion',
   'match-with-a-friend',
-  'indian-cake',
-  'coffee-shop',
-  'ducks-at-the-park',
-  'game-night',
-  'tennis-class',
-  'lotus-pie',
   'another-city',
+  'ducks-at-the-park',
+  'indian-cake',
+  'tennis-class',
+  'family-gathering',
   'among-the-flowers',
-  'family-barbecue',
-  'dessert-first',
+  'coffee-shop',
+  'playing-pool',
+  'game-night',
+  'angry-macaw',
+  'volleyball-tournament',
+  'beach-day',
   'orchids',
+  'church-day',
+  'little-chick',
+  'dessert-first',
+  'playing-tennis',
+  'coffee-with-a-friend',
   'garden-fountain',
   'donuts',
-  'gym',
-  'match-day',
-  'family-gathering',
-  'angry-macaw',
+  'garden-statues',
   'on-the-mower',
-  'at-the-zoo',
-  'beach-day',
-  'cafe-with-a-friend',
-  'stained-glass',
-  'dessert-day',
-  'dino-at-the-office',
-  'finishing-the-cake',
-  'natural-spring',
-  'little-chick',
   'monkey-on-the-trail',
+  'dessert-day',
+  'tennis-court',
+  'dino-at-the-office',
+  'bouquet',
+  'finishing-the-cake',
+  'at-the-zoo',
   'stroll-together',
-  'playing-tennis',
-  'playing-pool',
-  'volleyball-tournament',
-].map((name) => `assets/pictures/${name}.jpg`);
+  'carnations',
+  'office-day',
+  'natural-spring',
+];
+
+const PICTURES = PICTURE_NAMES.map((name) => `assets/pictures/${name}.jpg`);
 
 // A stack's data-slideshow is either "pictures" or a comma-separated list of images.
 function sourcesFor(stack) {
@@ -77,7 +85,7 @@ function startSlideshow(stack, delay) {
   setTimeout(() => setInterval(advance, INTERVAL_MS), delay);
 }
 
-/* Some Moments drifts the whole set past the card instead of cutting between
+/* Some of My Days drifts the whole set past the card instead of cutting between
    photos: the list is laid down twice so the loop has no seam. */
 function buildFlow(stack) {
   const sources = stack.dataset.flow === 'pictures'
@@ -102,7 +110,37 @@ function buildFlow(stack) {
   stack.appendChild(track);
 }
 
+// "game-night" → "gameNight", the key its caption lives under.
+function textKey(name) {
+  return name.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+}
+
+/* The panel's grid is written into its <template> from the same list. Nodes are
+   made by the template's own inert document, so nothing downloads until the
+   panel is opened and the grid is cloned into the page. */
+function fillGrid() {
+  const grid = document.getElementById('tpl-pictures')?.content.querySelector('.pic-grid');
+  if (!grid) return;
+  const doc = grid.ownerDocument;
+  grid.replaceChildren(...PICTURE_NAMES.map((name, i) => {
+    const key = `modals.pictures.${textKey(name)}`;
+    const img = doc.createElement('img');
+    img.width = 600;
+    img.height = 600;
+    img.loading = 'lazy';
+    img.alt = t(`${key}.imageAlt`);
+    img.src = PICTURES[i];
+    const caption = doc.createElement('figcaption');
+    caption.textContent = t(`${key}.caption`);
+    const figure = doc.createElement('figure');
+    figure.className = 'pic-card';
+    figure.append(img, caption);
+    return figure;
+  }));
+}
+
 export function initPictures() {
+  fillGrid();
   document.querySelectorAll('.pics-stack[data-flow]').forEach(buildFlow);
 
   // Offset each stack so neighbouring cards don't swap on the same beat.

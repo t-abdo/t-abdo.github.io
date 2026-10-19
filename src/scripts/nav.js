@@ -1,4 +1,4 @@
-const MOBILE_BREAKPOINT = 860;
+import { gridLayout, isMobileLayout } from './breakpoints.js';
 
 /* Desktop — 4 columns x 252px rows. Matched cards come first (top rows),
    everything else is pushed down and dimmed. */
@@ -23,23 +23,25 @@ const LAYOUTS = {
     pictures:    { col: '1 / 5',  row: '11' },
   },
   about: {
+    /* The cards keep the places they hold under All; the quotes move up into
+       the space the projects leave. */
     about:       { col: '1 / 3',  row: '1' },
     stack:       { col: '3',      row: '1' },
-    docs:        { col: '4',      row: '1' },
+    nng:         { col: '4',      row: '1' },
     path:        { col: '1',      row: '2 / 4' },
-    nng:         { col: '2',      row: '2' },
-    bachelor:    { col: '3',      row: '2' },
-    aiquote:     { col: '2 / 4',  row: '3' },
-    careerquote: { col: '1 / 3',  row: '4' },
-    leadquote:   { col: '3 / 5',  row: '4' },
-    hobbies:     { col: '1 / 3',  row: '5', dim: true },
-    mmi:         { col: '3 / 5',  row: '5 / 7', dim: true },
-    cpq:         { col: '1 / 3',  row: '7 / 9', dim: true },
-    mesh:        { col: '3 / 5',  row: '7 / 9', dim: true },
-    edu:         { col: '1 / 3',  row: '9 / 11', dim: true },
-    hub:         { col: '3 / 5',  row: '9 / 11', dim: true },
-    econfig:     { col: '1 / 3',  row: '11 / 13', dim: true },
-    pictures:    { col: '1 / 5',  row: '13', dim: true },
+    aiquote:     { col: '2 / 4',  row: '2' },
+    careerquote: { col: '2 / 4',  row: '3' },
+    bachelor:    { col: '4',      row: '2' },
+    docs:        { col: '4',      row: '3' },
+    leadquote:   { col: '1 / 3',  row: '4' },
+    hobbies:     { col: '3 / 5',  row: '4', dim: true },
+    mmi:         { col: '1 / 3',  row: '5 / 7', dim: true },
+    cpq:         { col: '3 / 5',  row: '5 / 7', dim: true },
+    mesh:        { col: '1 / 3',  row: '7 / 9', dim: true },
+    edu:         { col: '3 / 5',  row: '7 / 9', dim: true },
+    hub:         { col: '1 / 3',  row: '9 / 11', dim: true },
+    econfig:     { col: '3 / 5',  row: '9 / 11', dim: true },
+    pictures:    { col: '1 / 5',  row: '11', dim: true },
   },
   work: {
     mmi:         { col: '1 / 3',  row: '1 / 3' },
@@ -48,41 +50,126 @@ const LAYOUTS = {
     edu:         { col: '3 / 5',  row: '3 / 5' },
     hub:         { col: '1 / 3',  row: '5 / 7' },
     econfig:     { col: '3 / 5',  row: '5 / 7' },
+    // Below the projects, the rest in the order the About filter uses.
     about:       { col: '1 / 3',  row: '7', dim: true },
     stack:       { col: '3',      row: '7', dim: true },
-    docs:        { col: '4',      row: '7', dim: true },
+    nng:         { col: '4',      row: '7', dim: true },
     path:        { col: '1',      row: '8 / 10', dim: true },
-    nng:         { col: '2',      row: '8', dim: true },
-    bachelor:    { col: '3',      row: '8', dim: true },
-    aiquote:     { col: '2 / 4',  row: '9', dim: true },
-    hobbies:     { col: '1 / 3',  row: '10', dim: true },
-    careerquote: { col: '3 / 5',  row: '10', dim: true },
-    leadquote:   { col: '1 / 3',  row: '11', dim: true },
-    pictures:    { col: '1 / 5',  row: '12', dim: true },
+    aiquote:     { col: '2 / 4',  row: '8', dim: true },
+    careerquote: { col: '2 / 4',  row: '9', dim: true },
+    bachelor:    { col: '4',      row: '8', dim: true },
+    docs:        { col: '4',      row: '9', dim: true },
+    leadquote:   { col: '1 / 3',  row: '10', dim: true },
+    hobbies:     { col: '3 / 5',  row: '10', dim: true },
+    pictures:    { col: '1 / 5',  row: '11', dim: true },
   },
   personal: {
-    hobbies:     { col: '1 / 3',  row: '1' },
-    bachelor:    { col: '3',      row: '1', dim: true },
-    docs:        { col: '4',      row: '1', dim: true },
-    pictures:    { col: '1 / 5',  row: '2' },
-    about:       { col: '1 / 3',  row: '3', dim: true },
-    stack:       { col: '3',      row: '3', dim: true },
-    nng:         { col: '4',      row: '3', dim: true },
+    /* Some of My Days runs the full width on top, Favorite Things keeps its
+       two cells under it, and the rest packs in without gaps. */
+    pictures:    { col: '1 / 5',  row: '1' },
+    hobbies:     { col: '1 / 3',  row: '2' },
+    about:       { col: '3 / 5',  row: '2', dim: true },
+    stack:       { col: '1',      row: '3', dim: true },
+    nng:         { col: '2',      row: '3', dim: true },
+    leadquote:   { col: '3 / 5',  row: '3', dim: true },
     path:        { col: '1',      row: '4 / 6', dim: true },
-    mmi:         { col: '2 / 4',  row: '4 / 6', dim: true },
-    leadquote:   { col: '1 / 3',  row: '6', dim: true },
-    cpq:         { col: '1 / 3',  row: '7 / 9', dim: true },
-    aiquote:     { col: '3 / 5',  row: '7', dim: true },
-    careerquote: { col: '3 / 5',  row: '8', dim: true },
-    mesh:        { col: '1 / 3',  row: '9 / 11', dim: true },
-    edu:         { col: '3 / 5',  row: '9 / 11', dim: true },
-    hub:         { col: '1 / 3',  row: '11 / 13', dim: true },
-    econfig:     { col: '3 / 5',  row: '11 / 13', dim: true },
+    aiquote:     { col: '2 / 4',  row: '4', dim: true },
+    bachelor:    { col: '4',      row: '4', dim: true },
+    careerquote: { col: '2 / 4',  row: '5', dim: true },
+    docs:        { col: '4',      row: '5', dim: true },
+    mmi:         { col: '1 / 3',  row: '6 / 8', dim: true },
+    cpq:         { col: '3 / 5',  row: '6 / 8', dim: true },
+    mesh:        { col: '1 / 3',  row: '8 / 10', dim: true },
+    edu:         { col: '3 / 5',  row: '8 / 10', dim: true },
+    hub:         { col: '1 / 3',  row: '10 / 12', dim: true },
+    econfig:     { col: '3 / 5',  row: '10 / 12', dim: true },
   },
 };
 
-/* Mobile — 2 columns, auto row height; the path card spans two rows beside the square cards. */
-const MOBILE_LAYOUTS = {
+/* Tablet — 4 square columns (a row is as tall as a column is wide). Case
+   studies are 4 by 4, the intro and the contact block 4 by 2, the certificates
+   2 by 2 beside the tall Work Experience card. */
+const TABLET_LAYOUTS = {
+  all: {
+    about:       { col: '1 / 5',  row: '1 / 3' },
+    stack:       { col: '1 / 5',  row: '3 / 5' },
+    path:        { col: '1 / 3',  row: '5 / 9' },
+    nng:         { col: '3 / 5',  row: '5 / 7' },
+    bachelor:    { col: '3 / 5',  row: '7 / 9' },
+    docs:        { col: '1 / 5',  row: '9' },
+    mmi:         { col: '1 / 5',  row: '10 / 14' },
+    cpq:         { col: '1 / 5',  row: '14 / 18' },
+    careerquote: { col: '1 / 5',  row: '18 / 20' },
+    mesh:        { col: '1 / 5',  row: '20 / 24' },
+    aiquote:     { col: '1 / 5',  row: '24 / 26' },
+    edu:         { col: '1 / 5',  row: '26 / 30' },
+    hobbies:     { col: '1 / 5',  row: '30 / 32' },
+    leadquote:   { col: '1 / 5',  row: '32 / 34' },
+    econfig:     { col: '1 / 5',  row: '34 / 38' },
+    hub:         { col: '1 / 5',  row: '38 / 42' },
+    pictures:    { col: '1 / 5',  row: '42 / 44' },
+  },
+  about: {
+    about:       { col: '1 / 5',  row: '1 / 3' },
+    stack:       { col: '1 / 5',  row: '3 / 5' },
+    path:        { col: '1 / 3',  row: '5 / 9' },
+    nng:         { col: '3 / 5',  row: '5 / 7' },
+    bachelor:    { col: '3 / 5',  row: '7 / 9' },
+    docs:        { col: '1 / 5',  row: '9' },
+    aiquote:     { col: '1 / 5',  row: '10 / 12' },
+    careerquote: { col: '1 / 5',  row: '12 / 14' },
+    leadquote:   { col: '1 / 5',  row: '14 / 16' },
+    hobbies:     { col: '1 / 5',  row: '16 / 18', dim: true },
+    mmi:         { col: '1 / 5',  row: '18 / 22', dim: true },
+    cpq:         { col: '1 / 5',  row: '22 / 26', dim: true },
+    mesh:        { col: '1 / 5',  row: '26 / 30', dim: true },
+    edu:         { col: '1 / 5',  row: '30 / 34', dim: true },
+    hub:         { col: '1 / 5',  row: '34 / 38', dim: true },
+    econfig:     { col: '1 / 5',  row: '38 / 42', dim: true },
+    pictures:    { col: '1 / 5',  row: '42 / 44', dim: true },
+  },
+  work: {
+    mmi:         { col: '1 / 5',  row: '1 / 5' },
+    cpq:         { col: '1 / 5',  row: '5 / 9' },
+    mesh:        { col: '1 / 5',  row: '9 / 13' },
+    edu:         { col: '1 / 5',  row: '13 / 17' },
+    hub:         { col: '1 / 5',  row: '17 / 21' },
+    econfig:     { col: '1 / 5',  row: '21 / 25' },
+    about:       { col: '1 / 5',  row: '25 / 27', dim: true },
+    stack:       { col: '1 / 5',  row: '27 / 29', dim: true },
+    path:        { col: '1 / 3',  row: '29 / 33', dim: true },
+    nng:         { col: '3 / 5',  row: '29 / 31', dim: true },
+    bachelor:    { col: '3 / 5',  row: '31 / 33', dim: true },
+    docs:        { col: '1 / 5',  row: '33', dim: true },
+    aiquote:     { col: '1 / 5',  row: '34 / 36', dim: true },
+    careerquote: { col: '1 / 5',  row: '36 / 38', dim: true },
+    leadquote:   { col: '1 / 5',  row: '38 / 40', dim: true },
+    hobbies:     { col: '1 / 5',  row: '40 / 42', dim: true },
+    pictures:    { col: '1 / 5',  row: '42 / 44', dim: true },
+  },
+  personal: {
+    hobbies:     { col: '1 / 5',  row: '1 / 3' },
+    pictures:    { col: '1 / 5',  row: '3 / 5' },
+    path:        { col: '1 / 3',  row: '5 / 9', dim: true },
+    bachelor:    { col: '3 / 5',  row: '5 / 7', dim: true },
+    nng:         { col: '3 / 5',  row: '7 / 9', dim: true },
+    docs:        { col: '1 / 5',  row: '9', dim: true },
+    about:       { col: '1 / 5',  row: '10 / 12', dim: true },
+    stack:       { col: '1 / 5',  row: '12 / 14', dim: true },
+    mmi:         { col: '1 / 5',  row: '14 / 18', dim: true },
+    cpq:         { col: '1 / 5',  row: '18 / 22', dim: true },
+    mesh:        { col: '1 / 5',  row: '22 / 26', dim: true },
+    edu:         { col: '1 / 5',  row: '26 / 30', dim: true },
+    hub:         { col: '1 / 5',  row: '30 / 34', dim: true },
+    econfig:     { col: '1 / 5',  row: '34 / 38', dim: true },
+    aiquote:     { col: '1 / 5',  row: '38 / 40', dim: true },
+    careerquote: { col: '1 / 5',  row: '40 / 42', dim: true },
+    leadquote:   { col: '1 / 5',  row: '42 / 44', dim: true },
+  },
+};
+
+/* Phone — 2 columns, auto row height; the path card spans two rows beside the square cards. */
+const PHONE_LAYOUTS = {
   all: {
     about:       { col: '1 / 3',  row: '1' },
     stack:       { col: '1 / 3',  row: '2' },
@@ -143,12 +230,12 @@ const MOBILE_LAYOUTS = {
   personal: {
     hobbies:     { col: '1 / 3',  row: '1' },
     pictures:    { col: '1 / 3',  row: '2' },
-    about:       { col: '1 / 3',  row: '3', dim: true },
-    stack:       { col: '1 / 3',  row: '4', dim: true },
-    path:        { col: '1',      row: '5 / 7', dim: true },
-    nng:         { col: '2',      row: '5', dim: true },
-    bachelor:    { col: '2',      row: '6', dim: true },
-    docs:        { col: '1 / 3',  row: '7', dim: true },
+    path:        { col: '1',      row: '3 / 5', dim: true },
+    bachelor:    { col: '2',      row: '3', dim: true },
+    nng:         { col: '2',      row: '4', dim: true },
+    docs:        { col: '1 / 3',  row: '5', dim: true },
+    about:       { col: '1 / 3',  row: '6', dim: true },
+    stack:       { col: '1 / 3',  row: '7', dim: true },
     mmi:         { col: '1 / 3',  row: '8', dim: true },
     cpq:         { col: '1 / 3',  row: '9', dim: true },
     mesh:        { col: '1 / 3',  row: '10', dim: true },
@@ -173,10 +260,6 @@ export function initNav() {
 
   let currentFilter = 'all';
 
-  function isMobile() {
-    return window.innerWidth <= MOBILE_BREAKPOINT;
-  }
-
   function placeIndicator(pill) {
     const pillsRect = pills.getBoundingClientRect();
     const rect = pill.getBoundingClientRect();
@@ -185,7 +268,7 @@ export function initNav() {
   }
 
   function applyLayout(filter, { animate }) {
-    const map = isMobile() ? MOBILE_LAYOUTS : LAYOUTS;
+    const map = { phone: PHONE_LAYOUTS, tablet: TABLET_LAYOUTS, desktop: LAYOUTS }[gridLayout()];
     const layout = map[filter] || map.all;
 
     const prevRects = animate ? new Map(cards.map((c) => [c, c.getBoundingClientRect()])) : null;
@@ -244,7 +327,7 @@ export function initNav() {
     const grid = document.getElementById('grid');
     if (!grid) return;
     // Clear of the nav on desktop; on mobile the nav sits at the bottom.
-    const gap = isMobile() ? 12 : 96;
+    const gap = isMobileLayout() ? 12 : 96;
     const target = Math.max(0, grid.getBoundingClientRect().top + window.scrollY - gap);
     if (window.scrollY <= target + 1) return;
     // 'auto', like the back-to-top button: the cards are already animating,
@@ -253,11 +336,13 @@ export function initNav() {
   }
 
   pills.querySelectorAll('.nav-pill').forEach((pill) => {
-    pill.addEventListener('click', (e) => {
-      e.preventDefault();
+    pill.addEventListener('click', () => {
       if (pill.dataset.filter === currentFilter) return;
-      pills.querySelector('.nav-pill.active')?.classList.remove('active');
+      const previous = pills.querySelector('.nav-pill.active');
+      previous?.classList.remove('active');
+      previous?.setAttribute('aria-pressed', 'false');
       pill.classList.add('active');
+      pill.setAttribute('aria-pressed', 'true');
       placeIndicator(pill);
       currentFilter = pill.dataset.filter;
       applyLayout(currentFilter, { animate: true });

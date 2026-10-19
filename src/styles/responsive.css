@@ -1,0 +1,155 @@
+/*
+  Responsive: layout changes by viewport width. Loaded last so these win
+  over the defaults in every other file.
+*/
+
+/* ── Mobile page logo ── */
+.mobile-page-logo { display: none; }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 1140px) {
+  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 900px; }
+}
+
+@media (max-width: 860px) {
+  /* No room for the section list: the switch alone sits above the article */
+  .expand-content--with-nav { display: block; }
+  .cs-nav { position: static; padding: var(--panel-top) 20px 0; }
+  .cs-nav-list { display: none; }
+  .expand-content--with-nav .cs { padding-top: 32px; }
+
+  /* The filters float alone at the bottom, centred on the screen; the
+     switches move up beside the page logo so they don't push them aside. */
+  .nav {
+    top: auto;
+    bottom: 16px;
+    padding: 0;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .nav-logo { display: none; }
+
+  .nav-pills {
+    position: relative;
+    left: auto;
+    transform: none;
+    background: var(--color-surface-nav-blur);
+    box-shadow: 0 4px 30px var(--color-shadow-nav);
+    pointer-events: auto;
+  }
+
+  .nav-toggles {
+    position: fixed;
+    top: 22px;
+    right: 16px;
+    margin-left: 0;
+    pointer-events: auto;
+  }
+
+  .theme-toggle { padding: 0 12px; box-shadow: 0 4px 30px var(--color-shadow-nav); }
+  .theme-toggle #themeLabel { display: none; }
+  .lang-toggle .lang-label { display: none; }
+
+  .nav-pill { padding: 10px 12px; font-size: var(--text-base); white-space: nowrap; }
+
+  .back-to-top { display: none; }
+
+  .main {
+    /* Row layout would stand the page logo beside the grid; stacking puts it
+       on top and gives the cards the full width inside the padding. */
+    flex-direction: column;
+    align-items: stretch;
+    padding: 24px 16px 110px;
+  }
+
+  .mobile-page-logo {
+    display: block;
+    text-align: center;
+    font-size: var(--text-3xl);
+    margin: 0 auto 20px;
+  }
+
+  .cert-figure { width: 100%; }
+
+  .case-switch { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .case-switch::-webkit-scrollbar { display: none; }
+  .case-tab { padding: 8px 12px; font-size: var(--text-sm); white-space: nowrap; }
+}
+
+/* ── Tablet: four square columns ──
+   A row is as tall as a column is wide, so a case study (four by four) is a
+   square, the intro and the contact block are half of one, and the
+   certificates are quarters. */
+@media (min-width: 561px) and (max-width: 860px) {
+  .main { container-type: inline-size; }
+
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: calc((100cqi - 3 * 14px) / 4);
+    gap: 14px;
+    max-width: none;
+  }
+
+  /* The blocks inside a slot keep the grid's gap, so their edges line up */
+  .bento-stack { gap: 14px; }
+  /* Resume and references side by side, each half the row */
+  .bento-stack--docs { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; }
+}
+
+/* ── Phone: two columns, rows as tall as their content ── */
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    max-width: 520px;
+    margin-inline: auto;
+    gap: 14px;
+  }
+
+  .bento-card[data-card='about'] { min-height: 220px; }
+  .bento-card[data-card='gmail'], .bento-card[data-card='linkedin'] { aspect-ratio: 1; }
+  /* Case study covers are absolutely positioned, so on the auto-height mobile
+     grid the card has nothing to size against. */
+  .project-card { min-height: 280px; }
+  .path-card-inner { padding: 16px 12px; }
+  .path-stop .career-logo { width: 88px; }
+  .path-stop .path-logo--ibm { width: 70px; }
+
+  .quote-card { min-height: 190px; padding: 28px 24px; }
+  .quote-text { font-size: var(--text-lg); }
+
+  .bento-card[data-card='nng'],
+  .bento-card[data-card='resume'] { aspect-ratio: 1; }
+  .badge-inner { padding: 12px 10px; gap: 16px; }
+  .badge-media { height: 46px; }
+  .resume-file, .ref-mark { width: 46px; }
+  .badge-title { font-size: var(--text-sm); }
+  .badge-sub { font-size: var(--text-2xs); }
+  /* Explicit rows rather than an aspect ratio: in an auto-height grid row the
+     ratio has nothing to resolve against, and the block spills over the card
+     above it. */
+  .bento-stack { grid-template-rows: 150px 150px; gap: 14px; }
+  .bento-stack--docs { grid-template-rows: 110px 110px; }
+
+  /* Both run the full width now, like the quotes */
+  .bento-card[data-card='hobbies'], .bento-card[data-card='pictures'] { aspect-ratio: 2 / 1; }
+
+  .about-card-inner { flex-direction: column; align-items: flex-start; padding: 24px; padding-bottom: 56px; }
+  .about-avatar { width: 109px; height: 109px; }
+
+  /* The card is short here: the bottom row still clears the name, the top one
+     moves in less so the title keeps room on both sides. */
+  .edu-cover { padding: 64px 0 52px; }
+  .edu-cover-text { padding: 0 18px; }
+
+  .card-tags { gap: 4px; max-width: calc(100% - 56px); }
+  .card-tag { font-size: var(--text-2xs); padding: 2px 7px; letter-spacing: 0; }
+
+  .about-card-inner { align-items: center; text-align: center; }
+  .about-bio { font-size: var(--text-md); }
+  .expand-inner { padding: var(--panel-top) 24px 32px; }
+  .expand-card { border-radius: 24px !important; }
+}

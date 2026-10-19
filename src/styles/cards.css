@@ -1,0 +1,1159 @@
+/*
+  Cards: everything that sits in the grid, from the shared card shell to each
+  card's own artwork.
+*/
+
+/* ── Bento card base ── */
+.bento-card {
+  --card-inset-top: var(--color-card-inset-top);
+  --card-inset-bottom: var(--color-card-inset-bottom);
+  --card-shadow-rest:
+    0 1px 3px var(--color-shadow-card-rest),
+    0 1px 2px var(--color-shadow-card-rest),
+    inset 0 1px 0 var(--card-inset-top),
+    inset 0 -1px 0 var(--card-inset-bottom);
+  background: var(--color-surface-card);
+  border-radius: 28px;
+  border: 1px solid var(--color-border-card);
+  box-shadow: var(--card-shadow-rest);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  isolation: isolate;
+  transition: background 0.5s ease, box-shadow 0.3s ease, border-color 0.3s ease, transform 0.15s ease, opacity 0.4s ease;
+  animation: card-enter 0.7s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: var(--card-enter-delay, 0s);
+}
+
+.bento-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: var(--card-grain-opacity);
+  mix-blend-mode: var(--card-grain-blend);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bento-card:hover {
+  /* Every card painted with the card surface follows it, washes included;
+     the photo and project cards paint their own ground and stay as they are. */
+  --color-surface-card: var(--color-surface-card-hover);
+  box-shadow:
+    0 12px 40px var(--color-shadow-card-hover),
+    0 4px 12px var(--color-shadow-card-hover-2),
+    inset 0 1px 0 var(--card-inset-top),
+    inset 0 -1px 0 var(--card-inset-bottom);
+  transform: translateY(-3px);
+}
+
+.bento-card:active {
+  transform: scale(0.97);
+  transition: background 0.5s ease, box-shadow 0.08s ease, border-color 0.3s ease, transform 0.08s ease;
+}
+
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Grid placement is applied inline by nav.js (per-filter FLIP layouts) */
+.bento-card[data-card='about']     { --card-enter-delay: 0s; }
+.bento-card[data-card='gmail']     { --card-enter-delay: 0.1s; }
+.bento-card[data-card='linkedin']  { --card-enter-delay: 0.2s; }
+.bento-card[data-card='path']      { --card-enter-delay: 0.3s; }
+.bento-card[data-card='hobbies']   { --card-enter-delay: 0.4s; }
+.bento-card[data-card='pictures']  { --card-enter-delay: 0.5s; }
+.bento-card[data-card='cpq']         { --card-enter-delay: 0.6s; }
+.bento-card[data-card='mmi']         { --card-enter-delay: 0.65s; }
+.bento-card[data-card='aiquote']     { --card-enter-delay: 0.7s; }
+.bento-card[data-card='nng']         { --card-enter-delay: 0.8s; }
+.bento-card[data-card='resume']      { --card-enter-delay: 0.85s; }
+.bento-card[data-card='careerquote'] { --card-enter-delay: 0.9s; }
+.bento-card[data-card='leadquote']   { --card-enter-delay: 0.95s; }
+.bento-card[data-card='references']  { --card-enter-delay: 1s; }
+
+
+/* Hidden while its overlay is open. No `animation` override: toggling it would
+   restart the entrance animation (with its per-card delay) on every close. */
+.bento-card--dim { opacity: 0.3; pointer-events: none; }
+
+.bento-card--ghost { opacity: 0 !important; pointer-events: none; transition: none !important; }
+
+/* ── Action icon (top-right, appears on hover / always on touch) ── */
+.action-icon {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 40px; height: 40px;
+  background: var(--color-surface-action-icon);
+  border-radius: 100px;
+  /* Faint outline so the circle still reads on a pale cover */
+  border: 1px solid var(--color-border-action-icon);
+  box-shadow: 0 2px 40px var(--color-shadow-action-icon);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.5s ease;
+  z-index: 10;
+}
+
+.bento-card:hover .action-icon { opacity: 1; transform: scale(1); }
+
+/* Dark cards set a light `color`, which the expand glyph inherits via
+   currentColor — on the light action-icon circle that renders invisible. */
+.project-card .action-icon { color: var(--color-text-primary); }
+
+.action-icon svg { width: 16px; height: 16px; }
+.action-icon svg, .action-icon img { filter: var(--filter-action-icon); }
+
+@media (pointer: coarse), (max-width: 860px) {
+  .action-icon { opacity: 1; transform: scale(1); }
+}
+
+/* ── Always-on card label (bottom-left, legible on any background) ── */
+.card-label {
+  position: absolute;
+  left: 50%; bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  max-width: calc(100% - 32px);
+  white-space: nowrap;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: var(--color-label-bg);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  /* Same lettering as the English level caption */
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--color-label-text);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+.project-card .card-label {
+  background: var(--color-label-bg-dark);
+  color: var(--color-label-text-on-dark);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Card tags (top-left chips) ── */
+.card-tags {
+  position: absolute;
+  top: 16px; left: 16px;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: calc(100% - 72px);
+  pointer-events: none;
+}
+
+.card-tag {
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: var(--color-label-bg);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-label-text);
+}
+
+.project-card .card-tag {
+  background: var(--color-label-bg-dark);
+  color: var(--color-label-text-on-dark);
+}
+
+/* Client mark on a project cover. The double shadow — a tight light halo and a
+   soft dark one — keeps it readable over a pale screenshot or a dark render
+   without turning into a heavy plate. */
+.card-logo {
+  position: absolute;
+  right: 32px;
+  bottom: 32px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  padding: 8px 14px;
+  border-radius: 100px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+/* The pill follows the artwork: a pale one under dark marks, a dark one under
+   the white Rivian mark, so neither disappears into its own plate. */
+.card-logo[data-logo-variant='light'] { background: var(--color-label-bg); }
+.card-logo[data-logo-variant='dark'] { background: var(--color-label-bg-dark); }
+
+.card-logo svg { display: block; width: 104px; height: auto; }
+
+/* ── Project card (case study) ── */
+.project-card {
+  background: var(--color-surface-media);
+  color: var(--color-text-on-media);
+  border-color: transparent;
+}
+
+.project-card,
+.project-card:hover {
+  --card-inset-top: transparent;
+  --card-inset-bottom: transparent;
+}
+
+/* A card filled edge to edge with a photo has no pale rim for the inset
+   highlight to catch, which is why these read as flat next to the white cards.
+   A real drop shadow puts them back on the same plane. */
+.project-card,
+.photo-card {
+  --card-shadow-rest:
+    0 2px 4px var(--alpha-black-8),
+    0 10px 24px var(--alpha-black-10);
+}
+
+
+
+.project-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(8, 8, 16, 0.1) 40%, rgba(8, 8, 16, 0.75) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.project-card .card-label,
+.project-card .card-tags,
+.project-card .action-icon { z-index: 5; }
+
+/* ── About card ── */
+.about-card-inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 24px 28px 24px 24px;
+  gap: 26px;
+}
+
+.about-avatar {
+  width: 195px; height: 195px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.about-bio { font-size: var(--text-lg); line-height: var(--leading-airy); }
+
+/* The role wipes in from the left each time the card is hovered. It is an
+   inline-block so the clip has a box of its own to travel across. */
+.about-bio strong { display: inline-block; }
+
+.bento-card[data-card='about']:hover .about-bio strong {
+  animation: role-wipe 0.5s ease-out;
+}
+
+@keyframes role-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bento-card[data-card='about']:hover .about-bio strong { animation: none; }
+}
+.about-bio .wave { display: inline-block; }
+
+/* ── Icon cards (Gmail / LinkedIn) ── */
+.icon-card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.icon-card-inner svg { width: 64px; height: 64px; }
+
+/* ── Gmail animated logo (assembles on hover) ── */
+.gm-svg { overflow: hidden; display: block; }
+
+.gm-from-top,
+.gm-from-left,
+.gm-from-right {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.34, 1.15, 0.64, 1);
+  animation-fill-mode: both;
+}
+
+.gm-from-top   { animation-name: gm-in-top; }
+.gm-from-left  { animation-name: gm-in-left; }
+.gm-from-right { animation-name: gm-in-right; }
+
+@keyframes gm-in-top {
+  from { transform: translateY(-50px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+@keyframes gm-in-left {
+  from { transform: translateX(-70px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+@keyframes gm-in-right {
+  from { transform: translateX(70px);  opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+/* ── Gmail copy-to-clipboard pill ── */
+.gmail-card .action-icon {
+  overflow: hidden;
+  transition:
+    opacity          0.2s ease,
+    transform        0.2s ease,
+    width            0.28s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s,
+    background-color 0.22s ease 0.1s,
+    padding          0.28s ease 0.1s;
+}
+
+.gmail-card .action-icon.gmail-copied {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+  width: 92px;
+  padding: 0 14px;
+  background: var(--color-text-primary);
+}
+
+.gm-copy-icon { flex-shrink: 0; transition: opacity 0.12s ease; }
+.gmail-card .action-icon.gmail-copied .gm-copy-icon { opacity: 0; }
+
+.gm-copied-text {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-surface-card);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.gm-copied-text svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+.gmail-card .action-icon.gmail-copied .gm-copied-text {
+  opacity: 1;
+  transition: opacity 0.4s ease 0.3s;
+}
+
+/* ── LinkedIn animated "in" logo (draws on hover) ── */
+.icon-card-inner .li-svg { width: 94px; height: 94px; overflow: visible; display: block; }
+
+.li-dot {
+  fill: var(--color-mark-linkedin);
+  transform-origin: 11px 10px;
+  transform: scale(0);
+  opacity: 0;
+  animation: li-pop-in 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.li-path {
+  fill: none;
+  stroke: var(--color-mark-linkedin);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.88;
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: var(--len);
+  animation: li-draw var(--draw-dur, 0.5s) cubic-bezier(0.4, 0, 0.2, 1) var(--draw-delay, 0s) forwards;
+}
+
+@keyframes li-draw { to { stroke-dashoffset: 0; } }
+@keyframes li-pop-in { to { transform: scale(1); opacity: 1; } }
+
+/* ── Work Experience card: company logos with years, spread down the card ──
+   The Mesh cover's wash, a step lighter: blue settling into one corner and
+   magenta into the other. Lighter is also what keeps the years above 4.5:1 —
+   at the Mesh card's own strength they sit at 4.8:1, here at 5.2:1. */
+.path-card {
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(90% 120% at 18% 8%, rgba(39, 89, 222, 0.11), transparent 62%),
+    radial-gradient(90% 120% at 88% 92%, rgba(208, 38, 112, 0.095), transparent 62%),
+    var(--color-surface-card);
+}
+
+/* The dark card swallows the light wash; the same two colours, stronger */
+[data-theme='dark'] .path-card {
+  background:
+    radial-gradient(90% 120% at 18% 8%, rgba(39, 89, 222, 0.26), transparent 62%),
+    radial-gradient(90% 120% at 88% 92%, rgba(208, 38, 112, 0.22), transparent 62%),
+    var(--color-surface-card);
+}
+
+/* The wash holds one tint — the pale end of what it used to breathe through —
+   and travels sideways instead. The band is twice the card and carries the
+   same colour at both ends, so sliding it exactly one card width lands on an
+   identical image and the loop has no seam. */
+.english-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  /* Multiplied rather than laid on top: the wash tints the card like ink
+     soaking through it instead of glowing on it. */
+  mix-blend-mode: multiply;
+  opacity: 0.11;
+  pointer-events: none;
+  z-index: 0;
+  /* A touch quicker than the Work Experience card, and weighted towards the
+     violet: the magenta passes through as a narrow sweep rather than owning
+     half the band. */
+  animation: wash-drift 14.4s linear infinite;
+  /* Two identical cycles across the band, not one. With a single cycle the
+     second half of the band is the mirror of the first, so sliding one card
+     width lands on a reversed image and the loop snaps back; with two, the
+     halves match exactly and the drift is continuous. */
+  background: linear-gradient(90deg,
+    var(--color-brand-start) 0%,
+    var(--color-brand-start) 11%,
+    var(--color-brand-end) 25%,
+    var(--color-brand-start) 39%,
+    var(--color-brand-start) 61%,
+    var(--color-brand-end) 75%,
+    var(--color-brand-start) 89%,
+    var(--color-brand-start) 100%);
+}
+
+/* A multiplied tint has nothing to darken on the dark card, so there the
+   band lightens instead, and runs stronger. */
+[data-theme='dark'] .english-card::after {
+  mix-blend-mode: screen;
+  opacity: 0.34;
+}
+
+@keyframes wash-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .english-card::after { animation: none; }
+}
+
+.path-card-inner {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 20px;
+  text-align: center;
+}
+
+.path-stop { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+.path-stop .career-logo { display: block; width: 150px; }
+.path-stop .path-logo--ibm { width: 120px; }
+.path-stop .career-logo svg { display: block; width: 100%; height: auto; }
+
+/* Hovering the card draws every mark it holds, the way the LinkedIn icon is
+   drawn: the outline is traced at a constant speed and the fill follows. */
+.logo-shape {
+  stroke-dasharray: var(--len, 0);
+  stroke-dashoffset: var(--len, 0);
+  fill-opacity: 0;
+  animation:
+    logo-draw var(--draw, 0.6s) linear var(--d, 0s) both,
+    logo-ink var(--ink, 0.3s) ease calc(var(--d, 0s) + var(--draw, 0.6s) * 0.7) both;
+}
+
+/* Shapes too small or too complex to measure just fade in */
+.logo-shape:not([style*='--len']) {
+  animation: logo-ink var(--ink, 0.4s) ease var(--d, 0s) both;
+}
+
+@keyframes logo-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes logo-ink {
+  from { fill-opacity: 0; stroke-opacity: 1; }
+  to { fill-opacity: 1; stroke-opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-shape { animation: none; fill-opacity: 1; stroke-opacity: 0; }
+}
+
+/* Named at the foot of the card, in the same small caps the English level uses */
+.path-card-label {
+  position: relative;
+  z-index: 1;
+  padding: 0 20px 32px;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-text-on-wash);
+}
+
+/* Darker than it looks it needs to be: at the peak of the wash the card is a
+   shade of lavender, and this is what holds 4.6:1 against it. */
+.path-stop__years { font-size: var(--text-xs); color: var(--color-text-on-wash); }
+
+/* The years can't be traced like the marks (they're text, not geometry), so
+   they fade in over the same window the mark above them is drawn in. */
+.path-years-fade {
+  animation: path-years-in var(--draw, 0.6s) ease var(--d, 0s) both;
+}
+
+@keyframes path-years-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+[data-theme='dark'] .path-stop__years { color: var(--color-text-faint); }
+
+
+/* ── Badge cards: NN/g, degree and resume share one layout ── */
+.badge-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 20px;
+  padding: 20px 18px;
+  text-align: center;
+}
+
+.badge-media { height: 80px; width: auto; flex-shrink: 0; }
+
+/* The two certificate marks are injected as SVG, like the company logos, so
+   they can be drawn on instead of faded in. */
+.badge-media[data-logo] { display: flex; align-items: center; }
+.badge-media[data-logo] svg { display: block; height: 80px; width: auto; }
+
+.badge-text { display: flex; flex-direction: column; gap: 6px; }
+
+.badge-title {
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+}
+
+.badge-sub {
+  font-size: var(--text-2xs);
+  color: var(--color-text-faint);
+}
+
+/* The certificate names read like the other labels */
+.nng-card .badge-title,
+.bachelor-card .badge-title {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+/* Outline marks are traced on, then the piece that animates on hover (the
+   arrow, the typing dots) takes over. */
+.draw-line--on {
+  stroke-dasharray: var(--len, 0);
+  stroke-dashoffset: var(--len, 0);
+  animation: outline-draw var(--draw, 0.45s) ease var(--d, 0s) both;
+}
+
+@keyframes outline-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* The front bubble is filled with the card colour to mask the one behind it,
+   so the fill has to wait for its own outline. */
+.ref-bubble--front.draw-line--on {
+  animation:
+    outline-draw var(--draw, 0.45s) ease var(--d, 0s) both,
+    outline-fill 0.2s ease calc(var(--d, 0s) + var(--draw, 0.45s)) both;
+}
+
+@keyframes outline-fill {
+  from { fill-opacity: 0; }
+  to { fill-opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draw-line--on,
+  .ref-bubble--front.draw-line--on { animation: none; stroke-dashoffset: 0; }
+}
+
+/* Transparent badge: back its circle in dark mode so the black "NN" stays legible */
+[data-theme='dark'] .nng-logo svg { background: radial-gradient(circle closest-side, var(--color-neutral-0) 96%, transparent 97%); }
+
+/* ── Bachelor card ── */
+/* Black artwork: flip to white in dark mode, hue-rotate keeps the red dots red */
+[data-theme='dark'] .bachelor-logo svg { filter: invert(1) hue-rotate(180deg); }
+
+/* ── English level card ── */
+.english-card { position: relative; overflow: hidden; border-color: var(--color-neutral-150); }
+[data-theme='dark'] .english-card { border-color: var(--color-border-card); }
+
+/* The wash it shares with the Work Experience card is defined with it. */
+
+.english-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 20px;
+  padding: 18px;
+  text-align: center;
+}
+
+.c1-svg { display: block; overflow: visible; }
+
+.c1-path {
+  fill: none;
+  stroke: url(#c1Gradient);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 5;
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: var(--len);
+  animation: li-draw var(--draw-dur, 0.5s) cubic-bezier(0.4, 0, 0.2, 1) var(--draw-delay, 0s) forwards;
+}
+
+.english-caption {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+/* ── References card ── */
+.ref-mark { width: 80px; color: var(--color-text-primary); }
+.ref-bubble--back { opacity: 0.4; }
+/* Filled with the card colour so it hides the part of the back bubble behind it */
+.ref-bubble--front { fill: var(--color-surface-card); }
+.ref-dot { fill: url(#refDotsGradient); }
+
+/* Typing indicator on hover: each dot rises and dims in turn */
+@keyframes ref-typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: 1; }
+  30%           { transform: translateY(-3px); opacity: 0.45; }
+}
+
+.references-card:hover .ref-dot { animation: ref-typing 0.9s ease-in-out 0.6s infinite; }
+.references-card:hover .ref-dot--2 { animation-delay: 0.75s; }
+.references-card:hover .ref-dot--3 { animation-delay: 0.9s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .references-card:hover .ref-dot { animation: none; }
+}
+
+/* References panel */
+.ref-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+
+.ref-item {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 26px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border-card);
+  background: var(--color-surface-in-panel);
+}
+
+.ref-photo {
+  width: 72px; height: 72px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ref-text { display: flex; flex-direction: column; gap: 8px; }
+.ref-name { font-size: var(--text-md); font-weight: var(--weight-semibold); }
+.ref-role { font-size: var(--text-sm); color: var(--color-text-subtle); }
+.ref-desc { font-size: var(--text-base); line-height: var(--leading-relaxed); color: var(--color-text-primary); }
+.ref-contact { font-size: var(--text-sm); color: var(--color-text-subtle); }
+.ref-contact--link { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; color: var(--color-primary); text-decoration: underline; text-underline-offset: 3px; }
+.ref-contact__icon { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* Line breaks that only make sense at desktop widths */
+@media (max-width: 860px) {
+  .br-desktop { display: none; }
+}
+
+/* ── Resume card ── */
+.resume-file { width: 80px; color: var(--color-text-primary); opacity: 0.75; }
+
+.resume-file .rf-line { opacity: 0.45; }
+
+/* Arrow is hidden at rest and only appears on hover, dropping through the page on a loop */
+.rf-arrow { opacity: 0; }
+.resume-card:hover .rf-arrow { animation: rf-drop 1.1s ease-in-out 0.3s infinite; }
+
+@keyframes rf-drop {
+  0%   { transform: translateY(-4px); opacity: 0; }
+  20%  { opacity: 1; }
+  60%  { transform: translateY(3px); opacity: 1; }
+  85%  { transform: translateY(6px); opacity: 0; }
+  100% { transform: translateY(-4px); opacity: 0; }
+}
+
+.resume-card:hover .resume-file { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .resume-card:hover .rf-arrow { animation: none; opacity: 1; }
+}
+
+/* ── Quote cards ──
+   The same surface as the credential cards, set apart by a thin grey rim. */
+.quote-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+  padding: 32px 38px;
+  background: var(--color-surface-card);
+  border-color: var(--color-neutral-150);
+}
+
+[data-theme='dark'] .quote-card { border-color: var(--color-border-card); }
+
+.quote-mark {
+  /* A glyph drawn as an ornament, outside the type scale; the tight line box
+     keeps its empty ascent from pushing the quote down. */
+  font-size: 44px;
+  line-height: 0.6;
+  font-weight: var(--weight-bold);
+  color: var(--color-quote-mark);
+}
+
+.quote-text {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-loose);
+  max-width: 30ch;
+}
+
+.quote-label {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+/* ── Photo cards (A Few of My Favorite Things, Some of My Days) ──
+   Favorite Things crossfades between stills with a slow zoom; Some of My Days
+   drifts the whole set past. Both share the shade and the label below. */
+.pics-stack { position: absolute; inset: 0; z-index: 0; }
+
+.pics-img {
+  position: absolute;
+  /* Taller than the card and centred on it: the picture is enlarged, its
+     top and bottom fall outside evenly, and the extra width is what it
+     travels. */
+  top: -32.5%;
+  left: 0;
+  width: 100%;
+  height: 165%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 0% 0%;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  animation: pics-pan 18s ease-in-out infinite alternate;
+}
+
+.pics-img.is-active { opacity: 1; }
+
+/* The two layers travel in opposite directions, so as one picture hands over
+   to the next the movement turns back the way it came. Both keep moving while
+   hidden, so neither jumps when it fades. */
+.pics-img:nth-child(2) { animation-direction: alternate-reverse; }
+
+@keyframes pics-pan {
+  from { object-position: 0% 0%; }
+  to   { object-position: 100% 0%; }
+}
+
+/* Some of My Days: the photos drift rightwards without stopping. The list is
+   rendered twice, so sliding the track by half its width loops seamlessly. */
+.pics-stack--flow { overflow: hidden; }
+
+.pics-flow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  width: max-content;
+  animation: pics-flow 126s linear infinite;
+}
+
+.pics-flow img {
+  width: auto;
+  height: 100%;
+  flex: none;
+  object-fit: cover;
+}
+
+@keyframes pics-flow {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pics-img { animation: none; }
+  .pics-flow { animation: none; }
+}
+
+.photo-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(8, 8, 16, 0.05) 45%, rgba(8, 8, 16, 0.7) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.photo-card .card-label,
+.photo-card .action-icon { z-index: 5; }
+
+.photo-card .card-label {
+  background: var(--color-label-bg-dark);
+  color: var(--color-label-text-on-dark);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Mesh: a placeholder until the case study is written. The mark and the
+   note sit over the live cover behind them. */
+.mesh-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+  color: var(--color-text-primary);
+  pointer-events: none;
+}
+
+.mesh-cover-logo {
+  position: static;
+  padding: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.mesh-cover-logo svg { width: min(62vw, 190px); }
+
+.mesh-cover-note {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+/* ── Live project covers ─────────────────────────────────────────────────
+   A project card is drawn rather than screenshotted: a ground in the
+   project's own colours, soft lights crossing it, a few things from the case
+   floating through, and its mark in the middle. Each cover only sets the
+   variables; the motion is shared. */
+.live-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  container-type: size;
+  background: var(--cover-ground);
+}
+
+/* Lights: each crosses the card at its own height, size and pace */
+.live-dots { position: absolute; inset: 0; }
+
+.live-dot {
+  position: absolute;
+  top: var(--y);
+  left: 0;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: var(--cover-light-1);
+  box-shadow: 0 0 calc(var(--s) * 0.8) var(--cover-light-1);
+  animation: live-drift var(--d) linear var(--delay) infinite;
+}
+.live-dot:nth-child(3n + 1) { background: var(--cover-light-2); box-shadow: 0 0 calc(var(--s) * 0.8) var(--cover-light-2); }
+.live-dot:nth-child(3n + 2) { background: var(--cover-light-3); box-shadow: none; }
+
+@keyframes live-drift {
+  0%   { transform: translate(-40px, 0); opacity: 0; }
+  10%  { opacity: 1; }
+  50%  { transform: translate(50cqw, -14px); }
+  90%  { opacity: 1; }
+  100% { transform: translate(calc(100cqw + 40px), 6px); opacity: 0; }
+}
+
+/* Floating pieces of the case: a wavy crossing each, on one of three routes */
+.live-float {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--size, 32px);
+  color: var(--c, currentColor);
+  opacity: var(--o, 1);
+  animation: live-fly-1 var(--d, 18s) ease-in-out var(--delay, 0s) infinite;
+}
+.live-float svg { display: block; width: 100%; height: auto; overflow: visible; }
+.live-float--2 { animation-name: live-fly-2; }
+.live-float--3 { animation-name: live-fly-3; }
+/* Gears and the like turn as they go */
+.live-float--spin svg { animation: live-spin 9s linear infinite; }
+
+@keyframes live-fly-1 {
+  0%   { transform: translate(-40px, 72cqh) rotate(12deg); }
+  25%  { transform: translate(25cqw, 48cqh) rotate(-6deg); }
+  50%  { transform: translate(52cqw, 62cqh) rotate(10deg); }
+  75%  { transform: translate(78cqw, 30cqh) rotate(-8deg); }
+  100% { transform: translate(calc(100cqw + 40px), 40cqh) rotate(6deg); }
+}
+@keyframes live-fly-2 {
+  0%   { transform: translate(calc(100cqw + 40px), 22cqh) scaleX(-1) rotate(-8deg); }
+  30%  { transform: translate(68cqw, 40cqh) scaleX(-1) rotate(6deg); }
+  60%  { transform: translate(36cqw, 18cqh) scaleX(-1) rotate(-10deg); }
+  100% { transform: translate(-40px, 34cqh) scaleX(-1) rotate(4deg); }
+}
+@keyframes live-fly-3 {
+  0%   { transform: translate(-40px, 28cqh) rotate(8deg); }
+  35%  { transform: translate(34cqw, 80cqh) rotate(-6deg); }
+  65%  { transform: translate(64cqw, 66cqh) rotate(12deg); }
+  100% { transform: translate(calc(100cqw + 40px), 86cqh) rotate(-4deg); }
+}
+@keyframes live-spin { to { transform: rotate(360deg); } }
+
+/* The mark, centred and large, without the pill the screenshot covers give it */
+.live-cover-logo {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: min(60%, 280px);
+  justify-content: center;
+  padding: 0;
+  background: none !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  filter: drop-shadow(0 6px 18px var(--cover-glow, transparent));
+}
+.live-cover-logo svg { width: 100%; }
+.live-cover-logo { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.project-card:hover .live-cover-logo { transform: translate(-50%, -50%) scale(1.04); }
+
+/* A mark drawn here (no logo file): the symbol over the product's name */
+.live-cover-mark {
+  position: absolute;
+  z-index: 5;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--cover-ink);
+  font-family: 'Rubik', var(--font-primary);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-snug);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.live-cover-mark svg { width: 76px; height: 76px; }
+
+/* A light cover needs no dark shade at the foot for its label */
+.live-card--light::after { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot, .live-float, .live-float svg, .live-wing { animation: none; }
+  .live-float { display: none; }
+}
+
+/* Monarch Master Injectors: the site it designs, blush and rose, with the
+   monarch's butterflies */
+.mmi-card {
+  --cover-ground:
+    radial-gradient(70% 90% at 12% 10%, rgba(247, 178, 198, 0.75), transparent 60%),
+    radial-gradient(60% 80% at 92% 88%, rgba(210, 108, 135, 0.45), transparent 62%),
+    radial-gradient(50% 60% at 85% 12%, rgba(236, 228, 241, 0.9), transparent 70%),
+    linear-gradient(135deg, #fbeef2 0%, #f6dce6 48%, #ece4f1 100%);
+  --cover-light-1: rgba(255, 255, 255, 0.85);
+  --cover-light-2: rgba(247, 178, 198, 0.9);
+  --cover-light-3: rgba(210, 108, 135, 0.45);
+  --cover-glow: rgba(210, 108, 135, 0.25);
+  background: #fbeef2;
+}
+
+.live-wing {
+  transform-box: view-box;
+  transform-origin: 12px 10px;
+  animation: live-flap 0.32s ease-in-out infinite alternate;
+}
+/* Both wings fold in toward the body, which sits on the centre line */
+@keyframes live-flap { to { transform: scaleX(0.25); } }
+
+/* Raven Hub: the app's ring, violet into blue on near black, with the
+   factory floor of an electric car maker drifting by */
+.hub-card {
+  --cover-ground:
+    radial-gradient(60% 75% at 88% 18%, rgba(138, 63, 252, 0.45), transparent 62%),
+    radial-gradient(60% 70% at 10% 92%, rgba(69, 137, 255, 0.35), transparent 62%),
+    linear-gradient(150deg, #1d1d24 0%, #15151b 100%);
+  --cover-light-1: rgba(190, 149, 255, 0.8);
+  --cover-light-2: rgba(120, 169, 255, 0.85);
+  --cover-light-3: rgba(255, 255, 255, 0.35);
+  --cover-ink: #ffffff;
+  --cover-glow: rgba(138, 63, 252, 0.45);
+  background: #15151b;
+}
+
+/* e-config on Cloud: its own sky, clouds and all */
+.econfig-card {
+  --cover-ground:
+    radial-gradient(55% 45% at 20% 20%, rgba(255, 255, 255, 0.55), transparent 70%),
+    radial-gradient(60% 50% at 85% 85%, rgba(255, 255, 255, 0.4), transparent 70%),
+    linear-gradient(170deg, #5b86d8 0%, #7fa3e3 55%, #b3c9ee 100%);
+  --cover-light-1: rgba(255, 255, 255, 0.9);
+  --cover-light-2: rgba(255, 255, 255, 0.6);
+  --cover-light-3: rgba(51, 80, 160, 0.35);
+  --cover-ink: #ffffff;
+  --cover-glow: rgba(31, 58, 128, 0.35);
+  background: #7fa3e3;
+}
+
+/* CPQ Hub: IBM's blue with the violet of the hub, and the four steps it
+   joins up (inventory, configuration, price, quote) */
+.cpq-card {
+  --cover-ground:
+    radial-gradient(60% 70% at 85% 15%, rgba(165, 110, 255, 0.55), transparent 62%),
+    radial-gradient(55% 65% at 12% 88%, rgba(69, 137, 255, 0.45), transparent 62%),
+    linear-gradient(145deg, #002d9c 0%, #001d6c 60%, #1c0f4a 100%);
+  --cover-light-1: rgba(166, 200, 255, 0.85);
+  --cover-light-2: rgba(212, 187, 255, 0.85);
+  --cover-light-3: rgba(255, 255, 255, 0.3);
+  --cover-ink: #ffffff;
+  --cover-glow: rgba(15, 98, 254, 0.5);
+  background: #001d6c;
+}
+
+/* Mesh: the placeholder keeps its pale ground; a network drifts behind */
+.mesh-card {
+  --cover-ground:
+    radial-gradient(90% 120% at 18% 8%, rgba(39, 89, 222, 0.16), transparent 62%),
+    radial-gradient(90% 120% at 88% 92%, rgba(208, 38, 112, 0.14), transparent 62%),
+    #f7f7f9;
+  --cover-light-1: rgba(39, 89, 222, 0.35);
+  --cover-light-2: rgba(208, 38, 112, 0.25);
+  --cover-light-3: rgba(192, 191, 190, 0.6);
+  --cover-glow: rgba(39, 89, 222, 0.18);
+  background: #f7f7f9;
+}
+
+/* ── Educational Design Artifacts ────────────────────────────────────────
+   The cover is live markup, not an export: two rows of icons drift in
+   opposite directions behind the title, in the colours of the source frame. */
+.edu-card {
+  /* The grey of the source frame */
+  --edu-ground: #363636;
+  background: var(--edu-ground);
+}
+
+.edu-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* The rows sit in from the edges, leaving the foot of the card to its name */
+  padding: 86px 0 58px;
+  overflow: hidden;
+  color: var(--color-text-on-media);
+  background:
+    radial-gradient(70% 130% at 0% 0%, rgba(126, 96, 196, 0.42), transparent 62%),
+    radial-gradient(70% 130% at 100% 100%, rgba(126, 96, 196, 0.38), transparent 62%),
+    radial-gradient(80% 140% at 0% 100%, rgba(60, 140, 174, 0.38), transparent 64%),
+    radial-gradient(80% 140% at 100% 0%, rgba(60, 140, 174, 0.30), transparent 64%),
+    var(--edu-ground);
+}
+
+.edu-marquee {
+  overflow: hidden;
+  flex: none;
+  /* Black is the mask's 'fully shown', not a colour on screen */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.edu-track {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  width: max-content;
+  /* The icon list is rendered twice, so scrolling half the track loops seamlessly. */
+  animation: edu-scroll 46s linear infinite;
+}
+
+.edu-marquee--right .edu-track { animation-direction: reverse; }
+
+.edu-track svg {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  opacity: 0.85;
+}
+
+@keyframes edu-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.edu-cover-text {
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edu-cover-title {
+  font-size: clamp(26px, 5.4vw, 38px);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  max-width: 11ch;
+}

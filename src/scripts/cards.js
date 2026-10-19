@@ -1,4 +1,5 @@
 import { t } from './i18n.js';
+import { setCursorTooltip } from './cursor.js';
 
 async function copyText(text) {
   try {
@@ -44,11 +45,11 @@ export function initCards() {
       const ok = await copyText(gmailCard.dataset.copy);
       if (!ok) return;
       actionIcon.classList.add('gmail-copied');
-      window.setCursorTooltip?.(t('cards.gmail.copied'));
+      setCursorTooltip(t('cards.gmail.copied'));
       clearTimeout(revertTimer);
       revertTimer = setTimeout(() => {
         actionIcon.classList.remove('gmail-copied');
-        window.setCursorTooltip?.(gmailCard.dataset.tooltip);
+        setCursorTooltip(gmailCard.dataset.tooltip);
       }, 2000);
     });
   }
@@ -63,11 +64,11 @@ export function initCards() {
     const ok = await copyText(btn.dataset.copyKey);
     if (!ok) return;
     btn.classList.add('key-copy--done');
-    window.setCursorTooltip?.(btn.dataset.copiedLabel || t('cards.gmail.copied'));
+    setCursorTooltip(btn.dataset.copiedLabel || t('cards.gmail.copied'));
     clearTimeout(keyRevert);
     keyRevert = setTimeout(() => {
       btn.classList.remove('key-copy--done');
-      window.setCursorTooltip?.(btn.dataset.tooltip);
+      setCursorTooltip(btn.dataset.tooltip);
     }, 2000);
   });
 

@@ -40,15 +40,19 @@ async function load(url) {
    they are traced a little quicker to keep the whole badge from dragging. */
 const QUICK = new Set(['nng', 'unicamp']);
 
-function stagger(svg, quicker = 0) {
-  let maxDelay = 0;
-  let maxDraw = 0;
+/* How long a whole mark takes, from the first stroke to the last fill, where
+   it is held to one. Marks not listed keep the pace their shapes give them. */
+const TOTAL = { nng: 0.6, unicamp: 0.6, ae: 0.9, rivian: 0.9, ibm: 0.9 };
+const INK = 0.3; // the fill behind a traced outline
+const FADE = 0.4; // shapes with no outline to trace just fade in
+
+function stagger(svg, quicker = 0, total = 0) {
   const shapes = [...svg.querySelectorAll('path, rect, circle, ellipse, polygon')]
     .filter((el) => el.getAttribute('fill') !== 'none')
     // Shapes inside a clipPath, mask or defs are geometry, not artwork: the
     // reveal's transform would move the clip itself and cut the mark away.
     .filter((el) => !el.closest('defs, clipPath, mask, pattern, marker'));
-  if (!shapes.length) return { delay: 0, draw: 0 };
+  if (!shapes.length) return { delay: 0, end: 0 };
 
   const withX = shapes.map((el) => {
     let x = 0;
@@ -64,26 +68,33 @@ function stagger(svg, quicker = 0) {
   const vb = (svg.getAttribute('viewBox') || '0 0 100 100').split(/\s+/);
   const width = parseFloat(vb[2]) || 100;
 
-  withX.forEach(({ el, x }) => {
+  const timings = withX.map(({ el, x }) => {
     el.classList.add('logo-shape');
     const delay = (x - min) / span * 0.34;
-    maxDelay = Math.max(maxDelay, delay);
-    el.style.setProperty('--d', `${delay.toFixed(3)}s`);
-
     let len = 0;
     try { len = el.getTotalLength(); } catch (e) { len = 0; }
-    if (!len) return;
+    if (!len) return { el, delay, draw: 0, end: delay + FADE };
     el.style.setProperty('--len', `${Math.ceil(len)}`);
+    el.setAttribute('stroke', el.getAttribute('fill') || 'currentColor');
+    el.style.strokeWidth = `${Math.max(0.8, width / 420).toFixed(2)}`;
     // Longer outlines would otherwise finish last; keeping the speed constant
     // is what makes it read as drawing rather than fading.
     const draw = Math.min(0.9 - quicker, Math.max(0.2 - quicker * 0.4, len / 900 - 0.2 - quicker));
-    maxDraw = Math.max(maxDraw, draw);
-    el.style.setProperty('--draw', `${draw.toFixed(2)}s`);
-    el.setAttribute('stroke', el.getAttribute('fill') || 'currentColor');
-    el.style.strokeWidth = `${Math.max(0.8, width / 420).toFixed(2)}`;
+    return { el, delay, draw, end: delay + Math.max(draw, draw * 0.7 + INK) };
   });
 
-  return { delay: maxDelay, draw: maxDraw };
+  // A mark with a set length has every timing scaled together, so the reveal
+  // keeps its shape and simply finishes on time.
+  const end = Math.max(...timings.map((t) => t.end));
+  const k = total ? total / end : 1;
+  let maxDelay = 0;
+  timings.forEach(({ el, delay, draw }) => {
+    maxDelay = Math.max(maxDelay, delay * k);
+    el.style.setProperty('--d', `${(delay * k).toFixed(3)}s`);
+    el.style.setProperty('--ink', `${((draw ? INK : FADE) * k).toFixed(3)}s`);
+    if (draw) el.style.setProperty('--draw', `${(draw * k).toFixed(3)}s`);
+  });
+  return { delay: maxDelay, end: end * k };
 }
 
 async function fill(slot, theme) {
@@ -97,13 +108,14 @@ async function fill(slot, theme) {
     svg.removeAttribute('width');
     svg.removeAttribute('height');
     svg.setAttribute('aria-hidden', 'true');
-    const span = stagger(svg, QUICK.has(slot.dataset.logo) ? 0.2 : 0);
+    const span = stagger(svg, QUICK.has(slot.dataset.logo) ? 0.2 : 0, TOTAL[slot.dataset.logo]);
 
-    // On the Work Experience card the years under the mark come in with it.
+    // On the Work Experience card the years under the mark come in with it,
+    // and are in place when the mark is.
     const years = slot.parentElement && slot.parentElement.querySelector('.path-stop__years');
-    if (years && span) {
+    if (years && span.end) {
       years.style.setProperty('--d', `${span.delay.toFixed(3)}s`);
-      years.style.setProperty('--draw', `${(span.draw || 0.6).toFixed(2)}s`);
+      years.style.setProperty('--draw', `${Math.max(0.2, span.end - span.delay).toFixed(3)}s`);
       years.classList.add('path-years-fade');
     }
   } catch (e) {
@@ -125,8 +137,8 @@ export function paintLogos(root) {
    reference bubbles): the same reveal, except these are strokes to begin with,
    so only the dash has to run. The arrow and the typing dots are left alone and
    simply wait for the trace to finish. */
-const TRACE = 0.45;
-const TRACE_STAGGER = 0.25;
+const TRACE = 0.4;
+const TRACE_STAGGER = 0.2; // the last outline is done at 0.6s
 
 function traceOutlines(root) {
   root.querySelectorAll('[data-draw]').forEach((svg) => {

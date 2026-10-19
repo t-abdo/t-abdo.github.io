@@ -18,11 +18,7 @@ function initNavAutoHide() {
 
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
-    if (y > lastY && y > 120) {
-      nav.style.transform = 'translateY(-110%)';
-    } else {
-      nav.style.transform = 'translateY(0)';
-    }
+    nav.classList.toggle('nav--hidden', y > lastY && y > 120);
     lastY = y;
   }, { passive: true });
 }
