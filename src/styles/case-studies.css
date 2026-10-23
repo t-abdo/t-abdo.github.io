@@ -83,11 +83,13 @@
 [data-theme='dark'] .cs-logo[data-logo='mesh'] [fill='white'] { fill: var(--color-neutral-0); stroke: var(--color-neutral-0); }
 
 .cs-logo svg { display: block; width: 92px; height: auto; }
-.cs-logo[data-logo='ibm'] svg { width: 52px; }
-.cs-logo[data-logo='rivian'] svg { width: 86px; }
+.cs-logo[data-logo='ibm'] svg { width: 72px; }
+.cs-logo[data-logo='rivian'] svg { width: 118px; }
 .cs-logo[data-logo='mmi'] svg { width: 100px; }
 
-.cs-tags span {
+/* The career timeline's tags share this look */
+.cs-tags span,
+.career-tags span {
   padding: 5px 12px;
   border-radius: 100px;
   background: var(--alpha-black-6);
@@ -96,7 +98,8 @@
   color: var(--color-text-primary);
 }
 
-[data-theme='dark'] .cs-tags span { background: var(--alpha-white-10); }
+[data-theme='dark'] .cs-tags span,
+[data-theme='dark'] .career-tags span { background: var(--alpha-white-10); }
 
 .cs-title {
   font-size: var(--text-4xl);
@@ -479,6 +482,28 @@
 .cs-deck img:first-of-type { border-radius: 20px 20px 0 0; }
 .cs-deck img:last-of-type { border-radius: 0 0 20px 20px; }
 
+/* Hub and e-config: the exported slides read as one continuous piece, framed
+   once. The sections the rail lists are anchored where their titles sit in
+   the images, so the rail lands on them and follows them while reading. */
+.cs-stack {
+  margin-top: 28px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border-card);
+  overflow: hidden;
+}
+.cs-stack-part { position: relative; }
+.cs-stack img { display: block; width: 100%; height: auto; }
+.cs-anchor {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* The switcher rides along the top of the case and steps aside while reading. */
 .case-switch {
   position: relative;
@@ -523,6 +548,16 @@
 
 /* The A/B export carries a 1px frame around each slide: a sliver of scale,
    clipped by the panel, trims it off. */
+/* No rail in these, but the column is as wide as the other cases' beside
+   theirs: the rail's column and the article's own side paddings, split evenly
+   (see .expand-content--with-nav). */
+@media (min-width: 861px) {
+  .cs-deck {
+    max-width: none;
+    padding-inline: calc((96px + 200px + 16px + (96px - 16px) + 96px) / 2);
+  }
+}
+
 .edu-case .case-panel[data-case-panel='ab'] img {
   transform: scale(1.005);
   transform-origin: center;
@@ -782,7 +817,7 @@
 .cs-scroll::-webkit-scrollbar-thumb:hover { background: var(--cs-magenta); }
 
 [data-theme='dark'] .cs-scroll::-webkit-scrollbar-track { background: var(--alpha-white-10); }
-.cs-figure--hero img { border-radius: 24px; box-shadow: 0 0 0 1px var(--color-border-card); }
+.cs-figure--hero img { border-radius: 12px; box-shadow: 0 0 0 1px var(--color-border-card); }
 
 .cs-closing {
   margin-top: 64px;
@@ -965,7 +1000,8 @@
 .cs--tldr .cs-full { display: none; }
 
 @media (max-width: 720px) {
-  .cs { padding: var(--panel-top) 20px 80px; }
+  .cs,
+  .cs-deck { padding: var(--panel-top) 20px 80px; }
   .cs-title { font-size: var(--text-3xl); }
   .cs-lede { font-size: var(--text-lg); }
   .cs-section-title { font-size: var(--text-2xl); }
@@ -1368,4 +1404,25 @@ img.dk { max-width: none; }
   .deck { overflow-x: auto; overscroll-behavior-x: contain; }
   .deck-canvas { width: 640px; --u: calc(640px / var(--deck-w)); }
   .deck--slide { padding: 16px; }
+}
+
+/* ── Explore the Interface (figma-embed.js) ──
+   One part of the application per tab: a still for now, the live Figma
+   prototype once the panel has a link. */
+.cs-live {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-card);
+  background: var(--color-surface-media);
+}
+.cs-live img { display: block; width: 100%; height: auto; }
+.cs-live--playing { aspect-ratio: 16 / 10; }
+.cs-live--playing img { position: absolute; inset: 0; height: 100%; object-fit: cover; }
+.cs-live iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* Five or six tabs outgrow a phone: the switcher scrolls sideways */
+@media (max-width: 720px) {
+  .cs-section--live .case-switch { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
 }

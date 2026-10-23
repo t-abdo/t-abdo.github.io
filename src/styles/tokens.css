@@ -130,9 +130,9 @@
   /* Behind artwork that brings its own light: the project covers and the
      interest cards. The same in both themes. */
   --color-surface-media: var(--color-indigo-850);
-  /* A card inside a panel: the panel is the card colour in light mode, so it
-     takes the page ground to stand apart */
-  --color-surface-in-panel: var(--color-bg-body);
+  /* A card inside a panel: the panel is near white in light mode, so the card
+     fades from white into a pale grey to stand apart */
+  --surface-in-panel: linear-gradient(to bottom, var(--color-neutral-0), color-mix(in srgb, var(--color-neutral-150) 28%, var(--color-neutral-0)));
   --color-surface-nav: var(--color-neutral-50);
   /* The section rail in a case study: a faint tint as the track, a white
      pill riding on it, like the filters at the top of the page. */
@@ -151,7 +151,7 @@
   --color-text-on-media: var(--alpha-white-90);
   --color-text-on-primary: var(--color-neutral-0);
   --color-text-muted: rgba(44, 44, 44, 0.3);
-  /* Over the tinted washes (English level, Work Experience) the subtle grey
+  /* Over the tinted washes (English level, Professional Path) the subtle grey
      drops to 4.3:1; this one holds 4.6:1 at the wash's strongest point. */
   --color-text-on-wash: #616161;
   /* The lightest grey that still clears 4.5:1 on a card, hovered or not:
@@ -203,7 +203,7 @@
 
   --color-surface-card: var(--color-indigo-800);
   --color-surface-card-hover: var(--color-indigo-750);
-  --color-surface-in-panel: var(--color-surface-card);
+  --surface-in-panel: var(--color-surface-card);
   /* Nav sits directly on the near-black ground, so both the bar and the
      selected pill are lifted well clear of it (1.7:1 against the bar) */
   --color-surface-nav: #4a4a72;
@@ -219,7 +219,7 @@
   --color-text-subtle: var(--color-indigo-300); /* 5.5:1+ on cards and page ground */
   --color-text-muted: rgba(224, 224, 234, 0.3);
   /* Lighter than the subtle grey so the washes can run stronger in dark mode:
-     5.4:1 at the English level's brightest point, 6.4:1 on Work Experience. */
+     5.4:1 at the English level's brightest point, 6.4:1 on Professional Path. */
   --color-text-on-wash: #b0b0c6;
   /* Dark has room to spare: 6.4:1 at rest, 6.1:1 hovered */
   --color-text-faint: #9c9cb4;

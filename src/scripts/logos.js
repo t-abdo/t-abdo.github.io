@@ -1,5 +1,5 @@
 /*
-  Inlined logos: the company marks on the Work Experience card and the client
+  Inlined logos: the company marks on the Professional Path card and the client
   marks on the project covers.
 
   They are injected rather than used as <img> so the individual shapes can be
@@ -110,7 +110,7 @@ async function fill(slot, theme) {
     svg.setAttribute('aria-hidden', 'true');
     const span = stagger(svg, QUICK.has(slot.dataset.logo) ? 0.2 : 0, TOTAL[slot.dataset.logo]);
 
-    // On the Work Experience card the years under the mark come in with it,
+    // On the Professional Path card the years under the mark come in with it,
     // and are in place when the mark is.
     const years = slot.parentElement && slot.parentElement.querySelector('.path-stop__years');
     if (years && span.end) {

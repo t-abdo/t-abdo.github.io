@@ -59,19 +59,36 @@ export function initCursor() {
     return el ? el.closest('[data-tooltip]') : null;
   }
 
+  /* The tooltip draws once when the pointer enters an element that has one
+     and stays until it leaves it. Crossing the element's own children, or
+     artwork it swaps out under the pointer (the contact marks replay that
+     way), fires mouseover again on the same element and must not redraw it. */
+  let current = null;
+
+  function hide() {
+    current = null;
+    tooltip.classList.remove('cursor-tooltip--visible', 'cursor-tooltip--drawn');
+  }
+
   document.addEventListener('mouseover', (e) => {
     const target = findTooltipTarget(e.target);
-    if (target) {
-      setText(target.dataset.tooltip);
-      tooltip.classList.add('cursor-tooltip--visible');
+    // An element taken out of the page under the pointer (a panel closing)
+    // never sends mouseout; arriving somewhere without a tooltip clears it.
+    if (!target) {
+      if (current) hide();
+      return;
     }
+    if (target === current) return;
+    current = target;
+    setText(target.dataset.tooltip);
+    tooltip.classList.add('cursor-tooltip--visible');
   });
 
   document.addEventListener('mouseout', (e) => {
-    const target = findTooltipTarget(e.target);
-    if (target && !findTooltipTarget(e.relatedTarget)) {
-      tooltip.classList.remove('cursor-tooltip--visible', 'cursor-tooltip--drawn');
-    }
+    if (!current) return;
+    // Into another element with a tooltip: mouseover takes it from there
+    if (findTooltipTarget(e.relatedTarget)) return;
+    hide();
   });
 
   showText = setText;

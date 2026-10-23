@@ -137,7 +137,7 @@ strong, b {
 }
 
 /* Text links darken on hover */
-.bio-link--underline:is(a):hover,
+.about-link:hover,
 .ref-contact--link:hover { color: var(--color-link-hover); }
 
 .cursor-tooltip {

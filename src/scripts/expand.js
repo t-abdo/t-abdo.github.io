@@ -3,6 +3,10 @@ import { watchImages } from './skeleton.js';
 import { bindCaseSwitch } from './edu.js';
 import { bindCaseNav } from './case-nav.js';
 import { bindProtoScroll } from './proto-scroll.js';
+import { bindReveal } from './reveal.js';
+import { bindCareerCovers } from './career.js';
+import { bindCardMirrors } from './mirror.js';
+import { bindFigmaEmbeds } from './figma-embed.js';
 import { paintLogos } from './logos.js';
 import { isMobileLayout } from './breakpoints.js';
 
@@ -19,7 +23,11 @@ const CLOSE_EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
 // The panel can snap away, but a single small element doing the same reads as
 // a jump rather than a journey, so the photo travels on an even curve.
 const MORPH_EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
+// How long the panel holds still for a quote's text to fly in: a little short
+// of the flight, which is all but landed by then.
+const TEXT_HOLD_MS = ANIM_MS - 80;
 const DEFAULT_MAX_W = 640;
+const FOCUS_GAP = 32; // room left above a part a panel opens at
 const DEFAULT_MAX_H = 680;
 
 /* Where a shared element actually is. A photo is its box; a paragraph's box
@@ -38,6 +46,14 @@ function boxOf(el) {
   // above them is snapped to whole pixels, so it doesn't scale in proportion.
   rect.inkTop = lines.top;
   return rect;
+}
+
+/* The elements shared by a card and its panel, matched by `data-morph`: a
+   photo, or a quote and the label under it. */
+function morphPairs(from, to) {
+  return [...from.querySelectorAll('[data-morph]')]
+    .map((source) => ({ source, target: to.querySelector(`[data-morph="${source.dataset.morph}"]`) }))
+    .filter(({ target }) => target);
 }
 
 /* Runs `fn` once the start state of a transition has been painted. Two frames
@@ -104,8 +120,8 @@ export function initExpand() {
      frame, and sits in the middle of the screen. Its natural height is read at
      the width it will open to, with the fill-the-panel rules lifted for that
      one measurement. */
-  function fitToContent(overlay, rect) {
-    if (!isMobileLayout()) return rect;
+  function fitToContent(overlay, rect, always = false) {
+    if (!always && !isMobileLayout()) return rect;
     const vh = window.innerHeight;
     const frame = vh - 24;
     const width = overlay.style.width;
@@ -119,14 +135,15 @@ export function initExpand() {
     return { ...rect, top: (vh - height) / 2, height };
   }
 
-  // Links inside one panel that hand off to another card's panel (career → case study).
+  // Links inside one panel that hand off to another card's panel (career → case
+  // study). One can also name a part of that panel to open at (data-open-focus).
   function bindHandoffs(root) {
     root.querySelectorAll('[data-open-card]').forEach((trigger) => {
       trigger.addEventListener('click', () => {
         const target = document.querySelector(`.bento-card[data-card="${trigger.dataset.openCard}"]`);
         if (!target) return;
         close();
-        setTimeout(() => open(target), CLOSE_MS + 60);
+        setTimeout(() => open(target, trigger.dataset.openFocus), CLOSE_MS + 60);
       });
     });
   }
@@ -141,9 +158,12 @@ export function initExpand() {
      two frames is the end box applied. A single forced reflow is not enough
      here: the clone has just been created, and the browser is free to resolve
      its first style with the end values already in place, which collapses the
-     flight into a jump. */
+     flight into a jump.
+
+     Returns a function that lands the flight at once, for when the end box
+     stops being where the element is (the reader scrolled the panel). */
   function morph(img, from, to, endRadius, dur, ease, onDone) {
-    if (!from.width || !to.width) return onDone();
+    if (!from.width || !to.width) return land(null, onDone);
     if (img.tagName !== 'IMG') return morphText(img, from, to, dur, ease, onDone);
 
     // Deep clone and keep the original classes: what travels can be a line of
@@ -182,11 +202,10 @@ export function initExpand() {
 
       // The hand-off waits out the flight with a margin, so the clone is never
       // taken away before it has landed.
-      setTimeout(() => {
-        fly.remove();
-        onDone();
-      }, dur + 120);
+      setTimeout(done, dur + 120);
     });
+    const done = land(fly, onDone);
+    return done;
   }
 
   /* Text can't travel by resizing its box: the lines would rewrap all the way.
@@ -197,7 +216,7 @@ export function initExpand() {
   function morphText(el, from, to, dur, ease, onDone) {
     const sx = to.width / from.width;
     const sy = to.height / from.height;
-    if (Math.abs(sx - sy) / sx > 0.06) return onDone();
+    if (Math.abs(sx - sy) / sx > 0.06) return land(null, onDone);
 
     const fly = el.cloneNode(true);
     fly.classList.add('expand-morph');
@@ -232,18 +251,30 @@ export function initExpand() {
       const dx = to.left - (from.left - 0.5) - 0.5 * sx;
       const dy = to.inkTop - from.top - (from.inkTop - from.top) * sx;
       fly.style.transform = `translate(${dx}px, ${dy}px) scale(${sx})`;
-      setTimeout(() => {
-        fly.remove();
-        onDone();
-      }, dur + 120);
+      setTimeout(done, dur + 120);
     });
+    const done = land(fly, onDone);
+    return done;
+  }
+
+  // Hands a flight over to the real element, once, whichever asks first.
+  function land(fly, onDone) {
+    let landed = false;
+    const done = () => {
+      if (landed) return;
+      landed = true;
+      fly?.remove();
+      onDone();
+    };
+    if (!fly) done();
+    return done;
   }
 
   function onKeydown(e) {
     if (e.key === 'Escape') close();
   }
 
-  function open(card) {
+  function open(card, focusId) {
     if (state) return;
     const key = card.dataset.card;
     const template = document.getElementById(`tpl-${key}`);
@@ -294,16 +325,20 @@ export function initExpand() {
     content.classList.add('expand-content--opening');
     setTimeout(() => content.classList.remove('expand-content--opening'), ANIM_MS + 100);
     watchImages(content);
+    bindCareerCovers(content);
+    bindCardMirrors(content);
     paintLogos(content);
     inner.appendChild(content);
     bindCaseNav(content, inner);
     bindCaseSwitch(content, inner);
     bindProtoScroll(content);
+    bindFigmaEmbeds(content, inner);
+    bindReveal(content, inner);
     bindHandoffs(content);
 
     // The panel is named by its own heading, or for a quote by the line that
-    // names it. About has neither and borrows the card's tooltip.
-    const heading = content.querySelector('.expand-title, .cs-title, .quote-label');
+    // names it; a panel with neither borrows the card's tooltip.
+    const heading = content.querySelector('.expand-title, .cs-title, .about-name, .quote-label');
     if (heading) {
       heading.id = 'expandTitle';
       overlay.setAttribute('aria-labelledby', heading.id);
@@ -335,9 +370,11 @@ export function initExpand() {
       backdrop.classList.add('expand-backdrop--visible');
       const maxW = Number(card.dataset.expandMaxw) || DEFAULT_MAX_W;
       const maxH = Number(card.dataset.expandMaxh) || DEFAULT_MAX_H;
+      // data-expand-fit: the panel takes its content's height on a desktop too
       const rect = fitToContent(overlay,
         targetRect(maxW, maxH, mode, Number(card.dataset.expandInset) || 0,
-          Number(card.dataset.expandEdge) || 0));
+          Number(card.dataset.expandEdge) || 0),
+        card.hasAttribute('data-expand-fit'));
 
       const place = () => {
         overlay.style.left = `${rect.left}px`;
@@ -348,23 +385,58 @@ export function initExpand() {
         overlay.style.setProperty('--panel-height', `${rect.height}px`);
       };
 
-      // Where the panel's copy of the shared photo will end up can only be read
-      // off the panel at its final size, so it is laid out there for one frame —
-      // before the transition is armed — and put back.
-      const source = card.querySelector('[data-morph]');
-      const target = source && content.querySelector(`[data-morph="${source.dataset.morph}"]`);
-      if (target) {
+      // A panel opened at one of its parts is scrolled there, measured at its
+      // final size, and the part is marked as the one asked for.
+      const focus = focusId && content.querySelector(`[data-focus-id="${focusId}"]`);
+      if (focus) {
         place();
-        const to = boxOf(target);
+        inner.scrollTop += focus.getBoundingClientRect().top - inner.getBoundingClientRect().top - FOCUS_GAP;
+        focus.classList.add('is-focused');
         overlay.style.left = `${startRect.left}px`;
         overlay.style.top = `${startRect.top}px`;
         overlay.style.width = `${startRect.width}px`;
         overlay.style.height = `${startRect.height}px`;
         overlay.getBoundingClientRect();
-        target.style.visibility = 'hidden';
-        morph(source, boxOf(source), to,
-              getComputedStyle(target).borderRadius, ANIM_MS, EASE,
-              () => { target.style.visibility = ''; });
+      }
+
+      // Where the panel's copy of the shared photo will end up can only be read
+      // off the panel at its final size, so it is laid out there for one frame —
+      // before the transition is armed — and put back.
+      const pairs = morphPairs(card, content);
+      if (pairs.length) {
+        place();
+        const ends = pairs.map(({ target }) => boxOf(target));
+        overlay.style.left = `${startRect.left}px`;
+        overlay.style.top = `${startRect.top}px`;
+        overlay.style.width = `${startRect.width}px`;
+        overlay.style.height = `${startRect.height}px`;
+        overlay.getBoundingClientRect();
+        // The flights aim at where the elements sit now, so the panel holds
+        // still until they land; a scroll that gets through anyway (keys, a
+        // scrollbar drag) lands them on the spot instead of off target.
+        const hold = (e) => e.preventDefault();
+        const landers = [];
+        const onScroll = () => landers.forEach((landNow) => landNow());
+        const release = () => {
+          overlay.removeEventListener('wheel', hold);
+          overlay.removeEventListener('touchmove', hold);
+        };
+        overlay.addEventListener('wheel', hold, { passive: false });
+        overlay.addEventListener('touchmove', hold, { passive: false });
+        inner.addEventListener('scroll', onScroll);
+        if (pairs.every(({ source }) => source.tagName !== 'IMG')) setTimeout(release, TEXT_HOLD_MS);
+        let flying = pairs.length;
+        pairs.forEach(({ source, target }, i) => {
+          target.style.visibility = 'hidden';
+          landers.push(morph(source, boxOf(source), ends[i],
+            getComputedStyle(target).borderRadius, ANIM_MS, EASE,
+            () => {
+              target.style.visibility = '';
+              if (--flying) return;
+              release();
+              inner.removeEventListener('scroll', onScroll);
+            }));
+        });
       }
 
       overlay.classList.add('expand-card--settled');
@@ -372,12 +444,13 @@ export function initExpand() {
       overlay.style.borderRadius = '32px';
 
       // A photo that arrives after opening makes the panel taller, until it
-      // reaches the frame.
-      if (isMobileLayout()) {
+      // reaches the frame, wherever the panel takes its content's height.
+      const fits = card.hasAttribute('data-expand-fit');
+      if (fits || isMobileLayout()) {
         const refit = () => {
           if (!state || state.closing || state.overlay !== overlay) return;
           if (parseFloat(overlay.style.height) >= window.innerHeight - 25) return;
-          const next = fitToContent(overlay, rect);
+          const next = fitToContent(overlay, rect, fits);
           if (Math.abs(next.height - parseFloat(overlay.style.height)) < 1) return;
           overlay.style.top = `${next.top}px`;
           overlay.style.height = `${next.height}px`;
@@ -397,6 +470,11 @@ export function initExpand() {
     const rect = card.getBoundingClientRect();
     const cs = getComputedStyle(card);
 
+    // The content fades out as the panel shrinks. Held at its open width, it
+    // isn't laid out again on every frame of the way down, which a case built
+    // from container-sized slides (CPQ) can't afford.
+    const content = overlay.querySelector('.expand-content');
+    if (content) content.style.width = `${content.offsetWidth}px`;
     overlay.classList.add('expand-card--closing');
     overlay.style.setProperty('--expand-dur', `${CLOSE_MS}ms`);
     overlay.style.setProperty('--expand-ease', 'var(--close-ease)');
@@ -407,31 +485,39 @@ export function initExpand() {
     // that appears at the end.
     card.style.transition = 'none';
     card.classList.remove('bento-card--ghost');
+    // Held at rest, not lifted by a pointer that happens to be over it, so the
+    // text flying back lands where the card's own copy will stay.
+    card.classList.add('bento-card--landing');
     card.getBoundingClientRect();
     card.style.transition = '';
+    const settle = () => card.classList.remove('bento-card--landing');
+    let landing = false;
 
     // The shared photo travels back to the card it came from — unless the reader
     // scrolled it out of the panel, in which case it would fly in from off
     // screen and read as a stray image rather than as the same photo returning.
-    const source = overlay.querySelector('[data-morph]');
-    const target = source && card.querySelector(`[data-morph="${source.dataset.morph}"]`);
-    if (target) {
+    const flights = morphPairs(overlay, card).filter(({ source }) => {
       const from = boxOf(source);
-      const onScreen = from.bottom > 0 && from.top < window.innerHeight
+      return from.bottom > 0 && from.top < window.innerHeight
         && from.right > 0 && from.left < window.innerWidth;
-      if (onScreen) {
-        source.style.visibility = 'hidden';
-        // The card's own copy waits under the panel until the flying one lands,
-        // so the two are never on screen together.
-        target.style.visibility = 'hidden';
-        // A quote's text is the panel's own content, so it shrinks on the
-        // panel's curve rather than trailing behind it on the photo's.
-        morph(source, from, boxOf(target),
-              getComputedStyle(target).borderRadius, CLOSE_MS,
-              source.tagName === 'IMG' ? MORPH_EASE : CLOSE_EASE,
-              () => { target.style.visibility = ''; });
-      }
-    }
+    });
+    let flying = flights.length;
+    landing = flying > 0;
+    flights.forEach(({ source, target }) => {
+      source.style.visibility = 'hidden';
+      // The card's own copy waits under the panel until the flying one lands,
+      // so the two are never on screen together.
+      target.style.visibility = 'hidden';
+      // A quote's text is the panel's own content, so it shrinks on the
+      // panel's curve rather than trailing behind it on the photo's.
+      morph(source, boxOf(source), boxOf(target),
+            getComputedStyle(target).borderRadius, CLOSE_MS,
+            source.tagName === 'IMG' ? MORPH_EASE : CLOSE_EASE,
+            () => {
+              target.style.visibility = '';
+              if (!--flying) settle();
+            });
+    });
 
     overlay.style.left = `${rect.left}px`;
     overlay.style.top = `${rect.top}px`;
@@ -447,6 +533,7 @@ export function initExpand() {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
       setPageInert(false);
+      if (!landing) settle();
       // Only an element the reader actually focused gets it back; a click on
       // the card itself leaves focus on the page.
       if (opener && opener !== document.body && opener.isConnected) {

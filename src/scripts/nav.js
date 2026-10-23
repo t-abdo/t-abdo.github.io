@@ -88,7 +88,7 @@ const LAYOUTS = {
 
 /* Tablet — 4 square columns (a row is as tall as a column is wide). Case
    studies are 4 by 4, the intro and the contact block 4 by 2, the certificates
-   2 by 2 beside the tall Work Experience card. */
+   2 by 2 beside the tall Professional Path card. */
 const TABLET_LAYOUTS = {
   all: {
     about:       { col: '1 / 5',  row: '1 / 3' },

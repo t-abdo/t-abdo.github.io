@@ -163,6 +163,9 @@ function buildList(titles, scroller) {
     const y = scroller.scrollTop;
     let i = 0;
     while (i < ys.length - 1 && y >= ys[i + 1] - 2) i++;
+    // A last section shorter than the view never reaches the top; at the very
+    // end of the case it is the one being read.
+    if (y >= scroller.scrollHeight - scroller.clientHeight - 2) i = ys.length - 1;
     if (i === current && !force) return;
     const changed = current !== -1 && i !== current;
     indicator.style.transition = 'none';

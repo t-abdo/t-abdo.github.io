@@ -10,6 +10,7 @@ const PICTURE_NAMES = [
   'at-the-grill',
   'companion',
   'match-with-a-friend',
+  'tennis-court',
   'another-city',
   'ducks-at-the-park',
   'indian-cake',
@@ -34,7 +35,6 @@ const PICTURE_NAMES = [
   'on-the-mower',
   'monkey-on-the-trail',
   'dessert-day',
-  'tennis-court',
   'dino-at-the-office',
   'bouquet',
   'finishing-the-cake',
@@ -54,10 +54,20 @@ function sourcesFor(stack) {
   return value.split(',').map((src) => src.trim()).filter(Boolean);
 }
 
+// Even pictures pan from the left, odd ones from the right. The pan starts
+// over as the picture comes in, so it always sets off from its own edge.
+function setPan(layer, index) {
+  layer.dataset.pan = index % 2 ? 'rtl' : 'ltr';
+  layer.style.animation = 'none';
+  void layer.offsetWidth;
+  layer.style.animation = '';
+}
+
 function startSlideshow(stack, delay) {
   const layers = [...stack.querySelectorAll('.pics-img')];
   const sources = sourcesFor(stack);
   if (layers.length < 2 || sources.length < 2) return;
+  setPan(layers[0], 0);
 
   let index = 0;
   let front = 0;
@@ -72,6 +82,7 @@ function startSlideshow(stack, delay) {
 
     const swap = () => {
       layers[front].classList.remove('is-active');
+      setPan(incoming, next);
       incoming.classList.add('is-active');
       front = back;
       index = next;

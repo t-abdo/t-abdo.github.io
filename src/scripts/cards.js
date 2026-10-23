@@ -19,9 +19,8 @@ async function copyText(text) {
   }
 }
 
-function initIconReplay(selector) {
-  const card = document.querySelector(selector);
-  if (!card) return;
+// Hovering a contact card draws its mark again from the start
+function replayIcon(card) {
   let svg = card.querySelector('svg.gm-svg, svg.li-svg, svg.c1-svg');
   if (!svg) return;
   card.addEventListener('mouseenter', () => {
@@ -31,28 +30,59 @@ function initIconReplay(selector) {
   });
 }
 
-export function initCards() {
-  initIconReplay('.gmail-card');
-  initIconReplay('.linkedin-card');
-  initIconReplay('.english-card');
+function bindCopy(card) {
+  const actionIcon = card.querySelector('.action-icon');
+  let revertTimer = null;
+  card.addEventListener('click', async () => {
+    const ok = await copyText(card.dataset.copy);
+    if (!ok) return;
+    actionIcon.classList.add('gmail-copied');
+    setCursorTooltip(t('cards.gmail.copied'));
+    clearTimeout(revertTimer);
+    revertTimer = setTimeout(() => {
+      actionIcon.classList.remove('gmail-copied');
+      setCursorTooltip(card.dataset.tooltip);
+    }, 2000);
+  });
+}
 
-  const gmailCard = document.querySelector('.gmail-card');
-  if (gmailCard) {
-    const actionIcon = gmailCard.querySelector('.action-icon');
-    let revertTimer = null;
+/* What a card does when clicked, other than opening a panel: copy the email,
+   open a link, download a file. Bound per card, so a copy of a card shown
+   inside a panel (mirror.js) can be given the same behaviour. */
+export function bindCardActions(root) {
+  // The root counts too, so a single card can be passed in
+  const all = (selector) => [
+    ...(root.matches?.(selector) ? [root] : []),
+    ...root.querySelectorAll(selector),
+  ];
+  all('.gmail-card, .linkedin-card, .english-card').forEach(replayIcon);
+  all('[data-copy]').forEach(bindCopy);
 
-    gmailCard.addEventListener('click', async () => {
-      const ok = await copyText(gmailCard.dataset.copy);
-      if (!ok) return;
-      actionIcon.classList.add('gmail-copied');
-      setCursorTooltip(t('cards.gmail.copied'));
-      clearTimeout(revertTimer);
-      revertTimer = setTimeout(() => {
-        actionIcon.classList.remove('gmail-copied');
-        setCursorTooltip(gmailCard.dataset.tooltip);
-      }, 2000);
+  // Anchors inside a card would otherwise also trigger the card's own handler
+  all('.bento-card a.action-icon').forEach((link) => {
+    link.addEventListener('click', (e) => e.stopPropagation());
+  });
+
+  all('[data-link]').forEach((card) => {
+    card.addEventListener('click', () => {
+      window.open(card.dataset.link, '_blank', 'noopener');
     });
-  }
+  });
+
+  all('[data-download]').forEach((card) => {
+    card.addEventListener('click', () => {
+      const a = document.createElement('a');
+      a.href = card.dataset.download;
+      a.download = '';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    });
+  });
+}
+
+export function initCards() {
+  bindCardActions(document);
 
   // Copy buttons live inside cloned modal templates, so this listens on the
   // document instead of binding at startup.
@@ -70,27 +100,5 @@ export function initCards() {
       btn.classList.remove('key-copy--done');
       setCursorTooltip(btn.dataset.tooltip);
     }, 2000);
-  });
-
-  // Anchors inside a card would otherwise also trigger the card's own handler
-  document.querySelectorAll('.bento-card a.action-icon').forEach((link) => {
-    link.addEventListener('click', (e) => e.stopPropagation());
-  });
-
-  document.querySelectorAll('[data-link]').forEach((card) => {
-    card.addEventListener('click', () => {
-      window.open(card.dataset.link, '_blank', 'noopener');
-    });
-  });
-
-  document.querySelectorAll('[data-download]').forEach((card) => {
-    card.addEventListener('click', () => {
-      const a = document.createElement('a');
-      a.href = card.dataset.download;
-      a.download = '';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    });
   });
 }

@@ -150,6 +150,6 @@
 
   .about-card-inner { align-items: center; text-align: center; }
   .about-bio { font-size: var(--text-md); }
-  .expand-inner { padding: var(--panel-top) 24px 32px; }
+  .expand-inner { padding: var(--panel-top) 20px 32px; }
   .expand-card { border-radius: 24px !important; }
 }

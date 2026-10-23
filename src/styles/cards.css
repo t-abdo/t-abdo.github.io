@@ -83,6 +83,11 @@
 
 .bento-card--ghost { opacity: 0 !important; pointer-events: none; transition: none !important; }
 
+/* Kept at rest while a panel's photo or quote flies back into it */
+.bento-card--landing,
+.bento-card--landing:hover,
+.bento-card--landing:active { transform: none; }
+
 /* ── Action icon (top-right, appears on hover / always on touch) ── */
 .action-icon {
   position: absolute;
@@ -380,7 +385,7 @@
 @keyframes li-draw { to { stroke-dashoffset: 0; } }
 @keyframes li-pop-in { to { transform: scale(1); opacity: 1; } }
 
-/* ── Work Experience card: company logos with years, spread down the card ──
+/* ── Professional Path card: company logos with years, spread down the card ──
    The Mesh cover's wash, a step lighter: blue settling into one corner and
    magenta into the other. Lighter is also what keeps the years above 4.5:1 —
    at the Mesh card's own strength they sit at 4.8:1, here at 5.2:1. */
@@ -405,7 +410,8 @@
    and travels sideways instead. The band is twice the card and carries the
    same colour at both ends, so sliding it exactly one card width lands on an
    identical image and the loop has no seam. */
-.english-card::after {
+.english-card::after,
+.about-ai::after {
   content: '';
   position: absolute;
   top: 0;
@@ -418,7 +424,7 @@
   opacity: 0.11;
   pointer-events: none;
   z-index: 0;
-  /* A touch quicker than the Work Experience card, and weighted towards the
+  /* A touch quicker than the Professional Path card, and weighted towards the
      violet: the magenta passes through as a narrow sweep rather than owning
      half the band. */
   animation: wash-drift 14.4s linear infinite;
@@ -439,7 +445,8 @@
 
 /* A multiplied tint has nothing to darken on the dark card, so there the
    band lightens instead, and runs stronger. */
-[data-theme='dark'] .english-card::after {
+[data-theme='dark'] .english-card::after,
+[data-theme='dark'] .about-ai::after {
   mix-blend-mode: screen;
   opacity: 0.34;
 }
@@ -450,7 +457,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .english-card::after { animation: none; }
+  .english-card::after,
+  .about-ai::after { animation: none; }
 }
 
 .path-card-inner {
@@ -615,7 +623,7 @@
 .english-card { position: relative; overflow: hidden; border-color: var(--color-neutral-150); }
 [data-theme='dark'] .english-card { border-color: var(--color-border-card); }
 
-/* The wash it shares with the Work Experience card is defined with it. */
+/* The wash it shares with the Professional Path card is defined with it. */
 
 .english-inner {
   position: relative;
@@ -682,7 +690,7 @@
   padding: 24px 26px;
   border-radius: 20px;
   border: 1px solid var(--color-border-card);
-  background: var(--color-surface-in-panel);
+  background: var(--surface-in-panel);
 }
 
 .ref-photo {
@@ -787,19 +795,28 @@
   object-position: 0% 0%;
   opacity: 0;
   transition: opacity 0.6s ease;
-  animation: pics-pan 18s ease-in-out infinite alternate;
+  /* Restarted by pictures.js each time the picture comes in, so it always
+     sets off from its own edge; it outlasts the picture's turn, so it is
+     still moving while it fades out. */
+  animation: pics-pan 7s linear forwards;
 }
 
 .pics-img.is-active { opacity: 1; }
 
-/* The two layers travel in opposite directions, so as one picture hands over
-   to the next the movement turns back the way it came. Both keep moving while
-   hidden, so neither jumps when it fades. */
-.pics-img:nth-child(2) { animation-direction: alternate-reverse; }
+/* Pictures take turns setting off from the left and from the right, so as
+   one hands over to the next the movement turns back the way it came. */
+.pics-img[data-pan='rtl'] { object-position: 100% 0%; animation-name: pics-pan-rtl; }
+
+/* League of Legends: the art that matters is at the top */
+.pics-img[src$='league-of-legends.jpg'] { top: 0; }
 
 @keyframes pics-pan {
   from { object-position: 0% 0%; }
-  to   { object-position: 100% 0%; }
+  to   { object-position: 40% 0%; }
+}
+@keyframes pics-pan-rtl {
+  from { object-position: 100% 0%; }
+  to   { object-position: 60% 0%; }
 }
 
 /* Some of My Days: the photos drift rightwards without stopping. The list is
