@@ -143,10 +143,23 @@
   pointer-events: none;
 }
 
+/* The project names are liquid glass: a clear pill that bends the moving
+   cover behind it along its rim (#liquidGlass in index.html), lifts its
+   colour, and catches light on its top edge. Chromium renders the lens;
+   Safari and Firefox get the same glass with a plain blur. */
 .project-card .card-label {
-  background: var(--color-label-bg-dark);
+  /* Tinted just enough for the white name to hold on the light covers */
+  background: rgba(20, 18, 30, 0.26);
   color: var(--color-label-text-on-dark);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(3px) saturate(1.8) brightness(1.05);
+  backdrop-filter: url(#liquidGlass) blur(1.5px) saturate(1.8) brightness(1.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    inset 0 0 12px rgba(255, 255, 255, 0.12),
+    0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
 /* ── Card tags (top-left chips) ── */
@@ -746,7 +759,7 @@
   text-align: center;
   gap: 16px;
   padding: 32px 38px;
-  background: var(--color-surface-card);
+  background: var(--surface-quote);
   border-color: var(--color-neutral-150);
 }
 
@@ -868,17 +881,25 @@
 }
 
 /* Mesh: a placeholder until the case study is written. The mark and the
-   note sit over the live cover behind them. */
+   note sit on a frosted plate over the live cover behind them. */
 .mesh-cover {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 24px;
+  padding: 22px 28px;
+  translate: -50% -50%;
+  border-radius: 24px;
+  /* A frosted plate, so the mark reads over the screens behind it */
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(39, 89, 222, 0.14);
   text-align: center;
   color: var(--color-text-primary);
   pointer-events: none;
@@ -904,9 +925,9 @@
 
 /* ── Live project covers ─────────────────────────────────────────────────
    A project card is drawn rather than screenshotted: a ground in the
-   project's own colours, soft lights crossing it, a few things from the case
-   floating through, and its mark in the middle. Each cover only sets the
-   variables; the motion is shared. */
+   project's own colours, soft lights crossing it where the cover has them,
+   and the project itself in front (see each card below). Each cover only
+   sets the variables; the motion is shared. */
 .live-cover {
   position: absolute;
   inset: 0;
@@ -941,111 +962,139 @@
   100% { transform: translate(calc(100cqw + 40px), 6px); opacity: 0; }
 }
 
-/* Floating pieces of the case: a wavy crossing each, on one of three routes */
-.live-float {
+/* ── Devices: a project's screens in a MacBook ──
+   The frame is drawn here, so any screenshot drops in. Sized off the cover
+   (--lw), every part of the frame scales with it. It rises in with the
+   card, a glare crossing the glass now and then. */
+.device-reel {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: var(--size, 32px);
-  color: var(--c, currentColor);
-  opacity: var(--o, 1);
-  animation: live-fly-1 var(--d, 18s) ease-in-out var(--delay, 0s) infinite;
+  inset: 0;
 }
-.live-float svg { display: block; width: 100%; height: auto; overflow: visible; }
-.live-float--2 { animation-name: live-fly-2; }
-.live-float--3 { animation-name: live-fly-3; }
-/* Gears and the like turn as they go */
-.live-float--spin svg { animation: live-spin 9s linear infinite; }
-
-@keyframes live-fly-1 {
-  0%   { transform: translate(-40px, 72cqh) rotate(12deg); }
-  25%  { transform: translate(25cqw, 48cqh) rotate(-6deg); }
-  50%  { transform: translate(52cqw, 62cqh) rotate(10deg); }
-  75%  { transform: translate(78cqw, 30cqh) rotate(-8deg); }
-  100% { transform: translate(calc(100cqw + 40px), 40cqh) rotate(6deg); }
-}
-@keyframes live-fly-2 {
-  0%   { transform: translate(calc(100cqw + 40px), 22cqh) scaleX(-1) rotate(-8deg); }
-  30%  { transform: translate(68cqw, 40cqh) scaleX(-1) rotate(6deg); }
-  60%  { transform: translate(36cqw, 18cqh) scaleX(-1) rotate(-10deg); }
-  100% { transform: translate(-40px, 34cqh) scaleX(-1) rotate(4deg); }
-}
-@keyframes live-fly-3 {
-  0%   { transform: translate(-40px, 28cqh) rotate(8deg); }
-  35%  { transform: translate(34cqw, 80cqh) rotate(-6deg); }
-  65%  { transform: translate(64cqw, 66cqh) rotate(12deg); }
-  100% { transform: translate(calc(100cqw + 40px), 86cqh) rotate(-4deg); }
-}
-@keyframes live-spin { to { transform: rotate(360deg); } }
-
-/* The mark, centred and large, without the pill the screenshot covers give it */
-.live-cover-logo {
-  top: 50%;
+.device-laptop {
+  --lw: min(80cqw, 96cqh);
+  position: absolute;
+  top: 48%;
   left: 50%;
-  right: auto;
-  bottom: auto;
-  transform: translate(-50%, -50%);
-  width: min(60%, 280px);
-  justify-content: center;
-  padding: 0;
-  background: none !important;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  filter: drop-shadow(0 6px 18px var(--cover-glow, transparent));
+  z-index: 1;
+  width: var(--lw);
+  translate: -50% -50%;
+  filter: drop-shadow(0 calc(var(--lw) * 0.035) calc(var(--lw) * 0.05) rgba(16, 24, 72, 0.35));
+  animation: device-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--card-enter-delay, 0s) + 0.25s) backwards;
 }
-.live-cover-logo svg { width: 100%; }
-.live-cover-logo { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
-.project-card:hover .live-cover-logo { transform: translate(-50%, -50%) scale(1.04); }
-
-/* A mark drawn here (no logo file): the symbol over the product's name */
-.live-cover-mark {
+.device-laptop-screen {
+  padding: calc(var(--lw) * 0.022) calc(var(--lw) * 0.022) calc(var(--lw) * 0.03);
+  background: #1a202c;
+  border: 1px solid #4a5568;
+  border-radius: calc(var(--lw) * 0.024) calc(var(--lw) * 0.024) calc(var(--lw) * 0.004) calc(var(--lw) * 0.004);
+}
+.device-viewport {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1106 / 721;
+  border-radius: calc(var(--lw) * 0.004);
+  background: #fff;
+}
+.device-viewport img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+/* Light catching the glass */
+.device-viewport::after {
+  content: '';
   position: absolute;
-  z-index: 5;
-  flex-direction: column;
-  gap: 12px;
-  color: var(--cover-ink);
-  font-family: 'Rubik', var(--font-primary);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-snug);
-  white-space: nowrap;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.28) 50%, transparent 65%) no-repeat;
+  background-size: 250% 100%;
+  animation: device-glare 8s ease-in-out infinite;
   pointer-events: none;
 }
-.live-cover-mark svg { width: 76px; height: 76px; }
+/* The base: wider than the lid, metal fading into its shadowed edge, with
+   the thumb notch in the middle */
+.device-laptop-base {
+  position: relative;
+  width: 112%;
+  margin-left: -6%;
+  height: calc(var(--lw) * 0.03);
+  background: linear-gradient(180deg, #cad4db 0%, #a3acb1 40%, #7a7f83 70%, #0b0b0e 100%);
+  border-radius: 0 0 calc(var(--lw) * 0.04) calc(var(--lw) * 0.04) / 0 0 calc(var(--lw) * 0.025) calc(var(--lw) * 0.025);
+}
+.device-laptop-base::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 15%;
+  height: 45%;
+  translate: -50% 0;
+  background: #8b949a;
+  border-radius: 0 0 calc(var(--lw) * 0.012) calc(var(--lw) * 0.012);
+}
+
+@keyframes device-rise {
+  from { opacity: 0; translate: -50% calc(-50% + 70cqh); }
+}
+}
+@keyframes device-glare {
+  0%, 55% { background-position: 150% 0; }
+  100%    { background-position: -50% 0; }
+}
 
 /* A light cover needs no dark shade at the foot for its label */
 .live-card--light::after { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .live-dot, .live-float, .live-float svg, .live-wing { animation: none; }
-  .live-float { display: none; }
+  .live-dot, .device-laptop, .device-viewport::after { animation: none; }
 }
 
-/* Monarch Master Injectors: the site it designs, blush and rose, with the
-   monarch's butterflies */
+/* Monarch Master Injectors: the site's screens streaming past in three
+   columns tilted 20° (the outer two rising, the middle one falling), on the
+   brand's blush */
 .mmi-card {
   --cover-ground:
     radial-gradient(70% 90% at 12% 10%, rgba(247, 178, 198, 0.75), transparent 60%),
     radial-gradient(60% 80% at 92% 88%, rgba(210, 108, 135, 0.45), transparent 62%),
     radial-gradient(50% 60% at 85% 12%, rgba(236, 228, 241, 0.9), transparent 70%),
     linear-gradient(135deg, #fbeef2 0%, #f6dce6 48%, #ece4f1 100%);
-  --cover-light-1: rgba(255, 255, 255, 0.85);
-  --cover-light-2: rgba(247, 178, 198, 0.9);
-  --cover-light-3: rgba(210, 108, 135, 0.45);
-  --cover-glow: rgba(210, 108, 135, 0.25);
   background: #fbeef2;
 }
 
-.live-wing {
-  transform-box: view-box;
-  transform-origin: 12px 10px;
-  animation: live-flap 0.32s ease-in-out infinite alternate;
+/* ── Screen reel: columns of screens streaming past ──
+   Each track holds its set twice, so sliding it by half lands on the same
+   picture and the loop has no seam. A short set is repeated inside each
+   half, so a half always outruns the tilted column. The gap is a margin on every screen
+   (not a flex gap) to keep both halves exactly the same height. */
+.screen-reel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  gap: 4cqw;
+  height: 150cqh;
+  translate: -50% -50%;
+  rotate: 20deg;
 }
-/* Both wings fold in toward the body, which sits on the centre line */
-@keyframes live-flap { to { transform: scaleX(0.25); } }
+.screen-col { width: 34cqw; }
+.screen-track { animation: screen-rise 70s linear infinite; }
+.screen-col:nth-child(2) .screen-track { animation-name: screen-fall; animation-duration: 80s; }
+.screen-track img {
+  display: block;
+  width: 100%;
+  margin-bottom: 3cqw;
+  border-radius: 1.6cqw;
+  box-shadow: 0 4px 18px rgba(150, 60, 90, 0.16);
+}
+@keyframes screen-rise { from { translate: 0 0; } to { translate: 0 -50%; } }
+@keyframes screen-fall { from { translate: 0 -50%; } to { translate: 0 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .screen-track, .screen-col:nth-child(2) .screen-track { animation: none; }
+}
 
-/* Raven Hub: the app's ring, violet into blue on near black, with the
-   factory floor of an electric car maker drifting by */
+
+/* Raven Hub: the app's screens in MacBooks, on violet into blue over near
+   black, with lights crossing it */
 .hub-card {
   --cover-ground:
     radial-gradient(60% 75% at 88% 18%, rgba(138, 63, 252, 0.45), transparent 62%),
@@ -1058,47 +1107,431 @@
   --cover-glow: rgba(138, 63, 252, 0.45);
   background: #15151b;
 }
+/* In front, the app in three MacBooks standing on one line: one large in
+   front, two smaller behind it to either side, each on its own screen.
+   Every 4 s they move round one place, front to the right, right to the
+   left, left to the front, so each screen takes its turn in front. They
+   share one cycle, a third apart. */
+.hub-mac { position: absolute; inset: 0; z-index: 2; }
+.hub-mac .hub-mac-unit {
+  --lw: 54cqw;
+  top: auto;
+  bottom: calc(22cqh + 36px);
+  left: 50%;
+  transform-origin: 50% 100%;
+  animation: hub-turn 12s infinite;
+  animation-delay: calc(var(--i) * -4s);
+}
+/* Front, then right, then left; each move takes 1 s */
+@keyframes hub-turn {
+  0%, 25%  { translate: -50% 0; scale: 1; z-index: 3; filter: brightness(1) drop-shadow(0 2cqw 3cqw rgba(16, 24, 72, 0.4)); animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
+  33%, 58% { translate: calc(-50% + 24cqw) 0; scale: 0.74; z-index: 1; filter: brightness(0.8) drop-shadow(0 2cqw 3cqw rgba(16, 24, 72, 0.4)); animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
+  66%, 91% { translate: calc(-50% - 24cqw) 0; scale: 0.74; z-index: 2; filter: brightness(0.8) drop-shadow(0 2cqw 3cqw rgba(16, 24, 72, 0.4)); animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
+  100%     { translate: -50% 0; scale: 1; z-index: 3; filter: brightness(1) drop-shadow(0 2cqw 3cqw rgba(16, 24, 72, 0.4)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hub-mac .hub-mac-unit { animation: none; translate: -50% 0; }
+  .hub-mac .hub-mac-unit:nth-child(2) { translate: calc(-50% + 24cqw) 0; scale: 0.74; filter: brightness(0.8); }
+  .hub-mac .hub-mac-unit:nth-child(3) { translate: calc(-50% - 24cqw) 0; scale: 0.74; filter: brightness(0.8); }
+  .hub-mac .hub-mac-unit:first-child { z-index: 3; }
+}
 
-/* e-config on Cloud: its own sky, clouds and all */
+/* e-config on Cloud: its screens on tablets riding a production line, over
+   IBM's navy (Blue 70 to 100) settling into a cool grey, with soft blue
+   glows and lights crossing it; the ground drifts slowly, like the CPQ
+   Hub's. */
 .econfig-card {
   --cover-ground:
-    radial-gradient(55% 45% at 20% 20%, rgba(255, 255, 255, 0.55), transparent 70%),
-    radial-gradient(60% 50% at 85% 85%, rgba(255, 255, 255, 0.4), transparent 70%),
-    linear-gradient(170deg, #5b86d8 0%, #7fa3e3 55%, #b3c9ee 100%);
-  --cover-light-1: rgba(255, 255, 255, 0.9);
-  --cover-light-2: rgba(255, 255, 255, 0.6);
-  --cover-light-3: rgba(51, 80, 160, 0.35);
-  --cover-ink: #ffffff;
-  --cover-glow: rgba(31, 58, 128, 0.35);
-  background: #7fa3e3;
-}
-
-/* CPQ Hub: IBM's blue with the violet of the hub, and the four steps it
-   joins up (inventory, configuration, price, quote) */
-.cpq-card {
-  --cover-ground:
-    radial-gradient(60% 70% at 85% 15%, rgba(165, 110, 255, 0.55), transparent 62%),
-    radial-gradient(55% 65% at 12% 88%, rgba(69, 137, 255, 0.45), transparent 62%),
-    linear-gradient(145deg, #002d9c 0%, #001d6c 60%, #1c0f4a 100%);
+    radial-gradient(40% 30% at 85% 20%, rgba(69, 137, 255, 0.45), transparent 70%),
+    radial-gradient(40% 30% at 15% 80%, rgba(120, 169, 255, 0.3), transparent 70%),
+    linear-gradient(120deg, #0043ce 0%, #002d9c 32%, #001d6c 60%, #001141 82%, #343a3f 100%);
   --cover-light-1: rgba(166, 200, 255, 0.85);
-  --cover-light-2: rgba(212, 187, 255, 0.85);
-  --cover-light-3: rgba(255, 255, 255, 0.3);
-  --cover-ink: #ffffff;
-  --cover-glow: rgba(15, 98, 254, 0.5);
+  --cover-light-2: rgba(120, 169, 255, 0.85);
+  --cover-light-3: rgba(255, 255, 255, 0.35);
   background: #001d6c;
 }
+.econfig-card .live-cover {
+  background-size: 220% 220%;
+  animation: cpq-ground 22s ease-in-out infinite alternate;
+}
+/* No shade at the foot: it dimmed the line, and the label has its pill */
+.econfig-card::after { display: none; }
 
-/* Mesh: the placeholder keeps its pale ground; a network drifts behind */
+/* ── Conveyor belt: the app's screens coming off a production line ──
+   One tilted plane, like the CPQ Hub's, zoomed in, holds a factory floor:
+   concrete tiles with safety stripes along a production line that runs
+   through the card from the top left to the bottom right (the belt with its
+   side panel and its shadow), a two-frame mainframe standing at the top
+   right and one more frame in front, only its top showing at the bottom
+   left. Twelve tablets (the six screens twice), turned across the belt, ride it one --pitch apart, all at one
+   speed. Their run starts and ends well beyond the card's edges, so each
+   one comes in already moving and is gone before it comes round again. The
+   belt's surface moves with them, 474cqw in the same --run of 56.88 s.
+
+   Plane units: x runs along the line (centred on the card), y across it
+   (the belt ±25cqw, its rails included), z up from the belt, the
+   floor 36cqw below it. */
+.belt-stage {
+  /* 39.5cqw: the tablet's 30.67cqw along the belt plus a gap of 8.83cqw.
+     Given in % of the tablet's own width (46cqw), and the belt's shift in % of
+     its slat strip (912cqw), because animations run on the compositor take
+     cqw against the wrong box and squeezed the tablets together. */
+  --pitch: 85.8696%;
+  --span: calc(12 * var(--pitch));
+  --belt-shift: 49.6855%;
+  --run: 56.88s;
+  position: absolute;
+  top: 54%;
+  left: 52%;
+  width: 0;
+  height: 0;
+  transform: rotateX(50deg) rotateZ(44deg) scale3d(1.3, 1.3, 1.3);
+  transform-style: preserve-3d;
+}
+.belt-stage > * { position: absolute; }
+
+.belt {
+  top: -25cqw;
+  left: -240cqw;
+  width: 480cqw;
+  height: 50cqw;
+  border-block: 1.4cqw solid #9aa1ab;
+  background: #c6ccd5;
+  overflow: hidden;
+}
+/* The slats, one every 6cqw (474cqw is 79 of them), on a strip 474cqw
+   longer than the belt that slides along it with the tablets. Moved by
+   translate rather than background-position, so it runs on the compositor
+   in step with the tablets' own translate. */
+.belt::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 -474cqw;
+  /* Light grey, so the dark tablets stand out, with a mid grey between slats */
+  background: repeating-linear-gradient(90deg, #c6ccd5 0 5cqw, #a2a9b4 5cqw 6cqw);
+  animation: belt-roll var(--run) linear infinite;
+}
+/* The belt's side panel, hanging from its front edge */
+.belt-skirt {
+  top: 25cqw;
+  left: -240cqw;
+  width: 480cqw;
+  height: 5cqw;
+  background: linear-gradient(#2c3037, #1b1d22);
+  transform-origin: top;
+  transform: rotateX(-90deg);
+}
+/* The floor: concrete tiles, 20cqw a side, with the line's shadow */
+.belt-ground {
+  top: -260cqw;
+  left: -260cqw;
+  width: 520cqw;
+  height: 520cqw;
+  background:
+    linear-gradient(90deg, rgba(166, 200, 255, 0.07) 0.3cqw, transparent 0.3cqw) 0 0 / 20cqw 20cqw,
+    linear-gradient(rgba(166, 200, 255, 0.07) 0.3cqw, transparent 0.3cqw) 0 0 / 20cqw 20cqw,
+    radial-gradient(closest-side, #1d2a52, #101833);
+  transform: translateZ(-36.2cqw);
+}
+.belt-floor {
+  top: -45cqw;
+  left: -200cqw;
+  width: 400cqw;
+  height: 90cqw;
+  background: radial-gradient(closest-side, rgba(0, 4, 24, 0.6), transparent);
+  transform: translateZ(-36cqw);
+}
+/* The mainframe frames: tall and black, standing on the floor, each a
+   box of roof and two near faces. The face towards the line carries the
+   grille and a lit strip down its middle. */
+.belt-frame {
+  top: var(--y);
+  left: var(--x);
+  width: 22cqw;
+  height: 18cqw;
+  transform: translateZ(-36cqw);
+  transform-style: preserve-3d;
+}
+.belt-frame > span { position: absolute; }
+.belt-frame-roof {
+  inset: 0;
+  background: linear-gradient(135deg, #2b2e35, #16181c);
+  box-shadow: inset 0 0 0 0.5cqw rgba(255, 255, 255, 0.06);
+  transform: translateZ(34cqw);
+}
+.belt-frame-front {
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 34cqw;
+  background:
+    linear-gradient(#4589ff, #78a9ff) 50% 50% / 1.4cqw 72% no-repeat,
+    repeating-linear-gradient(rgba(255, 255, 255, 0.05) 0 0.4cqw, transparent 0.4cqw 1.6cqw),
+    linear-gradient(90deg, #0b0c0e 0 7%, #1c1e23 7% 93%, #0b0c0e 93%);
+  box-shadow: 0 0 6cqw rgba(69, 137, 255, 0.25);
+  transform-origin: top;
+  transform: translateZ(34cqw) rotateX(-90deg);
+}
+.belt-frame-side {
+  top: 0;
+  left: 100%;
+  width: 34cqw;
+  height: 100%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 8cqw, rgba(255, 255, 255, 0.05) 8cqw 8.5cqw),
+    linear-gradient(#121418, #0d0e11);
+  transform-origin: left;
+  transform: translateZ(34cqw) rotateY(90deg);
+}
+
+.belt-tablet {
+  /* As wide as the belt between its rails allows */
+  top: -15.333cqw;
+  left: -23cqw;
+  width: 46cqw;
+  aspect-ratio: 3 / 2;
+  padding: 1.12cqw;
+  border-radius: 2.6cqw;
+  background: #3a3d43;
+  /* Offsets along its own x, which the turn points at the front of the belt */
+  box-shadow:
+    -0.7cqw 0 0 #222428,
+    -3cqw 0 4cqw rgba(0, 6, 40, 0.4);
+  /* Turned across the belt, the screens' tops towards the back rail */
+  rotate: -90deg;
+  transform: translateZ(1.5cqw);
+  animation: belt-ride var(--run) linear infinite;
+  animation-delay: calc(var(--run) / -12 * var(--i));
+}
+.belt-tablet img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left top;
+  border-radius: 1.5cqw;
+  background: #fff;
+}
+
+@keyframes belt-roll { from { translate: 0 0; } to { translate: var(--belt-shift) 0; } }
+@keyframes belt-ride {
+  from { translate: calc(var(--span) / -2) 0; }
+  to   { translate: calc(var(--span) / 2) 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .belt::before, .belt-tablet { animation: none; }
+  .belt-tablet { translate: calc((var(--i) - 5.5) * var(--pitch)) 0; }
+}
+
+/* CPQ Hub: the product's screens on four tablets laid out in isometric
+   view, on IBM's blues (Blue 40 to Blue 60) settling into its cool greys.
+   The ground moves slowly and stays soft, so the screens keep the contrast. */
+.cpq-card {
+  --cover-ground: linear-gradient(120deg, #78a9ff 0%, #4589ff 30%, #0f62fe 55%, #4d7ac9 75%, #a2a9b0 100%);
+  background: #4589ff;
+}
+.cpq-card .live-cover {
+  background-size: 220% 220%;
+  animation: cpq-ground 22s ease-in-out infinite alternate;
+}
+/* The label sits in its own pill, so the foot only needs a light shade */
+.cpq-card::after { background: linear-gradient(to bottom, transparent 60%, rgba(8, 8, 16, 0.3) 100%); }
+@keyframes cpq-ground {
+  from { background-position: 0% 30%; }
+  to   { background-position: 100% 70%; }
+}
+
+/* ── Isometric tablets: a pinwheel of four ──
+   One tilted plane holds the tablets, so their shadows and thickness all
+   fall the same way. They turn around the centre like a pinwheel: top and
+   bottom lying across, left and right turned 90°, each one's end stopping
+   a little short of the next one's side. The plane turns a little back and
+   forth and the tablets float together at one height, so none rides over
+   its neighbour. Every 3 s a parallel pair (top and bottom, then left and
+   right) slides out toward the side the pinwheel turns from and, the moment
+   they have gone, their twins slide in from the slot's other open side
+   (the one no neighbour covers) with other screens. Each slot holds the two, half a cycle apart. Only full-page screens go in, so every screen is a
+   rectangle filling its glass.
+
+   Placement, with a tablet L long and S wide (3:2, the screenshots' own
+   shape) and a gap g: the centres sit at (±a, ±b) and (±b, ∓a) around the
+   middle, with a + b = (L + S) / 2 + g and a − b = (L − S) / 2 setting the
+   hole in the middle. Here L = 34%, S = 22.67%, g = 3%, a = 18.5%,
+   b = 12.83%. */
+.iso-stage {
+  position: absolute;
+  top: calc(55% - 20px);
+  left: 51%;
+  width: 172cqw;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  transform: rotateX(42deg) rotateZ(34deg);
+  transform-style: preserve-3d;
+  animation: iso-turn 20s ease-in-out infinite alternate;
+}
+.iso-slot {
+  position: absolute;
+  width: 34%;
+  aspect-ratio: 3 / 2;
+  transform-style: preserve-3d;
+  --z: 0cqw;
+  animation: iso-float 5.8s ease-in-out infinite alternate;
+}
+/* Turned tablets: a portrait body with the screen turned inside it */
+.iso-slot--right,
+.iso-slot--left { width: 22.667%; aspect-ratio: 2 / 3; }
+
+.iso-slot--top    { left: 14.5%;  top: 25.83%; --out: -55cqw 0; --in: 0 -55cqw; --swap: 0s; }
+.iso-slot--right  { left: 51.5%;  top: 14.5%;  --out: 0 -55cqw; --in: 55cqw 0;  --swap: -3s; }
+.iso-slot--bottom { left: 51.5%;  top: 51.5%;  --out: 55cqw 0;  --in: 0 55cqw;  --swap: 0s; }
+.iso-slot--left   { left: 25.83%; top: 51.5%;  --out: 0 55cqw;  --in: -55cqw 0; --swap: -3s; }
+
+.iso-tablet {
+  /* One bezel for every tablet, whatever its size or turn */
+  --bezel: 1.6cqw;
+  position: absolute;
+  inset: 0;
+  padding: var(--bezel);
+  border-radius: 3cqw;
+  /* Graphite */
+  background: #3a3d43;
+  /* The tablet's side, then its shadow on the plane */
+  box-shadow:
+    0 0.7cqw 0 #222428,
+    0 4cqw 6cqw rgba(24, 28, 96, 0.32);
+  animation: iso-swap 12s infinite var(--swap) both;
+}
+.iso-tablet + .iso-tablet { animation-delay: calc(var(--swap) - 6s); }
+.iso-tablet img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left top;
+  border-radius: 1.6cqw;
+  background: #fff;
+}
+/* In a portrait body the screen lies across: as wide as the body is tall
+   (3/2 of its width) and as tall as it is wide (2/3 of its height), less
+   the bezels, turned a quarter about the centre, its top to the right
+   (the other way round read upside down from the viewer). */
+.iso-slot--right .iso-tablet img,
+.iso-slot--left .iso-tablet img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(150% - 2 * var(--bezel));
+  height: calc(66.667% - 2 * var(--bezel));
+  /* The global img cap would hold it to the body's width and square it off */
+  max-width: none;
+  translate: -50% -50%;
+  rotate: -90deg;
+}
+
+@keyframes iso-turn {
+  from { transform: rotateX(42deg) rotateZ(30deg); }
+  to   { transform: rotateX(42deg) rotateZ(38deg); }
+}
+@keyframes iso-float {
+  from { transform: translateZ(var(--z)); }
+  to   { transform: translateZ(calc(var(--z) + 2cqw)); }
+}
+/* Slides in from one open side over 0–11% (1.3 s), quick at first and easing
+   gently to rest, holds, and leaves by its other open side at 44–50%, so
+   its twin's arrival at 50% follows straight on; out of sight for the rest */
+@keyframes iso-swap {
+  0%        { translate: var(--in); opacity: 0; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  11%, 44%  { translate: 0 0; opacity: 1; animation-timing-function: cubic-bezier(0.64, 0, 0.78, 0); }
+  50%, 100% { translate: var(--out); opacity: 0; }
+}
+
+/* Here, after the rules it overrides: the grounds and the tablets stand
+   still, each tablet on its first screen */
+@media (prefers-reduced-motion: reduce) {
+  .econfig-card .live-cover, .cpq-card .live-cover, .iso-stage, .iso-slot, .iso-tablet { animation: none; }
+  .iso-slot { transform: translateZ(var(--z)); }
+  .iso-tablet + .iso-tablet { display: none; }
+}
+
+/* Mesh: the placeholder keeps its pale ground, with stand-in screens (the
+   case isn't public yet) streaming past in three rows tilted 20°, like the
+   MMI's columns but sideways: the outer rows run right, the middle one left */
 .mesh-card {
   --cover-ground:
     radial-gradient(90% 120% at 18% 8%, rgba(39, 89, 222, 0.16), transparent 62%),
     radial-gradient(90% 120% at 88% 92%, rgba(208, 38, 112, 0.14), transparent 62%),
     #f7f7f9;
-  --cover-light-1: rgba(39, 89, 222, 0.35);
-  --cover-light-2: rgba(208, 38, 112, 0.25);
-  --cover-light-3: rgba(192, 191, 190, 0.6);
-  --cover-glow: rgba(39, 89, 222, 0.18);
   background: #f7f7f9;
+}
+
+/* Each track holds its set twice, so sliding it by half lands on the same
+   picture; the gap is a margin on every screen to keep both halves equal. */
+.shot-reel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 3cqw;
+  width: 220cqw;
+  translate: -50% -50%;
+  rotate: 20deg;
+}
+.shot-track {
+  display: flex;
+  width: max-content;
+  animation: shot-left 70s linear infinite;
+}
+.shot-row:nth-child(odd) .shot-track { animation-name: shot-right; animation-duration: 80s; }
+@keyframes shot-left  { from { translate: 0 0; } to { translate: -50% 0; } }
+@keyframes shot-right { from { translate: -50% 0; } to { translate: 0 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .shot-track, .shot-row:nth-child(odd) .shot-track { animation: none; }
+}
+
+/* A screen drawn in blocks: a header, then each variant's own layout in the
+   Mesh blue and magenta */
+.mesh-shot {
+  --blue: rgba(39, 89, 222, 0.78);
+  --pink: rgba(208, 38, 112, 0.7);
+  --line: #e6e9f1;
+  --tint: #f1f3f8;
+  flex: none;
+  width: 40cqw;
+  aspect-ratio: 16 / 10;
+  margin-right: 3cqw;
+  border-radius: 1.6cqw;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  box-shadow: 0 1cqw 3.5cqw rgba(39, 89, 222, 0.14);
+}
+/* Dashboard: sidebar, three stat tiles, two rows */
+.mesh-shot--a {
+  background-image:
+    linear-gradient(var(--line) 0 0), linear-gradient(var(--tint) 0 0),
+    linear-gradient(var(--blue) 0 0), linear-gradient(var(--pink) 0 0), linear-gradient(var(--line) 0 0),
+    linear-gradient(var(--line) 0 0), linear-gradient(var(--line) 0 0);
+  background-size: 100% 11%, 20% 89%, 21% 26%, 21% 26%, 21% 26%, 68% 6%, 52% 6%;
+  background-position: 0 0, 0 100%, 31% 30%, 63% 30%, 95% 30%, 92% 70%, 74% 84%;
+}
+/* Overview: a wide blue-to-magenta banner over two columns of rows */
+.mesh-shot--b {
+  background-image:
+    linear-gradient(var(--line) 0 0), linear-gradient(110deg, var(--blue), var(--pink)),
+    linear-gradient(var(--line) 0 0), linear-gradient(var(--line) 0 0),
+    linear-gradient(var(--tint) 0 0), linear-gradient(var(--tint) 0 0);
+  background-size: 100% 11%, 90% 34%, 42% 6%, 42% 6%, 42% 22%, 42% 22%;
+  background-position: 0 0, 50% 30%, 5% 70%, 95% 70%, 5% 96%, 95% 96%;
+}
+/* List: a table of rows with a magenta action */
+.mesh-shot--c {
+  background-image:
+    linear-gradient(var(--line) 0 0), linear-gradient(var(--pink) 0 0),
+    linear-gradient(var(--tint) 0 0), linear-gradient(var(--line) 0 0),
+    linear-gradient(var(--line) 0 0), linear-gradient(var(--line) 0 0),
+    linear-gradient(var(--blue) 0 0);
+  background-size: 100% 11%, 18% 9%, 90% 10%, 90% 5%, 90% 5%, 90% 5%, 9% 5%;
+  background-position: 0 0, 94% 23%, 50% 39%, 50% 56%, 50% 70%, 50% 84%, 6% 23%;
 }
 
 /* ── Educational Design Artifacts ────────────────────────────────────────
@@ -1109,16 +1542,20 @@
   --edu-ground: #363636;
   background: var(--edu-ground);
 }
+/* No shade at the foot: it dimmed the lower row of icons, and the label
+   sits in its own pill */
+.edu-card::after { display: none; }
 
 .edu-cover {
   position: absolute;
   inset: 0;
   z-index: 0;
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* The rows sit in from the edges, leaving the foot of the card to its name */
-  padding: 86px 0 58px;
+  /* The rows sit the same distance in from the top and the foot */
+  padding: 86px 0;
   overflow: hidden;
   color: var(--color-text-on-media);
   background:
@@ -1164,13 +1601,24 @@
   padding: 0 24px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 6px;
+  text-align: center;
 }
 
+/* One line, sized to the card: the title runs about 11.7 times its font
+   size, so a twelfth-and-a-bit of the width inside the padding fits it */
 .edu-cover-title {
-  font-size: clamp(26px, 5.4vw, 38px);
+  font-size: min(38px, calc((100cqw - 48px) / 12.4));
   font-weight: var(--weight-extrabold);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
-  max-width: 11ch;
+  white-space: nowrap;
+}
+.edu-cover-text-sub {
+  max-width: 40ch;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: rgba(255, 255, 255, 0.72);
+  text-wrap: balance;
 }

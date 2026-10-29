@@ -38,6 +38,8 @@
     </div>
   </div>
 
+  <!-- The liquid glass lens for the project names: the page behind is bent inward along the pill's rim (red bends across, green up and down) -->
+  <svg class="visually-hidden" width="0" height="0" aria-hidden="true" focusable="false"><filter id="liquidGlass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feImage href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" preserveAspectRatio="none"%3E%3Cdefs%3E%3ClinearGradient id="r" x1="0" x2="1" y1="0" y2="0"%3E%3Cstop offset="0" stop-color="%23f00"/%3E%3Cstop offset=".22" stop-color="%23800000"/%3E%3Cstop offset=".78" stop-color="%23800000"/%3E%3Cstop offset="1" stop-color="%23000"/%3E%3C/linearGradient%3E%3ClinearGradient id="g" x1="0" x2="0" y1="0" y2="1"%3E%3Cstop offset="0" stop-color="%230f0"/%3E%3Cstop offset=".4" stop-color="%23008000"/%3E%3Cstop offset=".6" stop-color="%23008000"/%3E%3Cstop offset="1" stop-color="%23000"/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width="100" height="100" fill="url(%23r)"/%3E%3Crect width="100" height="100" fill="url(%23g)" style="mix-blend-mode:screen"/%3E%3C/svg%3E' x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="map"/><feDisplacementMap in="SourceGraphic" in2="map" scale="24" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
   <div class="cursor-tooltip" id="cursorTooltip" aria-hidden="true"><span class="cursor-tooltip__bars"></span><span class="cursor-tooltip__label"></span></div>
 
   <nav class="nav" id="nav">
@@ -311,23 +313,11 @@
       <!-- Case study: Mesh (content to come) -->
       <article class="bento-card project-card mesh-card live-card--light" data-card="mesh" data-expand="full" data-expand-inset="32" data-expand-edge="12" data-tooltip="" data-i18n-attr="data-tooltip:cards.mesh.tooltip">
         <div class="live-cover" aria-hidden="true">
-          <div class="live-dots">
-            <span class="live-dot" style="--y:8%;--s:18px;--d:26s;--delay:0s"></span>
-            <span class="live-dot" style="--y:22%;--s:8px;--d:19s;--delay:-6s"></span>
-            <span class="live-dot" style="--y:35%;--s:14px;--d:23s;--delay:-12s"></span>
-            <span class="live-dot" style="--y:48%;--s:6px;--d:17s;--delay:-3s"></span>
-            <span class="live-dot" style="--y:60%;--s:22px;--d:29s;--delay:-15s"></span>
-            <span class="live-dot" style="--y:72%;--s:10px;--d:21s;--delay:-9s"></span>
-            <span class="live-dot" style="--y:84%;--s:16px;--d:25s;--delay:-18s"></span>
-            <span class="live-dot" style="--y:15%;--s:5px;--d:15s;--delay:-7s"></span>
-            <span class="live-dot" style="--y:55%;--s:12px;--d:27s;--delay:-21s"></span>
-            <span class="live-dot" style="--y:90%;--s:7px;--d:18s;--delay:-11s"></span>
-            <span class="live-dot" style="--y:40%;--s:26px;--d:31s;--delay:-4s"></span>
-            <span class="live-dot" style="--y:66%;--s:4px;--d:16s;--delay:-14s"></span>
+          <div class="shot-reel">
+            <div class="shot-row"><div class="shot-track"><span class="mesh-shot mesh-shot--a"></span><span class="mesh-shot mesh-shot--b"></span><span class="mesh-shot mesh-shot--c"></span><span class="mesh-shot mesh-shot--a"></span><span class="mesh-shot mesh-shot--b"></span><span class="mesh-shot mesh-shot--c"></span><span class="mesh-shot mesh-shot--a"></span><span class="mesh-shot mesh-shot--b"></span><span class="mesh-shot mesh-shot--c"></span><span class="mesh-shot mesh-shot--a"></span><span class="mesh-shot mesh-shot--b"></span><span class="mesh-shot mesh-shot--c"></span></div></div>
+            <div class="shot-row"><div class="shot-track"><span class="mesh-shot mesh-shot--c"></span><span class="mesh-shot mesh-shot--a"></span><span class="mesh-shot mesh-shot--b"></span><span class="mesh-shot mesh-shot--c"></span><span class="mesh-shot mesh-shot--a"></span><span class="mesh-shot mesh-shot--b"></span><span class="mesh-shot mesh-shot--c"></span><span class="mesh-shot mesh-shot--a"></span><span class="mesh-shot mesh-shot--b"></span><span class="mesh-shot mesh-shot--c"></span><span class="mesh-shot mesh-shot--a"></span><span class="mesh-shot mesh-shot--b"></span></div></div>
+            <div class="shot-row"><div class="shot-track"><span class="mesh-shot mesh-shot--b"></span><span class="mesh-shot mesh-shot--c"></span><span class="mesh-shot mesh-shot--a"></span><span class="mesh-shot mesh-shot--b"></span><span class="mesh-shot mesh-shot--c"></span><span class="mesh-shot mesh-shot--a"></span><span class="mesh-shot mesh-shot--b"></span><span class="mesh-shot mesh-shot--c"></span><span class="mesh-shot mesh-shot--a"></span><span class="mesh-shot mesh-shot--b"></span><span class="mesh-shot mesh-shot--c"></span><span class="mesh-shot mesh-shot--a"></span></div></div>
           </div>
-          <span class="live-float live-float--1" style="--size:64px;--c:#2759de;--d:21s;--delay:0s;--o:0.45"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="12" cy="13" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 6.2l10-.9M6.4 7.6l4.3 3.9M17.6 6.6l-4.2 4.8M10.7 14.6l-3.4 2.9M13.9 13.8l3.3 3M8 19.2l9-.9"/></svg></span>
-          <span class="live-float live-float--2" style="--size:48px;--c:#d02670;--d:18s;--delay:-7s;--o:0.35"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="12" cy="13" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 6.2l10-.9M6.4 7.6l4.3 3.9M17.6 6.6l-4.2 4.8M10.7 14.6l-3.4 2.9M13.9 13.8l3.3 3M8 19.2l9-.9"/></svg></span>
-          <span class="live-float live-float--3" style="--size:54px;--c:#2759de;--d:24s;--delay:-13s;--o:0.3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="12" cy="13" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 6.2l10-.9M6.4 7.6l4.3 3.9M17.6 6.6l-4.2 4.8M10.7 14.6l-3.4 2.9M13.9 13.8l3.3 3M8 19.2l9-.9"/></svg></span>
         </div>
         <div class="mesh-cover">
           <span class="card-logo mesh-cover-logo" data-logo="mesh" data-logo-variant="light" role="img" aria-label="" data-i18n-attr="aria-label:cards.mesh.coverTitle"></span>
@@ -351,6 +341,7 @@
           <div class="edu-marquee edu-marquee--left" aria-hidden="true"></div>
           <div class="edu-cover-text">
             <span class="edu-cover-title" data-i18n="cards.edu.coverTitle"></span>
+            <span class="edu-cover-text-sub" data-i18n="cards.edu.coverText"></span>
           </div>
           <div class="edu-marquee edu-marquee--right" aria-hidden="true"></div>
         </div>
@@ -383,13 +374,12 @@
             <span class="live-dot" style="--y:40%;--s:26px;--d:31s;--delay:-4s"></span>
             <span class="live-dot" style="--y:66%;--s:4px;--d:16s;--delay:-14s"></span>
           </div>
-          <span class="live-float live-float--1 live-float--spin" style="--size:54px;--c:#be95ff;--d:19s;--delay:0s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5l1.4 2.7a7.5 7.5 0 011.8.8l2.9-1 1.4 1.4-1 2.9a7.5 7.5 0 01.8 1.8l2.7 1.4-2.7 1.4a7.5 7.5 0 01-.8 1.8l1 2.9-1.4 1.4-2.9-1a7.5 7.5 0 01-1.8.8L12 21.5l-1.4-2.7a7.5 7.5 0 01-1.8-.8l-2.9 1-1.4-1.4 1-2.9a7.5 7.5 0 01-.8-1.8L2.5 12l2.7-1.4a7.5 7.5 0 01.8-1.8l-1-2.9 1.4-1.4 2.9 1a7.5 7.5 0 011.8-.8z"/></svg></span>
-          <span class="live-float live-float--2" style="--size:38px;--c:#78a9ff;--d:16s;--delay:-6s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"/></svg></span>
-          <span class="live-float live-float--3" style="--size:58px;--c:#ffffff;--d:23s;--delay:-11s;--o:0.75"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 14l1.8-4.6A2 2 0 017.2 8h9.6a2 2 0 011.9 1.4l1.8 4.6v4h-2.3M3.5 14v4h2.3M3.5 14h17"/><circle cx="7.8" cy="18" r="1.8"/><circle cx="16.2" cy="18" r="1.8"/></svg></span>
-          <span class="live-float live-float--1" style="--size:45px;--c:#78a9ff;--d:21s;--delay:-14s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="7" width="17" height="10" rx="2"/><path d="M21.5 10.5v3M6 10v4M9.5 10v4M13 10v4"/></svg></span>
-          <span class="live-float live-float--3 live-float--spin" style="--size:35px;--c:#8a3ffc;--d:17s;--delay:-4s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5l1.4 2.7a7.5 7.5 0 011.8.8l2.9-1 1.4 1.4-1 2.9a7.5 7.5 0 01.8 1.8l2.7 1.4-2.7 1.4a7.5 7.5 0 01-.8 1.8l1 2.9-1.4 1.4-2.9-1a7.5 7.5 0 01-1.8.8L12 21.5l-1.4-2.7a7.5 7.5 0 01-1.8-.8l-2.9 1-1.4-1.4 1-2.9a7.5 7.5 0 01-.8-1.8L2.5 12l2.7-1.4a7.5 7.5 0 01.8-1.8l-1-2.9 1.4-1.4 2.9 1a7.5 7.5 0 011.8-.8z"/></svg></span>
+          <div class="hub-mac">
+            <div class="device-laptop hub-mac-unit" style="--i:0"><div class="device-laptop-screen"><div class="device-viewport"><img src="assets/projects/hub/screens/home.jpg" alt="" loading="lazy"></div></div><div class="device-laptop-base"></div></div>
+            <div class="device-laptop hub-mac-unit" style="--i:1"><div class="device-laptop-screen"><div class="device-viewport"><img src="assets/projects/hub/screens/production.jpg" alt="" loading="lazy"></div></div><div class="device-laptop-base"></div></div>
+            <div class="device-laptop hub-mac-unit" style="--i:2"><div class="device-laptop-screen"><div class="device-viewport"><img src="assets/projects/hub/screens/insights.jpg" alt="" loading="lazy"></div></div><div class="device-laptop-base"></div></div>
+          </div>
         </div>
-        <span class="card-logo live-cover-mark live-cover-logo" aria-hidden="true"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="hubRing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#be95ff"/><stop offset="1" stop-color="#4589ff"/></linearGradient></defs><circle cx="32" cy="32" r="25" fill="none" stroke="url(#hubRing)" stroke-width="7" stroke-linecap="round" stroke-dasharray="132 25" transform="rotate(-65 32 32)"/><path d="M27.5 23.5L19 32l8.5 8.5M36.5 23.5L45 32l-8.5 8.5" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="cards.hub.label"></span></span>
         <div class="card-tags">
           <span class="card-tag" data-i18n="cards.hub.tag1"></span>
           <span class="card-tag" data-i18n="cards.hub.tag2"></span>
@@ -405,27 +395,28 @@
       <!-- Case study: e-config on Cloud -->
       <article class="bento-card project-card econfig-card" data-card="econfig" data-expand="full" data-expand-inset="32" data-expand-edge="12" data-tooltip="" data-i18n-attr="data-tooltip:cards.econfig.tooltip">
         <div class="live-cover" aria-hidden="true">
-          <div class="live-dots">
-            <span class="live-dot" style="--y:8%;--s:18px;--d:26s;--delay:0s"></span>
-            <span class="live-dot" style="--y:22%;--s:8px;--d:19s;--delay:-6s"></span>
-            <span class="live-dot" style="--y:35%;--s:14px;--d:23s;--delay:-12s"></span>
-            <span class="live-dot" style="--y:48%;--s:6px;--d:17s;--delay:-3s"></span>
-            <span class="live-dot" style="--y:60%;--s:22px;--d:29s;--delay:-15s"></span>
-            <span class="live-dot" style="--y:72%;--s:10px;--d:21s;--delay:-9s"></span>
-            <span class="live-dot" style="--y:84%;--s:16px;--d:25s;--delay:-18s"></span>
-            <span class="live-dot" style="--y:15%;--s:5px;--d:15s;--delay:-7s"></span>
-            <span class="live-dot" style="--y:55%;--s:12px;--d:27s;--delay:-21s"></span>
-            <span class="live-dot" style="--y:90%;--s:7px;--d:18s;--delay:-11s"></span>
-            <span class="live-dot" style="--y:40%;--s:26px;--d:31s;--delay:-4s"></span>
-            <span class="live-dot" style="--y:66%;--s:4px;--d:16s;--delay:-14s"></span>
+          <div class="belt-stage">
+            <span class="belt-ground"></span>
+            <div class="belt-frame" style="--x:-37.6cqw;--y:-66.7cqw"><span class="belt-frame-roof"></span><span class="belt-frame-front"></span><span class="belt-frame-side"></span></div>
+            <div class="belt-frame" style="--x:-13.6cqw;--y:-66.7cqw"><span class="belt-frame-roof"></span><span class="belt-frame-front"></span><span class="belt-frame-side"></span></div>
+            <div class="belt-frame" style="--x:-15.41cqw;--y:29.18cqw"><span class="belt-frame-roof"></span><span class="belt-frame-front"></span><span class="belt-frame-side"></span></div>
+            <span class="belt-floor"></span>
+            <div class="belt"></div>
+            <span class="belt-skirt"></span>
+            <div class="belt-tablet" style="--i:0"><img src="assets/projects/econfig/reel/configurations.jpg" alt="" loading="lazy"></div>
+            <div class="belt-tablet" style="--i:1"><img src="assets/projects/econfig/reel/configure.jpg" alt="" loading="lazy"></div>
+            <div class="belt-tablet" style="--i:2"><img src="assets/projects/econfig/reel/compare.jpg" alt="" loading="lazy"></div>
+            <div class="belt-tablet" style="--i:3"><img src="assets/projects/econfig/reel/base.jpg" alt="" loading="lazy"></div>
+            <div class="belt-tablet" style="--i:4"><img src="assets/projects/econfig/reel/export.jpg" alt="" loading="lazy"></div>
+            <div class="belt-tablet" style="--i:5"><img src="assets/projects/econfig/reel/export-panel.jpg" alt="" loading="lazy"></div>
+            <div class="belt-tablet" style="--i:6"><img src="assets/projects/econfig/reel/configurations.jpg" alt="" loading="lazy"></div>
+            <div class="belt-tablet" style="--i:7"><img src="assets/projects/econfig/reel/configure.jpg" alt="" loading="lazy"></div>
+            <div class="belt-tablet" style="--i:8"><img src="assets/projects/econfig/reel/compare.jpg" alt="" loading="lazy"></div>
+            <div class="belt-tablet" style="--i:9"><img src="assets/projects/econfig/reel/base.jpg" alt="" loading="lazy"></div>
+            <div class="belt-tablet" style="--i:10"><img src="assets/projects/econfig/reel/export.jpg" alt="" loading="lazy"></div>
+            <div class="belt-tablet" style="--i:11"><img src="assets/projects/econfig/reel/export-panel.jpg" alt="" loading="lazy"></div>
           </div>
-          <span class="live-float live-float--1" style="--size:90px;--c:#ffffff;--d:26s;--delay:0s;--o:0.85"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18.5h10.2a4.3 4.3 0 00.6-8.55A6.2 6.2 0 006 9.6a4.45 4.45 0 001 8.9z"/></svg></span>
-          <span class="live-float live-float--2" style="--size:64px;--c:#ffffff;--d:22s;--delay:-9s;--o:0.7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18.5h10.2a4.3 4.3 0 00.6-8.55A6.2 6.2 0 006 9.6a4.45 4.45 0 001 8.9z"/></svg></span>
-          <span class="live-float live-float--3 live-float--spin" style="--size:42px;--c:#1f3a80;--d:19s;--delay:-5s;--o:0.6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5l1.4 2.7a7.5 7.5 0 011.8.8l2.9-1 1.4 1.4-1 2.9a7.5 7.5 0 01.8 1.8l2.7 1.4-2.7 1.4a7.5 7.5 0 01-.8 1.8l1 2.9-1.4 1.4-2.9-1a7.5 7.5 0 01-1.8.8L12 21.5l-1.4-2.7a7.5 7.5 0 01-1.8-.8l-2.9 1-1.4-1.4 1-2.9a7.5 7.5 0 01-.8-1.8L2.5 12l2.7-1.4a7.5 7.5 0 01.8-1.8l-1-2.9 1.4-1.4 2.9 1a7.5 7.5 0 011.8-.8z"/></svg></span>
-          <span class="live-float live-float--1" style="--size:42px;--c:#1f3a80;--d:20s;--delay:-13s;--o:0.6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></svg></span>
-          <span class="live-float live-float--3" style="--size:48px;--c:#ffffff;--d:24s;--delay:-17s;--o:0.6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18.5h10.2a4.3 4.3 0 00.6-8.55A6.2 6.2 0 006 9.6a4.45 4.45 0 001 8.9z"/></svg></span>
         </div>
-        <span class="card-logo live-cover-mark live-cover-logo" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M38 14v-5M48.5 18.5l3.5-3.5M53 29h5M27.5 18.5L24 15"/><path d="M29.6 26a9.6 9.6 0 0117.7 6.4"/><path d="M17 50h28a8.5 8.5 0 001-16.94A12.5 12.5 0 0022 31.6 9.25 9.25 0 0017 50z" fill="rgba(255,255,255,0.18)"/></svg><span data-i18n="cards.econfig.label"></span></span>
         <div class="card-tags">
           <span class="card-tag" data-i18n="cards.econfig.tag1"></span>
           <span class="card-tag" data-i18n="cards.econfig.tag2"></span>
@@ -442,25 +433,12 @@
       <!-- Case study: Monarch Master Injectors -->
       <article class="bento-card project-card mmi-card live-card--light" data-card="mmi" data-expand="full" data-expand-inset="32" data-expand-edge="12" data-tooltip="" data-i18n-attr="data-tooltip:cards.mmi.tooltip">
         <div class="live-cover" aria-hidden="true">
-          <div class="live-dots">
-            <span class="live-dot" style="--y:8%;--s:18px;--d:26s;--delay:0s"></span>
-            <span class="live-dot" style="--y:22%;--s:8px;--d:19s;--delay:-6s"></span>
-            <span class="live-dot" style="--y:35%;--s:14px;--d:23s;--delay:-12s"></span>
-            <span class="live-dot" style="--y:48%;--s:6px;--d:17s;--delay:-3s"></span>
-            <span class="live-dot" style="--y:60%;--s:22px;--d:29s;--delay:-15s"></span>
-            <span class="live-dot" style="--y:72%;--s:10px;--d:21s;--delay:-9s"></span>
-            <span class="live-dot" style="--y:84%;--s:16px;--d:25s;--delay:-18s"></span>
-            <span class="live-dot" style="--y:15%;--s:5px;--d:15s;--delay:-7s"></span>
-            <span class="live-dot" style="--y:55%;--s:12px;--d:27s;--delay:-21s"></span>
-            <span class="live-dot" style="--y:90%;--s:7px;--d:18s;--delay:-11s"></span>
-            <span class="live-dot" style="--y:40%;--s:26px;--d:31s;--delay:-4s"></span>
-            <span class="live-dot" style="--y:66%;--s:4px;--d:16s;--delay:-14s"></span>
+          <div class="screen-reel">
+            <div class="screen-col"><div class="screen-track"><img src="assets/projects/mmi/reel/home-guide.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-news.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-guide.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-news.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-guide.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-news.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-guide.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-news.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-guide.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-news.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-guide.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-news.jpg" alt="" loading="lazy"></div></div>
+            <div class="screen-col"><div class="screen-track"><img src="assets/projects/mmi/reel/bo-customer-details.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-goals.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/bo-customers.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/bo-customer-details.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-goals.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/bo-customers.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/bo-customer-details.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-goals.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/bo-customers.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/bo-customer-details.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-goals.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/bo-customers.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/bo-customer-details.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-goals.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/bo-customers.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/bo-customer-details.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/home-goals.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/bo-customers.jpg" alt="" loading="lazy"></div></div>
+            <div class="screen-col"><div class="screen-track"><img src="assets/projects/mmi/reel/fo-trainings.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/journey.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/fo-checkout.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/fo-trainings.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/journey.jpg" alt="" loading="lazy"><img src="assets/projects/mmi/reel/fo-checkout.jpg" alt="" loading="lazy"></div></div>
           </div>
-          <span class="live-float live-float--1" style="--size:38px;--c:#d26c87;--d:17s;--delay:0s;fill:currentColor"><svg viewBox="0 0 24 20" aria-hidden="true"><g class="live-wing"><path d="M12 10C9 1 2 0 1.5 5S7 11 12 10Z"/><path d="M12 10C9 12 4 15 5 18.5S10.5 15 12 10Z"/></g><g class="live-wing"><path d="M12 10C15 1 22 0 22.5 5S17 11 12 10Z"/><path d="M12 10C15 12 20 15 19 18.5S13.5 15 12 10Z"/></g><rect x="11.4" y="5" width="1.2" height="10" rx="0.6"/></svg></span>
-          <span class="live-float live-float--2" style="--size:30px;--c:#e48aa3;--d:21s;--delay:-8s;fill:currentColor"><svg viewBox="0 0 24 20" aria-hidden="true"><g class="live-wing"><path d="M12 10C9 1 2 0 1.5 5S7 11 12 10Z"/><path d="M12 10C9 12 4 15 5 18.5S10.5 15 12 10Z"/></g><g class="live-wing"><path d="M12 10C15 1 22 0 22.5 5S17 11 12 10Z"/><path d="M12 10C15 12 20 15 19 18.5S13.5 15 12 10Z"/></g><rect x="11.4" y="5" width="1.2" height="10" rx="0.6"/></svg></span>
-          <span class="live-float live-float--3" style="--size:24px;--c:#b95775;--d:25s;--delay:-15s;fill:currentColor"><svg viewBox="0 0 24 20" aria-hidden="true"><g class="live-wing"><path d="M12 10C9 1 2 0 1.5 5S7 11 12 10Z"/><path d="M12 10C9 12 4 15 5 18.5S10.5 15 12 10Z"/></g><g class="live-wing"><path d="M12 10C15 1 22 0 22.5 5S17 11 12 10Z"/><path d="M12 10C15 12 20 15 19 18.5S13.5 15 12 10Z"/></g><rect x="11.4" y="5" width="1.2" height="10" rx="0.6"/></svg></span>
         </div>
-        <span class="card-logo live-cover-logo" data-logo="mmi" data-logo-variant="light" role="img" aria-label="" data-i18n-attr="aria-label:cards.mmi.label"></span>
         <div class="card-tags">
           <span class="card-tag" data-i18n="cards.mmi.tag1"></span>
           <span class="card-tag" data-i18n="cards.mmi.tag2"></span>
@@ -477,27 +455,13 @@
       <!-- Case study: CPQ Hub -->
       <article class="bento-card project-card cpq-card" data-card="cpq" data-expand="full" data-expand-inset="32" data-expand-edge="12" data-tooltip="" data-i18n-attr="data-tooltip:cards.cpq.tooltip">
         <div class="live-cover" aria-hidden="true">
-          <div class="live-dots">
-            <span class="live-dot" style="--y:8%;--s:18px;--d:26s;--delay:0s"></span>
-            <span class="live-dot" style="--y:22%;--s:8px;--d:19s;--delay:-6s"></span>
-            <span class="live-dot" style="--y:35%;--s:14px;--d:23s;--delay:-12s"></span>
-            <span class="live-dot" style="--y:48%;--s:6px;--d:17s;--delay:-3s"></span>
-            <span class="live-dot" style="--y:60%;--s:22px;--d:29s;--delay:-15s"></span>
-            <span class="live-dot" style="--y:72%;--s:10px;--d:21s;--delay:-9s"></span>
-            <span class="live-dot" style="--y:84%;--s:16px;--d:25s;--delay:-18s"></span>
-            <span class="live-dot" style="--y:15%;--s:5px;--d:15s;--delay:-7s"></span>
-            <span class="live-dot" style="--y:55%;--s:12px;--d:27s;--delay:-21s"></span>
-            <span class="live-dot" style="--y:90%;--s:7px;--d:18s;--delay:-11s"></span>
-            <span class="live-dot" style="--y:40%;--s:26px;--d:31s;--delay:-4s"></span>
-            <span class="live-dot" style="--y:66%;--s:4px;--d:16s;--delay:-14s"></span>
+          <div class="iso-stage">
+            <div class="iso-slot iso-slot--top"><div class="iso-tablet"><img src="assets/projects/cpq/deck/ui-homepage.jpg" alt="" loading="lazy"></div><div class="iso-tablet"><img src="assets/projects/cpq/deck/ui-web-components.jpg" alt="" loading="lazy"></div></div>
+            <div class="iso-slot iso-slot--right"><div class="iso-tablet"><img src="assets/projects/cpq/deck/ui-folder-details.jpg" alt="" loading="lazy"></div><div class="iso-tablet"><img src="assets/projects/cpq/deck/ui-homepage.jpg" alt="" loading="lazy"></div></div>
+            <div class="iso-slot iso-slot--bottom"><div class="iso-tablet"><img src="assets/projects/cpq/deck/ui-folder-creation.jpg" alt="" loading="lazy"></div><div class="iso-tablet"><img src="assets/projects/cpq/deck/ui-access-2.jpg" alt="" loading="lazy"></div></div>
+            <div class="iso-slot iso-slot--left"><div class="iso-tablet"><img src="assets/projects/cpq/deck/ui-object-creation.jpg" alt="" loading="lazy"></div><div class="iso-tablet"><img src="assets/projects/cpq/deck/ui-help.jpg" alt="" loading="lazy"></div></div>
           </div>
-          <span class="live-float live-float--1" style="--size:48px;--c:#a6c8ff;--d:20s;--delay:0s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="5.5" rx="1.3"/><rect x="4" y="9.25" width="16" height="5.5" rx="1.3"/><rect x="4" y="15.5" width="16" height="5.5" rx="1.3"/><circle cx="7.3" cy="5.75" r=".7" fill="currentColor"/><circle cx="7.3" cy="12" r=".7" fill="currentColor"/><circle cx="7.3" cy="18.25" r=".7" fill="currentColor"/></svg></span>
-          <span class="live-float live-float--2 live-float--spin" style="--size:48px;--c:#d4bbff;--d:18s;--delay:-7s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5l1.4 2.7a7.5 7.5 0 011.8.8l2.9-1 1.4 1.4-1 2.9a7.5 7.5 0 01.8 1.8l2.7 1.4-2.7 1.4a7.5 7.5 0 01-.8 1.8l1 2.9-1.4 1.4-2.9-1a7.5 7.5 0 01-1.8.8L12 21.5l-1.4-2.7a7.5 7.5 0 01-1.8-.8l-2.9 1-1.4-1.4 1-2.9a7.5 7.5 0 01-.8-1.8L2.5 12l2.7-1.4a7.5 7.5 0 01.8-1.8l-1-2.9 1.4-1.4 2.9 1a7.5 7.5 0 011.8-.8z"/></svg></span>
-          <span class="live-float live-float--3" style="--size:45px;--c:#a6c8ff;--d:22s;--delay:-12s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3h-6.8a1.5 1.5 0 00-1 .45L3.2 13.4a1.5 1.5 0 000 2.1l5.3 5.3a1.5 1.5 0 002.1 0l10-10a1.5 1.5 0 00.4-1z"/><circle cx="16.8" cy="7.2" r="1.8"/></svg></span>
-          <span class="live-float live-float--1" style="--size:42px;--c:#d4bbff;--d:19s;--delay:-15s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 2.5h8l5 5v13a1 1 0 01-1 1h-12a1 1 0 01-1-1v-17a1 1 0 011-1z"/><path d="M14.5 2.5v5h5M8.5 13h7M8.5 16.5h5"/></svg></span>
-          <span class="live-float live-float--2" style="--size:32px;--c:#78a9ff;--d:24s;--delay:-3s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="5.5" rx="1.3"/><rect x="4" y="9.25" width="16" height="5.5" rx="1.3"/><rect x="4" y="15.5" width="16" height="5.5" rx="1.3"/><circle cx="7.3" cy="5.75" r=".7" fill="currentColor"/><circle cx="7.3" cy="12" r=".7" fill="currentColor"/><circle cx="7.3" cy="18.25" r=".7" fill="currentColor"/></svg></span>
         </div>
-        <span class="card-logo live-cover-mark live-cover-logo" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="21" height="16" rx="3"/><rect x="36" y="9" width="19" height="11" rx="3"/><rect x="9" y="31" width="19" height="11" rx="3"/><rect x="36" y="26" width="19" height="16" rx="3"/><path d="M9 52h46" stroke="#a56eff" stroke-width="4" stroke-linecap="round"/></svg><span data-i18n="cards.cpq.label"></span></span>
         <div class="card-tags">
           <span class="card-tag" data-i18n="cards.cpq.tag1"></span>
           <span class="card-tag" data-i18n="cards.cpq.tag2"></span>
@@ -1478,7 +1442,7 @@
   </template>
 
   <template id="tpl-cpq">
-    <article class="cs">
+    <article class="cs" data-reveal>
       <header class="cs-head">
         <div class="cs-tags">
           <span data-i18n="modals.cpq.head.tag1"></span><span data-i18n="modals.cpq.head.tag2"></span><span data-i18n="modals.cpq.head.tag3"></span><span data-i18n="modals.cpq.head.tag4"></span><div class="cs-logo" data-logo="ibm" role="img" aria-label="" data-i18n-attr="aria-label:cards.cpq.logoLabel"></div>
@@ -1720,36 +1684,6 @@
       <section class="cs-section">
         <span class="cs-eyebrow cs-eyebrow--make" data-i18n="modals.cpq.interfaces.eyebrow"></span>
         <h2 class="cs-section-title" data-i18n="modals.cpq.interfaces.sectionTitle"></h2>
-<div class="deck" data-deck="ui-homepage"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
-<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
-<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
-<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-homepage.jpg" alt="" data-i18n-attr="alt:modals.cpq.imageAlt" loading="lazy">
-<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
-<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
-<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
-<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
-<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t2"></p>
-</div></div>
-<div class="deck" data-deck="ui-folder-creation"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
-<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
-<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
-<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-folder-creation.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt1" loading="lazy">
-<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
-<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
-<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
-<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
-<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t3"></p>
-</div></div>
-<div class="deck" data-deck="ui-folder-details"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
-<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
-<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
-<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-folder-details.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt2" loading="lazy">
-<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
-<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
-<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
-<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
-<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t4"></p>
-</div></div>
 <div class="deck cs-full" data-deck="ui-steps"><div class="deck-canvas" style="--deck-w:1840;aspect-ratio:1840/1000">
 <img class="dk deck-shot" style="--x:205.5;--y:208;--w:497;--h:330" src="assets/projects/cpq/deck/ui-steps-1.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt3" loading="lazy">
 <img class="dk deck-shot" style="--x:0;--y:598;--w:908;--h:402" src="assets/projects/cpq/deck/ui-steps-2.jpg" alt="" loading="lazy">
@@ -1764,46 +1698,16 @@
 <img class="dk deck-shot" style="--x:1377;--y:97;--w:440;--h:734" src="assets/projects/cpq/deck/ui-scenario-2.jpg" alt="" loading="lazy">
 <p class="dk dk-t " style="--x:24;--y:0;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71;white-space:nowrap" data-i18n-html="modals.cpq.deck.ui.t7"></p>
 </div></div>
-<div class="deck" data-deck="ui-web-components"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
-<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
-<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
-<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-web-components.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt5" loading="lazy">
-<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
-<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
-<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
-<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
-<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t8"></p>
-</div></div>
 <div class="deck cs-full" data-deck="ui-assets"><div class="deck-canvas" style="--deck-w:1840;aspect-ratio:1840/1000">
 <img class="dk deck-shot" style="--x:0;--y:376;--w:918;--h:624" src="assets/projects/cpq/deck/ui-assets-1.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt6" loading="lazy">
 <img class="dk deck-shot" style="--x:940;--y:0;--w:900;--h:657" src="assets/projects/cpq/deck/ui-assets-2.jpg" alt="" loading="lazy">
 <p class="dk dk-t " style="--x:255;--y:102;--w:407;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71" data-i18n-html="modals.cpq.deck.ui.t9"></p>
 <p class="dk dk-t " style="--x:1187;--y:765;--w:407;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71" data-i18n-html="modals.cpq.deck.ui.t10"></p>
 </div></div>
-<div class="deck" data-deck="ui-object-creation"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
-<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
-<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
-<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-object-creation.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt7" loading="lazy">
-<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
-<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
-<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
-<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
-<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t11"></p>
-</div></div>
 <div class="deck cs-full" data-deck="ui-options"><div class="deck-canvas" style="--deck-w:1599;aspect-ratio:1599/1002">
 <img class="dk deck-shot" style="--x:449;--y:189.5;--w:548;--h:623" src="assets/projects/cpq/deck/ui-options-1.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt8" loading="lazy">
 <img class="dk deck-shot" style="--x:1141;--y:0;--w:457.96;--h:1002" src="assets/projects/cpq/deck/ui-options-2.jpg" alt="" loading="lazy">
 <p class="dk dk-t " style="--x:0;--y:405;--w:305;--fs:28;font-weight:400;color:var(--deck-ink);line-height:1.71" data-i18n-html="modals.cpq.deck.ui.t12"></p>
-</div></div>
-<div class="deck" data-deck="ui-help"><div class="deck-canvas" style="--deck-w:1809;aspect-ratio:1809/1071">
-<div class="dk " style="--x:239.97;--y:70;--w:1406.94;--h:955.2;background:#1a202c;border:calc(var(--u)*2) solid #4a5568;border-radius:calc(var(--u)*28) calc(var(--u)*28) calc(var(--u)*4) calc(var(--u)*4)"></div>
-<div class="dk " style="--x:248.59;--y:78.62;--w:1389.7;--h:910.38;background:#000;border-radius:calc(var(--u)*22) calc(var(--u)*22) 0 0"></div>
-<img class="dk " style="--x:279.52;--y:105.75;--w:1327.63;--h:865.21" src="assets/projects/cpq/deck/ui-help.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt9" loading="lazy">
-<p class="dk dk-t " style="--x:869.3;--y:984;--w:143.11;--fs:13;font-weight:600;color:#a0aec0;line-height:1.54;text-align:center;font-family:Inter,var(--font-primary)" data-i18n-html="modals.cpq.deck.ui.t1" aria-hidden="true"></p>
-<div class="dk " style="--x:71;--y:1018.31;--w:1737.99;--h:31.04;background:linear-gradient(90deg,#0d1012 0%,#cad4db 3%,#242729 6%,#a3acb1 13%,#a3acb1 87%,#242729 94%,#cad4db 97%,#0d1012 100%);border-radius:calc(var(--u)*2) calc(var(--u)*2) 0 0"></div>
-<div class="dk " style="--x:71;--y:1049.34;--w:1737.99;--h:20.69;background:linear-gradient(180deg,#7a7f83 0%,#0b0b0e 100%)"></div>
-<div class="dk " style="--x:796.94;--y:1018.31;--w:287.83;--h:24.14;background:linear-gradient(90deg,#3c3c3c 0%,rgba(60,60,60,0) 32%,rgba(60,60,60,0) 66%,#444 100%),#96a1a8;border-radius:0 0 calc(var(--u)*12) calc(var(--u)*12)"></div>
-<p class="dk dk-t deck-tag" style="--x:0;--y:0;--fs:24;line-height:2" data-i18n-html="modals.cpq.deck.ui.t13"></p>
 </div></div>
 <div class="deck cs-full" data-deck="ui-feedback"><div class="deck-canvas" style="--deck-w:1846;aspect-ratio:1846/962">
 <img class="dk deck-shot" style="--x:0;--y:290;--w:699;--h:544" src="assets/projects/cpq/deck/ui-feedback-1.jpg" alt="" data-i18n-attr="alt:modals.cpq.interfaces.imageAlt10" loading="lazy">
@@ -1836,6 +1740,7 @@
           <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="folderCreation" data-i18n="modals.cpq.prototype.folderCreation"></button>
           <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="folderDetails" data-i18n="modals.cpq.prototype.folderDetails"></button>
           <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="objectCreation" data-i18n="modals.cpq.prototype.objectCreation"></button>
+          <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="webComponents" data-i18n="modals.cpq.prototype.webComponents"></button>
           <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="help" data-i18n="modals.cpq.prototype.help"></button>
         </div>
         <div class="case-panel" data-case-panel="homepage">
@@ -1856,6 +1761,11 @@
         <div class="case-panel" data-case-panel="objectCreation">
           <figure class="cs-live" data-figma="">
             <img width="1106" height="721" src="assets/projects/cpq/deck/ui-object-creation.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.prototype.objectCreationAlt">
+          </figure>
+        </div>
+        <div class="case-panel" data-case-panel="webComponents">
+          <figure class="cs-live" data-figma="">
+            <img width="1106" height="721" src="assets/projects/cpq/deck/ui-web-components.jpg" alt="" loading="lazy" data-i18n-attr="alt:modals.cpq.prototype.webComponentsAlt">
           </figure>
         </div>
         <div class="case-panel" data-case-panel="help">
@@ -1881,7 +1791,6 @@
 </div></div>
       </section>
 
-      <p class="cs-closing" data-i18n="modals.cpq.closing"></p>
     </article>
   </template>
 

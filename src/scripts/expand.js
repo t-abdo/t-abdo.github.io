@@ -20,9 +20,6 @@ const CLOSE_MS = 640;
 // the panel, and an unresolved var() voids the whole transition shorthand.
 const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
 const CLOSE_EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
-// The panel can snap away, but a single small element doing the same reads as
-// a jump rather than a journey, so the photo travels on an even curve.
-const MORPH_EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
 // How long the panel holds still for a quote's text to fly in: a little short
 // of the flight, which is all but landed by then.
 const TEXT_HOLD_MS = ANIM_MS - 80;
@@ -131,6 +128,9 @@ export function initExpand() {
     const natural = Math.ceil(overlay.querySelector('.expand-inner').getBoundingClientRect().height) + border;
     overlay.classList.remove('expand-card--measuring');
     overlay.style.width = width;
+    // Restyle at the width put back, or the opening transition starts from
+    // the measuring width and the panel jumps to full width at the card's spot
+    overlay.getBoundingClientRect();
     const height = Math.min(natural, frame);
     return { ...rect, top: (vh - height) / 2, height };
   }
@@ -508,11 +508,13 @@ export function initExpand() {
       // The card's own copy waits under the panel until the flying one lands,
       // so the two are never on screen together.
       target.style.visibility = 'hidden';
-      // A quote's text is the panel's own content, so it shrinks on the
-      // panel's curve rather than trailing behind it on the photo's.
+      // A photo flies back exactly as it flew in, same time and curve. A
+      // quote's text is the panel's own content, so it shrinks on the panel's
+      // curve rather than trailing behind it.
+      const isImg = source.tagName === 'IMG';
       morph(source, boxOf(source), boxOf(target),
-            getComputedStyle(target).borderRadius, CLOSE_MS,
-            source.tagName === 'IMG' ? MORPH_EASE : CLOSE_EASE,
+            getComputedStyle(target).borderRadius,
+            isImg ? ANIM_MS : CLOSE_MS, isImg ? EASE : CLOSE_EASE,
             () => {
               target.style.visibility = '';
               if (!--flying) settle();

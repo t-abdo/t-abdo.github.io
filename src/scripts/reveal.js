@@ -38,8 +38,14 @@ const RULES = [
   ['.cs-shared-row > .cs-shared-link:nth-child(4)', 'grow-left'],
   ['.cs-shared-link--v', 'grow-down'],
   ['.cs-shared > .cs-actor', 'up'],
-  ['.cs-section-title, .cs-meta, .cs-text, .cs-banner, .case-switch, .cs-rule', 'up'],
-  ['.case-panel > .cs-figure', 'up'],
+  // CPQ Hub: the rebuilt slides rise whole, their lists arrive item by item
+  ['.cs-impact > li', 'left'],
+  ['.deck-roles > li', 'up'],
+  ['.deck-failures > li:first-child', 'left'],
+  ['.deck-failures > li:last-child', 'right'],
+  ['.deck:not(:has(.deck-roles, .deck-failures))', 'up'],
+  ['.cs-eyebrow, .cs-section-title, .cs-meta, .cs-text, .cs-banner, .case-switch, .cs-rule', 'up'],
+  ['.case-panel > .cs-figure, .case-panel > .cs-live', 'up'],
 ];
 
 export function bindReveal(content, scroller) {

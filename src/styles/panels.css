@@ -265,6 +265,8 @@
 /* The panel fills the modal and the certificate shrinks to the height that's left,
    so a short viewport never makes these panels scroll. */
 .expand-content:has(> .cert-panel) { height: 100%; }
+/* The panel hugs the certificate: as much room below as above */
+.expand-inner:has(> .expand-content > .cert-panel) { padding-bottom: var(--panel-top); }
 .cert-panel { display: flex; flex-direction: column; height: 100%; }
 
 /* expand.js lifts the fill rules for a moment to read how tall a panel's
@@ -272,6 +274,9 @@
 .expand-card--measuring .expand-inner,
 .expand-card--measuring .expand-content,
 .expand-card--measuring .cert-panel { height: auto !important; }
+/* The certificate is measured at its full width, from its width and height
+   attributes, so a panel opened before the image loads is not sized without it */
+.expand-card--measuring .cert-figure img { width: 100%; }
 
 .cert-figure {
   flex: 0 1 auto;
@@ -687,7 +692,7 @@
   padding: 36px;
   border-radius: 24px;
   border: 1px solid var(--color-border-card);
-  background: var(--surface-in-panel);
+  background: var(--surface-career);
 }
 
 /* The company mark on the left, where the role was worked from on the right */

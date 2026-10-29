@@ -142,7 +142,7 @@
 
   /* The card is short here: the bottom row still clears the name, the top one
      moves in less so the title keeps room on both sides. */
-  .edu-cover { padding: 64px 0 52px; }
+  .edu-cover { padding: 64px 0; }
   .edu-cover-text { padding: 0 18px; }
 
   .card-tags { gap: 4px; max-width: calc(100% - 56px); }

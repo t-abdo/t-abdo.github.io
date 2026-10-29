@@ -133,6 +133,12 @@
   /* A card inside a panel: the panel is near white in light mode, so the card
      fades from white into a pale grey to stand apart */
   --surface-in-panel: linear-gradient(to bottom, var(--color-neutral-0), color-mix(in srgb, var(--color-neutral-150) 28%, var(--color-neutral-0)));
+  /* Professional Path cards: white on the left, grey from the middle out to
+     the right edge, climbing the right side toward the top */
+  --surface-career: linear-gradient(100deg, var(--color-neutral-0) 20%, color-mix(in srgb, var(--color-neutral-150) 45%, var(--color-neutral-0)) 60%, color-mix(in srgb, var(--color-neutral-150) 80%, var(--color-neutral-0)) 100%);
+  /* Quote cards on the grid: white at the top, settling toward the page
+     ground at the bottom */
+  --surface-quote: linear-gradient(to bottom, var(--color-neutral-0) 15%, color-mix(in srgb, var(--color-bg-body) 75%, var(--color-neutral-0)) 100%);
   --color-surface-nav: var(--color-neutral-50);
   /* The section rail in a case study: a faint tint as the track, a white
      pill riding on it, like the filters at the top of the page. */
@@ -204,6 +210,8 @@
   --color-surface-card: var(--color-indigo-800);
   --color-surface-card-hover: var(--color-indigo-750);
   --surface-in-panel: var(--color-surface-card);
+  --surface-career: var(--surface-in-panel);
+  --surface-quote: linear-gradient(to bottom, var(--color-surface-card) 15%, color-mix(in srgb, var(--color-bg-body) 75%, var(--color-surface-card)) 100%);
   /* Nav sits directly on the near-black ground, so both the bar and the
      selected pill are lifted well clear of it (1.7:1 against the bar) */
   --color-surface-nav: #4a4a72;
