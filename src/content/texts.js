@@ -14,6 +14,9 @@
 
 export const TEXTS = {
   meta: {
+    // The address of each language's page, for search engines and previews
+    url: { en: "https://t-abdo.github.io/", pt: "https://t-abdo.github.io/pt/" },
+    locale: { en: "en_US", pt: "pt_BR" },
     title: { en: "Tales Abdo — Lead UX & AI Designer · Portfolio", pt: "Tales Abdo — Lead UX & AI Designer · Portfólio" },
     description: { en: "Tales Abdo, Lead UX & AI Designer in São Paulo. UX research, product design and interaction design across IBM, Rivian and AgileEngine.", pt: "Tales Abdo, Lead UX & AI Designer em São Paulo. Pesquisa de UX, design de produto e design de interação na IBM, na Rivian e na AgileEngine." },
   },
