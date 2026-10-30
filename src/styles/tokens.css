@@ -53,9 +53,10 @@
   --alpha-neutral50-50: rgba(249, 249, 249, 0.5);
 
   /* Typography */
-  /* True Proxima Nova requires a licensed source (Adobe Fonts kit or purchased
-     self-hosted files) — see project notes. Mulish is the closest free stand-in. */
-  --font-primary: 'Proxima Nova', 'Mulish', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  /* Mulish alone, loaded from Google Fonts as one variable file (300–800).
+     A locally installed face must not sit ahead of it: the page would then
+     look one way on this machine and another for everyone else. */
+  --font-primary: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-logo: var(--font-primary);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
@@ -135,7 +136,7 @@
   --surface-in-panel: linear-gradient(to bottom, var(--color-neutral-0), color-mix(in srgb, var(--color-neutral-150) 28%, var(--color-neutral-0)));
   /* Professional Path cards: white on the left, grey from the middle out to
      the right edge, climbing the right side toward the top */
-  --surface-career: linear-gradient(100deg, var(--color-neutral-0) 20%, color-mix(in srgb, var(--color-neutral-150) 45%, var(--color-neutral-0)) 60%, color-mix(in srgb, var(--color-neutral-150) 80%, var(--color-neutral-0)) 100%);
+  --surface-career: linear-gradient(100deg, var(--color-neutral-0) 20%, color-mix(in srgb, var(--color-neutral-150) 38%, var(--color-neutral-0)) 60%, color-mix(in srgb, var(--color-neutral-150) 68%, var(--color-neutral-0)) 100%);
   /* Quote cards on the grid: white at the top, settling toward the page
      ground at the bottom */
   --surface-quote: linear-gradient(to bottom, var(--color-neutral-0) 15%, color-mix(in srgb, var(--color-bg-body) 75%, var(--color-neutral-0)) 100%);

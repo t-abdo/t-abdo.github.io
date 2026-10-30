@@ -110,7 +110,10 @@
   }
 
   .bento-card[data-card='about'] { min-height: 220px; }
-  .bento-card[data-card='gmail'], .bento-card[data-card='linkedin'] { aspect-ratio: 1; }
+  .bento-card[data-card='gmail'], .bento-card[data-card='linkedin'],
+  .bento-card[data-card='behance'], .bento-card[data-card='medium'] { aspect-ratio: 1; }
+  .behance-card .link-card-logo { width: 60px; }
+  .medium-card .link-card-logo { width: 116px; }
   /* Case study covers are absolutely positioned, so on the auto-height mobile
      grid the card has nothing to size against. */
   .project-card { min-height: 280px; }

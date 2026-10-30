@@ -73,8 +73,9 @@ function startSlideshow(stack, delay) {
   let front = 0;
 
   const advance = () => {
-    // Nothing to show while the tab is hidden; skip the decode entirely.
-    if (document.hidden) return;
+    // Nothing to show while the tab is hidden, the card is scrolled away or a
+    // panel covers the grid; skip the decode entirely.
+    if (document.hidden || stack.closest('.motion-off, .grid--still')) return;
 
     const next = (index + 1) % sources.length;
     const back = 1 - front;

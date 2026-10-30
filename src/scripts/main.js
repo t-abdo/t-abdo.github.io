@@ -10,6 +10,7 @@ import { initPictures } from './pictures.js';
 import { initEduCover } from './edu.js';
 import { initLogos } from './logos.js';
 import { initRipple } from './ripple.js';
+import { initMotion } from './motion.js';
 
 function initNavAutoHide() {
   const nav = document.getElementById('nav');
@@ -63,6 +64,14 @@ function initBackToTop() {
   }, { passive: true });
 
   btn.addEventListener('click', scrollToTop);
+
+  // The logo goes back to the top of this page. Its href points at the home of
+  // the page's own language, for when scripts don't run: a bare "#" would
+  // resolve against the Portuguese page's <base> and land on the English one.
+  document.querySelector('.nav-logo')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    scrollToTop();
+  });
 }
 
 // Isolated so one failing feature can't abort the rest — without this, a single
@@ -89,5 +98,6 @@ start('pictures', initPictures);
 start('eduCover', initEduCover);
 start('logos', initLogos);
 start('ripple', initRipple);
+start('motion', initMotion);
 start('navAutoHide', initNavAutoHide);
 start('backToTop', initBackToTop);

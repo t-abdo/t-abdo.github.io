@@ -16,7 +16,6 @@ const RULES = [
   ['.career-meta', 'left'],
   ['.career-dot', 'zoom'],
   ['.career-card', 'right'],
-  ['.career-tags--legacy', 'right'],
   // About: the blocks rise in turn, pairs of cards close in from both sides
   ['.about-intro, .about-section > .about-section-title, .about-ai-text, .about-contact', 'up'],
   ['.about-step', 'up'],

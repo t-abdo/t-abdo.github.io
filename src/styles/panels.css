@@ -262,39 +262,33 @@
 }
 
 /* ── Certificate panels (NN/g, degree, English) ── */
-/* The panel fills the modal and the certificate shrinks to the height that's left,
-   so a short viewport never makes these panels scroll. */
-.expand-content:has(> .cert-panel) { height: 100%; }
+/* expand.js (fitCertificate) sizes the certificate to the largest that fits
+   the screen and gives it that width in pixels as --cert-w; the panel is then
+   exactly as big as what it holds, so it never scrolls. */
 /* The panel hugs the certificate: as much room below as above */
 .expand-inner:has(> .expand-content > .cert-panel) { padding-bottom: var(--panel-top); }
-.cert-panel { display: flex; flex-direction: column; height: 100%; }
+.cert-panel { display: flex; flex-direction: column; }
 
 /* expand.js lifts the fill rules for a moment to read how tall a panel's
    content is on its own (phones and tablets open panels to that height). */
 .expand-card--measuring .expand-inner,
 .expand-card--measuring .expand-content,
 .expand-card--measuring .cert-panel { height: auto !important; }
-/* The certificate is measured at its full width, from its width and height
-   attributes, so a panel opened before the image loads is not sized without it */
-.expand-card--measuring .cert-figure img { width: 100%; }
 
 .cert-figure {
-  flex: 0 1 auto;
-  min-height: 0;
+  flex: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
   margin: 20px auto 28px;
   text-align: center;
 }
-.cert-figure--compact { width: 64%; }
 
+/* The width and height attributes give the box its proportions before the
+   file arrives, so it holds its size while loading */
 .cert-figure img {
-  min-height: 0;
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
+  width: var(--cert-w, 100%);
+  max-width: none;
   height: auto;
   display: block;
   border-radius: 14px;
@@ -723,18 +717,6 @@
 .career-company:hover { opacity: 0.8; }
 
 .career-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
-/* Preview: the role's older tags, under its card rather than in it */
-.career-tags--legacy { grid-column: 3; margin-top: 0; }
-
-/* Tags written for the role before its projects had theirs; kept apart to review */
-.career-tags .career-tag--legacy {
-  background: color-mix(in srgb, var(--color-magenta-600) 12%, transparent);
-  color: var(--color-magenta-600);
-}
-[data-theme='dark'] .career-tags .career-tag--legacy {
-  background: color-mix(in srgb, #ff7eb6 16%, transparent);
-  color: #ff7eb6;
-}
 
 .career-desc { display: flex; flex-direction: column; gap: 24px; margin-top: 32px; }
 
@@ -790,6 +772,9 @@
 }
 .career-project:hover .action-icon { opacity: 1; transform: scale(1); }
 
+/* At tile size the Design Activity Guidance cover keeps only its title */
+.career-project .edu-cover-text-sub { display: none; }
+
 .career-dot {
   justify-self: center;
   position: relative;
@@ -817,7 +802,6 @@
   .career-line, .career-dot { display: none; }
   .career-row { grid-template-columns: 1fr; gap: 12px; }
   .career-meta { text-align: left; }
-  .career-tags--legacy { grid-column: auto; }
   .career-card { padding: 24px; }
   .career-project { --tile: 140px; --cover-scale: 0.4667; }
 }

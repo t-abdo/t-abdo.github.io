@@ -25,6 +25,14 @@ img.is-loading {
   img.is-loading { animation: none; }
 }
 
+/* ── Motion out of sight (motion.js): a card scrolled away, or the grid under
+   an open panel, pauses its animations and resumes them where they stopped ── */
+.motion-off, .motion-off *, .motion-off::before, .motion-off::after,
+.motion-off *::before, .motion-off *::after,
+.grid--still *, .grid--still *::before, .grid--still *::after {
+  animation-play-state: paused !important;
+}
+
 /* ── First-visit loading screen (loader.js) ── */
 .page-loader {
   position: fixed;
@@ -344,9 +352,7 @@ strong, b {
 .theme-toggle:hover { background: var(--color-surface-nav); box-shadow: 0 0 20px var(--color-shadow-nav); }
 .theme-toggle:active { transform: scale(0.92); }
 
-/* Language switch is a placeholder until the Portuguese version ships */
-.lang-toggle[aria-disabled='true'] { opacity: 0.6; }
-.lang-toggle[aria-disabled='true']:active { transform: none; }
+/* Language switch: a link to the same page in the other language */
 .lang-label { letter-spacing: var(--tracking-wide); }
 
 /* Moon while light (click to go dark), sun while dark (click to go light) */

@@ -52,11 +52,11 @@ export function initEduCover() {
   Inside the case study: the guides share one panel, and the switcher sits in
   the flow of the page, scrolling away with everything else.
 */
-export function bindCaseSwitch(content, scroller) {
-  content.querySelectorAll('.case-switch').forEach((sw) => bindOne(sw, scroller));
+export function bindCaseSwitch(content, scroller, signal) {
+  content.querySelectorAll('.case-switch').forEach((sw) => bindOne(sw, scroller, signal));
 }
 
-function bindOne(sw, scroller) {
+function bindOne(sw, scroller, signal) {
   const indicator = sw.querySelector('.case-switch-indicator');
   const tabs = [...sw.querySelectorAll('.case-tab')];
   // A case study can hold several switchers, so each one owns only the panels
@@ -105,5 +105,5 @@ function bindOne(sw, scroller) {
   window.addEventListener('resize', () => {
     const on = tabs.find((t) => t.classList.contains('active'));
     if (on) placeIndicator(on);
-  });
+  }, { signal });
 }

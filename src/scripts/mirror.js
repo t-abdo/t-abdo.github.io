@@ -16,7 +16,7 @@ export function bindCardMirrors(root) {
     // panel and must not be mistaken for the card it came from.
     copy.removeAttribute('style');
     copy.removeAttribute('data-card');
-    copy.classList.remove('bento-card--dim', 'bento-card--ghost');
+    copy.classList.remove('bento-card--dim', 'bento-card--ghost', 'motion-off');
     copy.querySelectorAll('[id]').forEach((el) => el.removeAttribute('id'));
     slot.replaceWith(copy);
     bindCardActions(copy);

@@ -1082,7 +1082,7 @@
    --x/--y/--w/--h; one left unset falls back to auto. Slides with no
    aspect-ratio of their own let the browser lay their parts out and take
    the height of what they hold. */
-.deck-canvas { font-family: 'Rubik', var(--font-primary); }
+.deck-canvas { font-family: var(--font-primary); }
 .deck-canvas--clip { overflow: hidden; }
 
 .dk {

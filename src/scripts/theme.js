@@ -16,14 +16,17 @@ export function initTheme() {
   const label = document.getElementById('themeLabel');
   if (!toggle) return;
 
-  const stored = localStorage.getItem(STORAGE_KEY);
+  // Storage can be switched off (private windows, blocked site data); the
+  // toggle still works then, it just isn't remembered.
+  let stored = null;
+  try { stored = localStorage.getItem(STORAGE_KEY); } catch { /* not remembered */ }
   applyTheme(stored || themeByClock());
 
   toggle.addEventListener('click', () => {
     const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
     const next = current === 'dark' ? 'light' : 'dark';
     applyTheme(next);
-    localStorage.setItem(STORAGE_KEY, next);
+    try { localStorage.setItem(STORAGE_KEY, next); } catch { /* not remembered */ }
   });
 
   function applyTheme(theme) {

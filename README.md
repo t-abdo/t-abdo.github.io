@@ -35,6 +35,11 @@ the panel template (`tpl-bachelor`), the texts (`cards.bachelor`,
 - **Copy** goes in `texts.js`, never in the markup. Elements point at it with
   `data-i18n`, `data-i18n-html` or `data-i18n-attr`; scripts call `t(key)`.
   Keys that are ordered lists (tags, items, paragraphs) are numbered from 1.
+  Each entry holds `en` and `pt`. After editing it (or index.html), run
+  `python3 tools/bake_texts.py`: it writes the English text into index.html
+  and generates the Portuguese page, `pt/index.html`, so link previews and
+  search engines see the text and the cards are never blank before the
+  scripts run. Never edit `pt/index.html` by hand; it is rewritten each run.
 - **Colours** come from `tokens.css`. A case study's own palette is declared
   once at the top of its block (`--cs-*`). Text is dimmed with a text colour
   (`--color-text-secondary`, `--color-text-subtle`), never with opacity.

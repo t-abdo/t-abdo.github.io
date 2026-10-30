@@ -8,6 +8,7 @@ import { bindCareerCovers } from './career.js';
 import { bindCardMirrors } from './mirror.js';
 import { bindFigmaEmbeds } from './figma-embed.js';
 import { paintLogos } from './logos.js';
+import { holdGrid } from './motion.js';
 import { isMobileLayout } from './breakpoints.js';
 
 // Single source for the grow/shrink durations; the CSS reads them via
@@ -26,6 +27,9 @@ const TEXT_HOLD_MS = ANIM_MS - 80;
 const DEFAULT_MAX_W = 640;
 const FOCUS_GAP = 32; // room left above a part a panel opens at
 const DEFAULT_MAX_H = 680;
+// A certificate panel never narrows past this, so its title and buttons keep
+// their room on a short screen where the certificate itself is small
+const CERT_MIN_W = 640;
 
 /* Where a shared element actually is. A photo is its box; a paragraph's box
    spans whatever width its parent gives it, so for text the width comes from
@@ -133,6 +137,55 @@ export function initExpand() {
     overlay.getBoundingClientRect();
     const height = Math.min(natural, frame);
     return { ...rect, top: (vh - height) / 2, height };
+  }
+
+  /* A certificate panel opens as large as the screen allows: the certificate
+     grows until the panel meets the frame's height or width (or the picture's
+     own resolution), and the panel takes the size that leaves it, centred.
+
+     The certificate is given its width in pixels (--cert-w). Sized relative to
+     the panel instead, its height depended on the panel's height, which
+     depended on it, and the browser settled that loop differently depending
+     on when the picture arrived: sometimes very small. */
+  function fitCertificate(overlay) {
+    const img = overlay.querySelector('.cert-figure img');
+    const naturalW = Number(img.getAttribute('width'));
+    const ratio = naturalW / Number(img.getAttribute('height'));
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const frameW = vw - 48;
+    const frameH = vh - 24;
+    const inner = overlay.querySelector('.expand-inner');
+    const content = overlay.querySelector('.expand-content');
+    const startW = overlay.style.width;
+
+    overlay.classList.add('expand-card--measuring');
+    const border = overlay.offsetHeight - overlay.clientHeight;
+    // The panel's height at a given width with the certificate at a given width
+    const heightAt = (width, certW) => {
+      overlay.style.width = `${width}px`;
+      overlay.style.setProperty('--cert-w', `${certW}px`);
+      return Math.ceil(inner.getBoundingClientRect().height) + border;
+    };
+    // Everything across the panel that isn't certificate: the side padding
+    overlay.style.width = `${frameW}px`;
+    const sides = frameW - content.getBoundingClientRect().width;
+
+    // Text wraps differently at each width, so the rest of the panel is
+    // measured again at the width the last pass settled on.
+    let width = Math.min(frameW, naturalW + sides);
+    let certW = 0;
+    for (let i = 0; i < 3; i++) {
+      const rest = heightAt(width, 0);
+      certW = Math.floor(Math.min(naturalW, width - sides, (frameH - rest) * ratio));
+      width = Math.min(frameW, Math.max(CERT_MIN_W, certW + sides));
+    }
+    const height = Math.min(frameH, heightAt(width, certW));
+
+    overlay.classList.remove('expand-card--measuring');
+    overlay.style.width = startW;
+    overlay.getBoundingClientRect();
+    return { left: (vw - width) / 2, top: (vh - height) / 2, width, height };
   }
 
   // Links inside one panel that hand off to another card's panel (career → case
@@ -320,17 +373,26 @@ export function initExpand() {
     const content = document.createElement('div');
     content.className = 'expand-content';
     content.appendChild(template.content.cloneNode(true));
+    // A panel sized to its content shows its pictures as soon as it opens, so
+    // they load now rather than lazily once it has.
+    if (card.hasAttribute('data-expand-fit')) {
+      content.querySelectorAll('img').forEach((img) => { img.loading = 'eager'; });
+    }
+    const isCert = !!content.querySelector('.cert-panel');
     // While the panel grows, sections out of view are left unlaid, so a long
     // case doesn't relayout all of itself on every frame of the opening.
     content.classList.add('expand-content--opening');
     setTimeout(() => content.classList.remove('expand-content--opening'), ANIM_MS + 100);
     watchImages(content);
-    bindCareerCovers(content);
+    // Whatever the panel hooks up outside itself (window listeners, observers)
+    // is let go through this when it closes, along with the panel.
+    const life = new AbortController();
+    bindCareerCovers(content, life.signal);
     bindCardMirrors(content);
     paintLogos(content);
     inner.appendChild(content);
     bindCaseNav(content, inner);
-    bindCaseSwitch(content, inner);
+    bindCaseSwitch(content, inner, life.signal);
     bindProtoScroll(content);
     bindFigmaEmbeds(content, inner);
     bindReveal(content, inner);
@@ -361,7 +423,8 @@ export function initExpand() {
     setPageInert(true);
     overlay.focus({ preventScroll: true });
 
-    state = { card, overlay, opener, closing: false };
+    state = { card, overlay, opener, life, closing: false };
+    holdGrid(true);
 
     // The start rect paints before the transition begins; without that the
     // overlay would jump straight to its final size.
@@ -371,7 +434,7 @@ export function initExpand() {
       const maxW = Number(card.dataset.expandMaxw) || DEFAULT_MAX_W;
       const maxH = Number(card.dataset.expandMaxh) || DEFAULT_MAX_H;
       // data-expand-fit: the panel takes its content's height on a desktop too
-      const rect = fitToContent(overlay,
+      const rect = isCert ? fitCertificate(overlay) : fitToContent(overlay,
         targetRect(maxW, maxH, mode, Number(card.dataset.expandInset) || 0,
           Number(card.dataset.expandEdge) || 0),
         card.hasAttribute('data-expand-fit'));
@@ -444,9 +507,10 @@ export function initExpand() {
       overlay.style.borderRadius = '32px';
 
       // A photo that arrives after opening makes the panel taller, until it
-      // reaches the frame, wherever the panel takes its content's height.
+      // reaches the frame, wherever the panel takes its content's height. A
+      // certificate already has its size from its width and height attributes.
       const fits = card.hasAttribute('data-expand-fit');
-      if (fits || isMobileLayout()) {
+      if (!isCert && (fits || isMobileLayout())) {
         const refit = () => {
           if (!state || state.closing || state.overlay !== overlay) return;
           if (parseFloat(overlay.style.height) >= window.innerHeight - 25) return;
@@ -465,7 +529,9 @@ export function initExpand() {
   function close() {
     if (!state || state.closing) return;
     state.closing = true;
-    const { card, overlay, opener } = state;
+    const { card, overlay, opener, life } = state;
+    // The grid moves again before the panel shrinks, so the card it lands on is live.
+    holdGrid(false);
 
     const rect = card.getBoundingClientRect();
     const cs = getComputedStyle(card);
@@ -532,6 +598,7 @@ export function initExpand() {
     setTimeout(() => {
       overlay.remove();
       backdrop.remove();
+      life.abort();
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
       setPageInert(false);
@@ -546,8 +613,21 @@ export function initExpand() {
   }
 
   document.querySelectorAll('.bento-card[data-card]').forEach((card) => {
-    if (!document.getElementById(`tpl-${card.dataset.card}`)) return;
+    const template = document.getElementById(`tpl-${card.dataset.card}`);
+    if (!template) return;
     card.addEventListener('click', () => open(card));
+
+    // The pictures of a panel sized to its content start downloading as the
+    // pointer (or focus) reaches the card, so the first open usually finds
+    // them ready.
+    if (!card.hasAttribute('data-expand-fit')) return;
+    const preload = () => {
+      template.content.querySelectorAll('img[src]').forEach((img) => {
+        new Image().src = img.getAttribute('src');
+      });
+    };
+    card.addEventListener('pointerenter', preload, { once: true });
+    card.addEventListener('focusin', preload, { once: true });
   });
 
   backdrop.addEventListener('click', (e) => {

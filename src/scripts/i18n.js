@@ -1,7 +1,8 @@
 import { TEXTS } from '../content/texts.js';
 
-// Portuguese isn't published yet; flip this (and persist it) when the switch ships.
-let lang = 'en';
+// Each language is its own page (index.html, pt/index.html), written by
+// tools/bake_texts.py; the page says which one it is in <html lang>.
+const lang = document.documentElement.lang.startsWith('pt') ? 'pt' : 'en';
 
 // Looks up "cards.about.bio" in TEXTS, falling back to English for untranslated entries.
 export function t(key) {
@@ -31,6 +32,5 @@ function applyTexts(root) {
 }
 
 export function initI18n() {
-  document.documentElement.lang = lang;
   applyTexts(document);
 }

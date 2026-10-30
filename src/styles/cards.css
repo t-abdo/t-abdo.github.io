@@ -146,8 +146,10 @@
 /* The project names are liquid glass: a clear pill that bends the moving
    cover behind it along its rim (#liquidGlass in index.html), lifts its
    colour, and catches light on its top edge. Chromium renders the lens;
-   Safari and Firefox get the same glass with a plain blur. */
-.project-card .card-label {
+   Safari and Firefox get the same glass with a plain blur. The photo cards
+   wear the same pill. */
+.project-card .card-label,
+.photo-card .card-label {
   /* Tinted just enough for the white name to hold on the light covers */
   background: rgba(20, 18, 30, 0.26);
   color: var(--color-label-text-on-dark);
@@ -161,6 +163,7 @@
     inset 0 0 12px rgba(255, 255, 255, 0.12),
     0 6px 18px rgba(0, 0, 0, 0.18);
 }
+
 
 /* ── Card tags (top-left chips) ── */
 .card-tags {
@@ -217,10 +220,12 @@
 .card-logo svg { display: block; width: 104px; height: auto; }
 
 /* ── Project card (case study) ── */
+/* No border: the shadow already sets the card off the page, and a transparent
+   one let the card's own ground show as a thin ring around the cover. */
 .project-card {
   background: var(--color-surface-media);
   color: var(--color-text-on-media);
-  border-color: transparent;
+  border: 0;
 }
 
 .project-card,
@@ -399,9 +404,8 @@
 @keyframes li-pop-in { to { transform: scale(1); opacity: 1; } }
 
 /* ── Professional Path card: company logos with years, spread down the card ──
-   The Mesh cover's wash, a step lighter: blue settling into one corner and
-   magenta into the other. Lighter is also what keeps the years above 4.5:1 —
-   at the Mesh card's own strength they sit at 4.8:1, here at 5.2:1. */
+   A pale wash: blue settling into one corner and magenta into the other.
+   Kept this light so the years stay above 4.5:1 (5.2:1 here). */
 .path-card {
   display: flex;
   flex-direction: column;
@@ -672,6 +676,38 @@
   color: var(--color-text-subtle);
 }
 
+/* ── Behance and Medium: link cards ──
+   The mark sits in the middle and is drawn again on hover, like the logos on
+   the Professional Path card (logos.js), and the name sits at the foot in
+   that card's lettering (.path-card-label). They take the surface every
+   other card has, in both themes. */
+.link-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.link-card-inner {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  text-align: center;
+}
+
+
+.link-card-logo { display: block; }
+.link-card-logo svg { display: block; width: 100%; height: auto; }
+
+.behance-card .link-card-logo { width: 76px; }
+.medium-card .link-card-logo { width: 150px; }
+
 /* ── References card ── */
 .ref-mark { width: 80px; color: var(--color-text-primary); }
 .ref-bubble--back { opacity: 0.4; }
@@ -764,6 +800,39 @@
 }
 
 [data-theme='dark'] .quote-card { border-color: var(--color-border-card); }
+
+/* A soft frame 12px inside the card, purple into magenta, drawn only at its
+   four corners: the whole outline is one rounded rect, and a mask of four
+   squares, one in each corner of the card, keeps just the bends and a short
+   run either side. The geometry is set here in CSS so it follows the card's
+   size; the radius keeps the frame concentric with the card's 28px. */
+.quote-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.quote-frame__line {
+  x: 12px;
+  y: 12px;
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+  rx: 16px;
+  fill: none;
+  stroke-width: 1.5;
+  opacity: 0.25;
+}
+.quote-frame__corner {
+  width: 44px;
+  height: 44px;
+  fill: #fff;
+}
+.quote-frame__corner--tr,
+.quote-frame__corner--br { x: calc(100% - 44px); }
+.quote-frame__corner--bl,
+.quote-frame__corner--br { y: calc(100% - 44px); }
 
 .quote-mark {
   /* A glyph drawn as an ornament, outside the type scale; the tight line box
@@ -873,55 +942,6 @@
 
 .photo-card .card-label,
 .photo-card .action-icon { z-index: 5; }
-
-.photo-card .card-label {
-  background: var(--color-label-bg-dark);
-  color: var(--color-label-text-on-dark);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-}
-
-/* Mesh: a placeholder until the case study is written. The mark and the
-   note sit on a frosted plate over the live cover behind them. */
-.mesh-cover {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 22px 28px;
-  translate: -50% -50%;
-  border-radius: 24px;
-  /* A frosted plate, so the mark reads over the screens behind it */
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 8px 30px rgba(39, 89, 222, 0.14);
-  text-align: center;
-  color: var(--color-text-primary);
-  pointer-events: none;
-}
-
-.mesh-cover-logo {
-  position: static;
-  padding: 0;
-  background: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-.mesh-cover-logo svg { width: min(62vw, 190px); }
-
-.mesh-cover-note {
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-overline);
-  text-transform: uppercase;
-  color: var(--color-text-subtle);
-}
 
 /* ── Live project covers ─────────────────────────────────────────────────
    A project card is drawn rather than screenshotted: a ground in the
@@ -1076,14 +1096,16 @@
   translate: -50% -50%;
   rotate: 20deg;
 }
-.screen-col { width: 34cqw; }
+/* Wide enough that the tilted columns reach the card's corners; the gaps
+   between screens stay as they are */
+.screen-col { width: 37.4cqw; }
 .screen-track { animation: screen-rise 70s linear infinite; }
 .screen-col:nth-child(2) .screen-track { animation-name: screen-fall; animation-duration: 80s; }
 .screen-track img {
   display: block;
   width: 100%;
   margin-bottom: 3cqw;
-  border-radius: 1.6cqw;
+  border-radius: 1.76cqw;
   box-shadow: 0 4px 18px rgba(150, 60, 90, 0.16);
 }
 @keyframes screen-rise { from { translate: 0 0; } to { translate: 0 -50%; } }
@@ -1453,87 +1475,6 @@
   .iso-tablet + .iso-tablet { display: none; }
 }
 
-/* Mesh: the placeholder keeps its pale ground, with stand-in screens (the
-   case isn't public yet) streaming past in three rows tilted 20°, like the
-   MMI's columns but sideways: the outer rows run right, the middle one left */
-.mesh-card {
-  --cover-ground:
-    radial-gradient(90% 120% at 18% 8%, rgba(39, 89, 222, 0.16), transparent 62%),
-    radial-gradient(90% 120% at 88% 92%, rgba(208, 38, 112, 0.14), transparent 62%),
-    #f7f7f9;
-  background: #f7f7f9;
-}
-
-/* Each track holds its set twice, so sliding it by half lands on the same
-   picture; the gap is a margin on every screen to keep both halves equal. */
-.shot-reel {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: 3cqw;
-  width: 220cqw;
-  translate: -50% -50%;
-  rotate: 20deg;
-}
-.shot-track {
-  display: flex;
-  width: max-content;
-  animation: shot-left 70s linear infinite;
-}
-.shot-row:nth-child(odd) .shot-track { animation-name: shot-right; animation-duration: 80s; }
-@keyframes shot-left  { from { translate: 0 0; } to { translate: -50% 0; } }
-@keyframes shot-right { from { translate: -50% 0; } to { translate: 0 0; } }
-@media (prefers-reduced-motion: reduce) {
-  .shot-track, .shot-row:nth-child(odd) .shot-track { animation: none; }
-}
-
-/* A screen drawn in blocks: a header, then each variant's own layout in the
-   Mesh blue and magenta */
-.mesh-shot {
-  --blue: rgba(39, 89, 222, 0.78);
-  --pink: rgba(208, 38, 112, 0.7);
-  --line: #e6e9f1;
-  --tint: #f1f3f8;
-  flex: none;
-  width: 40cqw;
-  aspect-ratio: 16 / 10;
-  margin-right: 3cqw;
-  border-radius: 1.6cqw;
-  background-color: #fff;
-  background-repeat: no-repeat;
-  box-shadow: 0 1cqw 3.5cqw rgba(39, 89, 222, 0.14);
-}
-/* Dashboard: sidebar, three stat tiles, two rows */
-.mesh-shot--a {
-  background-image:
-    linear-gradient(var(--line) 0 0), linear-gradient(var(--tint) 0 0),
-    linear-gradient(var(--blue) 0 0), linear-gradient(var(--pink) 0 0), linear-gradient(var(--line) 0 0),
-    linear-gradient(var(--line) 0 0), linear-gradient(var(--line) 0 0);
-  background-size: 100% 11%, 20% 89%, 21% 26%, 21% 26%, 21% 26%, 68% 6%, 52% 6%;
-  background-position: 0 0, 0 100%, 31% 30%, 63% 30%, 95% 30%, 92% 70%, 74% 84%;
-}
-/* Overview: a wide blue-to-magenta banner over two columns of rows */
-.mesh-shot--b {
-  background-image:
-    linear-gradient(var(--line) 0 0), linear-gradient(110deg, var(--blue), var(--pink)),
-    linear-gradient(var(--line) 0 0), linear-gradient(var(--line) 0 0),
-    linear-gradient(var(--tint) 0 0), linear-gradient(var(--tint) 0 0);
-  background-size: 100% 11%, 90% 34%, 42% 6%, 42% 6%, 42% 22%, 42% 22%;
-  background-position: 0 0, 50% 30%, 5% 70%, 95% 70%, 5% 96%, 95% 96%;
-}
-/* List: a table of rows with a magenta action */
-.mesh-shot--c {
-  background-image:
-    linear-gradient(var(--line) 0 0), linear-gradient(var(--pink) 0 0),
-    linear-gradient(var(--tint) 0 0), linear-gradient(var(--line) 0 0),
-    linear-gradient(var(--line) 0 0), linear-gradient(var(--line) 0 0),
-    linear-gradient(var(--blue) 0 0);
-  background-size: 100% 11%, 18% 9%, 90% 10%, 90% 5%, 90% 5%, 90% 5%, 9% 5%;
-  background-position: 0 0, 94% 23%, 50% 39%, 50% 56%, 50% 70%, 50% 84%, 6% 23%;
-}
-
 /* ── Educational Design Artifacts ────────────────────────────────────────
    The cover is live markup, not an export: two rows of icons drift in
    opposite directions behind the title, in the colours of the source frame. */
@@ -1615,6 +1556,10 @@
   letter-spacing: var(--tracking-tight);
   white-space: nowrap;
 }
+
+/* The Portuguese title is longer (about 14.2 times its size), so it is set
+   a little smaller to stay on one line */
+:lang(pt) .edu-cover-title { font-size: min(38px, calc((100cqw - 48px) / 15)); }
 .edu-cover-text-sub {
   max-width: 40ch;
   font-size: var(--text-sm);

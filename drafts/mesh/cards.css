@@ -1,0 +1,125 @@
+/* From src/styles/cards.css: the placeholder plate, after the label styles */
+/* Mesh: a placeholder until the case study is written. The mark and the
+   note sit on a frosted plate over the live cover behind them. */
+.mesh-cover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 22px 28px;
+  translate: -50% -50%;
+  border-radius: 24px;
+  /* A frosted plate, so the mark reads over the screens behind it */
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(39, 89, 222, 0.14);
+  text-align: center;
+  color: var(--color-text-primary);
+  pointer-events: none;
+}
+
+.mesh-cover-logo {
+  position: static;
+  padding: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.mesh-cover-logo svg { width: min(62vw, 190px); }
+
+.mesh-cover-note {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+/* From src/styles/cards.css: the cover, after the econfig/cpq reduced-motion block */
+/* Mesh: the placeholder keeps its pale ground, with stand-in screens (the
+   case isn't public yet) streaming past in three rows tilted 20°, like the
+   MMI's columns but sideways: the outer rows run right, the middle one left */
+.mesh-card {
+  --cover-ground:
+    radial-gradient(90% 120% at 18% 8%, rgba(39, 89, 222, 0.16), transparent 62%),
+    radial-gradient(90% 120% at 88% 92%, rgba(208, 38, 112, 0.14), transparent 62%),
+    #f7f7f9;
+  background: #f7f7f9;
+}
+
+/* Each track holds its set twice, so sliding it by half lands on the same
+   picture; the gap is a margin on every screen to keep both halves equal. */
+.shot-reel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 3cqw;
+  width: 220cqw;
+  translate: -50% -50%;
+  rotate: 20deg;
+}
+.shot-track {
+  display: flex;
+  width: max-content;
+  animation: shot-left 70s linear infinite;
+}
+.shot-row:nth-child(odd) .shot-track { animation-name: shot-right; animation-duration: 80s; }
+@keyframes shot-left  { from { translate: 0 0; } to { translate: -50% 0; } }
+@keyframes shot-right { from { translate: -50% 0; } to { translate: 0 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .shot-track, .shot-row:nth-child(odd) .shot-track { animation: none; }
+}
+
+/* A screen drawn in blocks: a header, then each variant's own layout in the
+   Mesh blue and magenta */
+.mesh-shot {
+  --blue: rgba(39, 89, 222, 0.78);
+  --pink: rgba(208, 38, 112, 0.7);
+  --line: #e6e9f1;
+  --tint: #f1f3f8;
+  flex: none;
+  width: 40cqw;
+  aspect-ratio: 16 / 10;
+  margin-right: 3cqw;
+  border-radius: 1.6cqw;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  box-shadow: 0 1cqw 3.5cqw rgba(39, 89, 222, 0.14);
+}
+/* Dashboard: sidebar, three stat tiles, two rows */
+.mesh-shot--a {
+  background-image:
+    linear-gradient(var(--line) 0 0), linear-gradient(var(--tint) 0 0),
+    linear-gradient(var(--blue) 0 0), linear-gradient(var(--pink) 0 0), linear-gradient(var(--line) 0 0),
+    linear-gradient(var(--line) 0 0), linear-gradient(var(--line) 0 0);
+  background-size: 100% 11%, 20% 89%, 21% 26%, 21% 26%, 21% 26%, 68% 6%, 52% 6%;
+  background-position: 0 0, 0 100%, 31% 30%, 63% 30%, 95% 30%, 92% 70%, 74% 84%;
+}
+/* Overview: a wide blue-to-magenta banner over two columns of rows */
+.mesh-shot--b {
+  background-image:
+    linear-gradient(var(--line) 0 0), linear-gradient(110deg, var(--blue), var(--pink)),
+    linear-gradient(var(--line) 0 0), linear-gradient(var(--line) 0 0),
+    linear-gradient(var(--tint) 0 0), linear-gradient(var(--tint) 0 0);
+  background-size: 100% 11%, 90% 34%, 42% 6%, 42% 6%, 42% 22%, 42% 22%;
+  background-position: 0 0, 50% 30%, 5% 70%, 95% 70%, 5% 96%, 95% 96%;
+}
+/* List: a table of rows with a magenta action */
+.mesh-shot--c {
+  background-image:
+    linear-gradient(var(--line) 0 0), linear-gradient(var(--pink) 0 0),
+    linear-gradient(var(--tint) 0 0), linear-gradient(var(--line) 0 0),
+    linear-gradient(var(--line) 0 0), linear-gradient(var(--line) 0 0),
+    linear-gradient(var(--blue) 0 0);
+  background-size: 100% 11%, 18% 9%, 90% 10%, 90% 5%, 90% 5%, 90% 5%, 9% 5%;
+  background-position: 0 0, 94% 23%, 50% 39%, 50% 56%, 50% 70%, 50% 84%, 6% 23%;
+}

@@ -13,14 +13,15 @@ const LAYOUTS = {
     docs:        { col: '4',      row: '3' },
     cpq:         { col: '1 / 3',  row: '4 / 6' },
     careerquote: { col: '3 / 5',  row: '4' },
-    mesh:        { col: '3 / 5',  row: '5 / 7' },
+    econfig:     { col: '3 / 5',  row: '5 / 7' },
     aiquote:     { col: '1 / 3',  row: '6' },
     edu:         { col: '1 / 3',  row: '7 / 9' },
     hobbies:     { col: '3 / 5',  row: '7' },
     leadquote:   { col: '3 / 5',  row: '8' },
-    econfig:     { col: '1 / 3',  row: '9 / 11' },
-    hub:         { col: '3 / 5',  row: '9 / 11' },
-    pictures:    { col: '1 / 5',  row: '11' },
+    hub:         { col: '1 / 3',  row: '9 / 11' },
+    behance:     { col: '3',      row: '9' },
+    medium:      { col: '4',      row: '9' },
+    pictures:    { col: '3 / 5',  row: '10' },
   },
   about: {
     /* The cards keep the places they hold under All; the quotes move up into
@@ -37,19 +38,22 @@ const LAYOUTS = {
     hobbies:     { col: '3 / 5',  row: '4', dim: true },
     mmi:         { col: '1 / 3',  row: '5 / 7', dim: true },
     cpq:         { col: '3 / 5',  row: '5 / 7', dim: true },
-    mesh:        { col: '1 / 3',  row: '7 / 9', dim: true },
+    econfig:     { col: '1 / 3',  row: '7 / 9', dim: true },
     edu:         { col: '3 / 5',  row: '7 / 9', dim: true },
     hub:         { col: '1 / 3',  row: '9 / 11', dim: true },
-    econfig:     { col: '3 / 5',  row: '9 / 11', dim: true },
-    pictures:    { col: '1 / 5',  row: '11', dim: true },
+    behance:     { col: '3',      row: '9', dim: true },
+    medium:      { col: '4',      row: '9', dim: true },
+    pictures:    { col: '3 / 5',  row: '10', dim: true },
   },
   work: {
     mmi:         { col: '1 / 3',  row: '1 / 3' },
     cpq:         { col: '3 / 5',  row: '1 / 3' },
-    mesh:        { col: '1 / 3',  row: '3 / 5' },
+    econfig:     { col: '1 / 3',  row: '3 / 5' },
     edu:         { col: '3 / 5',  row: '3 / 5' },
     hub:         { col: '1 / 3',  row: '5 / 7' },
-    econfig:     { col: '3 / 5',  row: '5 / 7' },
+    behance:     { col: '3',      row: '5' },
+    medium:      { col: '4',      row: '5' },
+    pictures:    { col: '3 / 5',  row: '6', dim: true },
     // Below the projects, the rest in the order the About filter uses.
     about:       { col: '1 / 3',  row: '7', dim: true },
     stack:       { col: '3',      row: '7', dim: true },
@@ -61,34 +65,35 @@ const LAYOUTS = {
     docs:        { col: '4',      row: '9', dim: true },
     leadquote:   { col: '1 / 3',  row: '10', dim: true },
     hobbies:     { col: '3 / 5',  row: '10', dim: true },
-    pictures:    { col: '1 / 5',  row: '11', dim: true },
   },
   personal: {
-    /* Some of My Days runs the full width on top, Favorite Things keeps its
-       two cells under it, and the rest packs in without gaps. */
-    pictures:    { col: '1 / 5',  row: '1' },
-    hobbies:     { col: '1 / 3',  row: '2' },
-    about:       { col: '3 / 5',  row: '2', dim: true },
-    stack:       { col: '1',      row: '3', dim: true },
-    nng:         { col: '2',      row: '3', dim: true },
-    leadquote:   { col: '3 / 5',  row: '3', dim: true },
-    path:        { col: '1',      row: '4 / 6', dim: true },
-    aiquote:     { col: '2 / 4',  row: '4', dim: true },
-    bachelor:    { col: '4',      row: '4', dim: true },
-    careerquote: { col: '2 / 4',  row: '5', dim: true },
-    docs:        { col: '4',      row: '5', dim: true },
-    mmi:         { col: '1 / 3',  row: '6 / 8', dim: true },
-    cpq:         { col: '3 / 5',  row: '6 / 8', dim: true },
-    mesh:        { col: '1 / 3',  row: '8 / 10', dim: true },
-    edu:         { col: '3 / 5',  row: '8 / 10', dim: true },
-    hub:         { col: '1 / 3',  row: '10 / 12', dim: true },
-    econfig:     { col: '3 / 5',  row: '10 / 12', dim: true },
+    /* Some of My Days and Favorite Things share the top row, and the rest
+       packs in without gaps. */
+    pictures:    { col: '1 / 3',  row: '1' },
+    hobbies:     { col: '3 / 5',  row: '1' },
+    about:       { col: '1 / 3',  row: '2', dim: true },
+    stack:       { col: '3',      row: '2', dim: true },
+    nng:         { col: '4',      row: '2', dim: true },
+    path:        { col: '1',      row: '3 / 5', dim: true },
+    aiquote:     { col: '2 / 4',  row: '3', dim: true },
+    bachelor:    { col: '4',      row: '3', dim: true },
+    careerquote: { col: '2 / 4',  row: '4', dim: true },
+    docs:        { col: '4',      row: '4', dim: true },
+    mmi:         { col: '1 / 3',  row: '5 / 7', dim: true },
+    cpq:         { col: '3 / 5',  row: '5 / 7', dim: true },
+    econfig:     { col: '1 / 3',  row: '7 / 9', dim: true },
+    edu:         { col: '3 / 5',  row: '7 / 9', dim: true },
+    hub:         { col: '1 / 3',  row: '9 / 11', dim: true },
+    leadquote:   { col: '3 / 5',  row: '9', dim: true },
+    behance:     { col: '3',      row: '10', dim: true },
+    medium:      { col: '4',      row: '10', dim: true },
   },
 };
 
 /* Tablet — 4 square columns (a row is as tall as a column is wide). Case
    studies are 4 by 4, the intro and the contact block 4 by 2, the certificates
-   2 by 2 beside the tall Professional Path card. */
+   2 by 2 beside the tall Professional Path card, Behance and Medium 2 by 2
+   side by side. */
 const TABLET_LAYOUTS = {
   all: {
     about:       { col: '1 / 5',  row: '1 / 3' },
@@ -100,14 +105,15 @@ const TABLET_LAYOUTS = {
     mmi:         { col: '1 / 5',  row: '10 / 14' },
     cpq:         { col: '1 / 5',  row: '14 / 18' },
     careerquote: { col: '1 / 5',  row: '18 / 20' },
-    mesh:        { col: '1 / 5',  row: '20 / 24' },
+    econfig:     { col: '1 / 5',  row: '20 / 24' },
     aiquote:     { col: '1 / 5',  row: '24 / 26' },
     edu:         { col: '1 / 5',  row: '26 / 30' },
     hobbies:     { col: '1 / 5',  row: '30 / 32' },
     leadquote:   { col: '1 / 5',  row: '32 / 34' },
-    econfig:     { col: '1 / 5',  row: '34 / 38' },
-    hub:         { col: '1 / 5',  row: '38 / 42' },
-    pictures:    { col: '1 / 5',  row: '42 / 44' },
+    hub:         { col: '1 / 5',  row: '34 / 38' },
+    behance:     { col: '1 / 3',  row: '38 / 40' },
+    medium:      { col: '3 / 5',  row: '38 / 40' },
+    pictures:    { col: '1 / 5',  row: '40 / 42' },
   },
   about: {
     about:       { col: '1 / 5',  row: '1 / 3' },
@@ -122,30 +128,32 @@ const TABLET_LAYOUTS = {
     hobbies:     { col: '1 / 5',  row: '16 / 18', dim: true },
     mmi:         { col: '1 / 5',  row: '18 / 22', dim: true },
     cpq:         { col: '1 / 5',  row: '22 / 26', dim: true },
-    mesh:        { col: '1 / 5',  row: '26 / 30', dim: true },
+    econfig:     { col: '1 / 5',  row: '26 / 30', dim: true },
     edu:         { col: '1 / 5',  row: '30 / 34', dim: true },
     hub:         { col: '1 / 5',  row: '34 / 38', dim: true },
-    econfig:     { col: '1 / 5',  row: '38 / 42', dim: true },
-    pictures:    { col: '1 / 5',  row: '42 / 44', dim: true },
+    behance:     { col: '1 / 3',  row: '38 / 40', dim: true },
+    medium:      { col: '3 / 5',  row: '38 / 40', dim: true },
+    pictures:    { col: '1 / 5',  row: '40 / 42', dim: true },
   },
   work: {
     mmi:         { col: '1 / 5',  row: '1 / 5' },
     cpq:         { col: '1 / 5',  row: '5 / 9' },
-    mesh:        { col: '1 / 5',  row: '9 / 13' },
+    econfig:     { col: '1 / 5',  row: '9 / 13' },
     edu:         { col: '1 / 5',  row: '13 / 17' },
     hub:         { col: '1 / 5',  row: '17 / 21' },
-    econfig:     { col: '1 / 5',  row: '21 / 25' },
-    about:       { col: '1 / 5',  row: '25 / 27', dim: true },
-    stack:       { col: '1 / 5',  row: '27 / 29', dim: true },
-    path:        { col: '1 / 3',  row: '29 / 33', dim: true },
-    nng:         { col: '3 / 5',  row: '29 / 31', dim: true },
-    bachelor:    { col: '3 / 5',  row: '31 / 33', dim: true },
-    docs:        { col: '1 / 5',  row: '33', dim: true },
-    aiquote:     { col: '1 / 5',  row: '34 / 36', dim: true },
-    careerquote: { col: '1 / 5',  row: '36 / 38', dim: true },
-    leadquote:   { col: '1 / 5',  row: '38 / 40', dim: true },
-    hobbies:     { col: '1 / 5',  row: '40 / 42', dim: true },
-    pictures:    { col: '1 / 5',  row: '42 / 44', dim: true },
+    behance:     { col: '1 / 3',  row: '21 / 23' },
+    medium:      { col: '3 / 5',  row: '21 / 23' },
+    about:       { col: '1 / 5',  row: '23 / 25', dim: true },
+    stack:       { col: '1 / 5',  row: '25 / 27', dim: true },
+    path:        { col: '1 / 3',  row: '27 / 31', dim: true },
+    nng:         { col: '3 / 5',  row: '27 / 29', dim: true },
+    bachelor:    { col: '3 / 5',  row: '29 / 31', dim: true },
+    docs:        { col: '1 / 5',  row: '31', dim: true },
+    aiquote:     { col: '1 / 5',  row: '32 / 34', dim: true },
+    careerquote: { col: '1 / 5',  row: '34 / 36', dim: true },
+    leadquote:   { col: '1 / 5',  row: '36 / 38', dim: true },
+    hobbies:     { col: '1 / 5',  row: '38 / 40', dim: true },
+    pictures:    { col: '1 / 5',  row: '40 / 42', dim: true },
   },
   personal: {
     hobbies:     { col: '1 / 5',  row: '1 / 3' },
@@ -158,17 +166,19 @@ const TABLET_LAYOUTS = {
     stack:       { col: '1 / 5',  row: '12 / 14', dim: true },
     mmi:         { col: '1 / 5',  row: '14 / 18', dim: true },
     cpq:         { col: '1 / 5',  row: '18 / 22', dim: true },
-    mesh:        { col: '1 / 5',  row: '22 / 26', dim: true },
+    econfig:     { col: '1 / 5',  row: '22 / 26', dim: true },
     edu:         { col: '1 / 5',  row: '26 / 30', dim: true },
     hub:         { col: '1 / 5',  row: '30 / 34', dim: true },
-    econfig:     { col: '1 / 5',  row: '34 / 38', dim: true },
-    aiquote:     { col: '1 / 5',  row: '38 / 40', dim: true },
-    careerquote: { col: '1 / 5',  row: '40 / 42', dim: true },
-    leadquote:   { col: '1 / 5',  row: '42 / 44', dim: true },
+    behance:     { col: '1 / 3',  row: '34 / 36', dim: true },
+    medium:      { col: '3 / 5',  row: '34 / 36', dim: true },
+    aiquote:     { col: '1 / 5',  row: '36 / 38', dim: true },
+    careerquote: { col: '1 / 5',  row: '38 / 40', dim: true },
+    leadquote:   { col: '1 / 5',  row: '40 / 42', dim: true },
   },
 };
 
-/* Phone — 2 columns, auto row height; the path card spans two rows beside the square cards. */
+/* Phone — 2 columns, auto row height; the path card spans two rows beside the
+   square cards, and Behance and Medium share a row. */
 const PHONE_LAYOUTS = {
   all: {
     about:       { col: '1 / 3',  row: '1' },
@@ -181,10 +191,11 @@ const PHONE_LAYOUTS = {
     careerquote: { col: '1 / 3',  row: '7' },
     aiquote:     { col: '1 / 3',  row: '8' },
     cpq:         { col: '1 / 3',  row: '9' },
-    mesh:        { col: '1 / 3',  row: '10' },
+    econfig:     { col: '1 / 3',  row: '10' },
     edu:         { col: '1 / 3',  row: '11' },
     hub:         { col: '1 / 3',  row: '12' },
-    econfig:     { col: '1 / 3',  row: '13' },
+    behance:     { col: '1',      row: '13' },
+    medium:      { col: '2',      row: '13' },
     hobbies:     { col: '1 / 3',  row: '14' },
     leadquote:   { col: '1 / 3',  row: '15' },
     pictures:    { col: '1 / 3',  row: '16' },
@@ -201,20 +212,22 @@ const PHONE_LAYOUTS = {
     leadquote:   { col: '1 / 3',  row: '8' },
     mmi:         { col: '1 / 3',  row: '9', dim: true },
     cpq:         { col: '1 / 3',  row: '10', dim: true },
-    mesh:        { col: '1 / 3',  row: '11', dim: true },
+    econfig:     { col: '1 / 3',  row: '11', dim: true },
     edu:         { col: '1 / 3',  row: '12', dim: true },
     hub:         { col: '1 / 3',  row: '13', dim: true },
-    econfig:     { col: '1 / 3',  row: '14', dim: true },
+    behance:     { col: '1',      row: '14', dim: true },
+    medium:      { col: '2',      row: '14', dim: true },
     hobbies:     { col: '1 / 3',  row: '15', dim: true },
     pictures:    { col: '1 / 3',  row: '16', dim: true },
   },
   work: {
     mmi:         { col: '1 / 3',  row: '1' },
     cpq:         { col: '1 / 3',  row: '2' },
-    mesh:        { col: '1 / 3',  row: '3' },
+    econfig:     { col: '1 / 3',  row: '3' },
     edu:         { col: '1 / 3',  row: '4' },
     hub:         { col: '1 / 3',  row: '5' },
-    econfig:     { col: '1 / 3',  row: '6' },
+    behance:     { col: '1',      row: '6' },
+    medium:      { col: '2',      row: '6' },
     about:       { col: '1 / 3',  row: '7', dim: true },
     stack:       { col: '1 / 3',  row: '8', dim: true },
     path:        { col: '1',      row: '9 / 11', dim: true },
@@ -238,10 +251,11 @@ const PHONE_LAYOUTS = {
     stack:       { col: '1 / 3',  row: '7', dim: true },
     mmi:         { col: '1 / 3',  row: '8', dim: true },
     cpq:         { col: '1 / 3',  row: '9', dim: true },
-    mesh:        { col: '1 / 3',  row: '10', dim: true },
+    econfig:     { col: '1 / 3',  row: '10', dim: true },
     edu:         { col: '1 / 3',  row: '11', dim: true },
     hub:         { col: '1 / 3',  row: '12', dim: true },
-    econfig:     { col: '1 / 3',  row: '13', dim: true },
+    behance:     { col: '1',      row: '13', dim: true },
+    medium:      { col: '2',      row: '13', dim: true },
     aiquote:     { col: '1 / 3',  row: '14', dim: true },
     careerquote: { col: '1 / 3',  row: '15', dim: true },
     leadquote:   { col: '1 / 3',  row: '16', dim: true },
@@ -355,9 +369,19 @@ export function initNav() {
   const activePill = pills.querySelector('.nav-pill.active');
   requestAnimationFrame(() => placeIndicator(activePill));
 
+  // Only a change of width moves the grid. On a phone the browser's own bars
+  // grow and shrink as the page scrolls, which fires resize with the width
+  // unchanged; and a drag of the window fires it many times a frame.
+  let lastWidth = window.innerWidth;
+  let pending = 0;
   window.addEventListener('resize', () => {
-    const active = pills.querySelector('.nav-pill.active');
-    placeIndicator(active);
-    applyLayout(currentFilter, { animate: false });
+    if (pending || window.innerWidth === lastWidth) return;
+    pending = requestAnimationFrame(() => {
+      pending = 0;
+      lastWidth = window.innerWidth;
+      const active = pills.querySelector('.nav-pill.active');
+      placeIndicator(active);
+      applyLayout(currentFilter, { animate: false });
+    });
   });
 }

@@ -18,6 +18,8 @@ const FILES = {
   mesh: { light: 'assets/projects/mesh/logo.svg', dark: 'assets/projects/mesh/logo.svg' },
   nng: { light: 'assets/nng/logo.svg', dark: 'assets/nng/logo.svg' },
   unicamp: { light: 'assets/bachelor/logo.svg', dark: 'assets/bachelor/logo.svg' },
+  behance: { light: 'assets/behance/logo.svg', dark: 'assets/behance/logo.svg' },
+  medium: { light: 'assets/medium/logo.svg', dark: 'assets/medium/logo-dark.svg' },
 };
 
 const cache = new Map();
@@ -42,11 +44,20 @@ const QUICK = new Set(['nng', 'unicamp']);
 
 /* How long a whole mark takes, from the first stroke to the last fill, where
    it is held to one. Marks not listed keep the pace their shapes give them. */
-const TOTAL = { nng: 0.6, unicamp: 0.6, ae: 0.9, rivian: 0.9, ibm: 0.9 };
+const TOTAL = { nng: 0.6, unicamp: 0.6, ae: 0.9, rivian: 0.9, ibm: 0.9, behance: 1.4, medium: 0.9 };
 const INK = 0.3; // the fill behind a traced outline
 const FADE = 0.4; // shapes with no outline to trace just fade in
 
-function stagger(svg, quicker = 0, total = 0) {
+/* Marks built in layers (white letters on the Behance tile) are drawn one
+   shape after another in the order the file paints them, each starting as
+   the one before fills, instead of all at once from the left. */
+const SEQUENCE = new Set(['behance']);
+
+/* The outline is sized for a mark shown about 150px wide; a mark shown
+   smaller needs a heavier line to read as one. */
+const STROKE = { behance: 2 };
+
+function stagger(svg, quicker = 0, total = 0, name = '') {
   const shapes = [...svg.querySelectorAll('path, rect, circle, ellipse, polygon')]
     .filter((el) => el.getAttribute('fill') !== 'none')
     // Shapes inside a clipPath, mask or defs are geometry, not artwork: the
@@ -76,12 +87,21 @@ function stagger(svg, quicker = 0, total = 0) {
     if (!len) return { el, delay, draw: 0, end: delay + FADE };
     el.style.setProperty('--len', `${Math.ceil(len)}`);
     el.setAttribute('stroke', el.getAttribute('fill') || 'currentColor');
-    el.style.strokeWidth = `${Math.max(0.8, width / 420).toFixed(2)}`;
+    el.style.strokeWidth = `${(Math.max(0.8, width / 420) * (STROKE[name] || 1)).toFixed(2)}`;
     // Longer outlines would otherwise finish last; keeping the speed constant
     // is what makes it read as drawing rather than fading.
     const draw = Math.min(0.9 - quicker, Math.max(0.2 - quicker * 0.4, len / 900 - 0.2 - quicker));
     return { el, delay, draw, end: delay + Math.max(draw, draw * 0.7 + INK) };
   });
+
+  if (SEQUENCE.has(name)) {
+    let at = 0;
+    timings.forEach((t) => {
+      t.delay = at;
+      t.end = at + (t.draw ? Math.max(t.draw, t.draw * 0.7 + INK) : FADE);
+      at += t.draw ? t.draw * 0.7 : FADE * 0.5;
+    });
+  }
 
   // A mark with a set length has every timing scaled together, so the reveal
   // keeps its shape and simply finishes on time.
@@ -108,7 +128,7 @@ async function fill(slot, theme) {
     svg.removeAttribute('width');
     svg.removeAttribute('height');
     svg.setAttribute('aria-hidden', 'true');
-    const span = stagger(svg, QUICK.has(slot.dataset.logo) ? 0.2 : 0, TOTAL[slot.dataset.logo]);
+    const span = stagger(svg, QUICK.has(slot.dataset.logo) ? 0.2 : 0, TOTAL[slot.dataset.logo], slot.dataset.logo);
 
     // On the Professional Path card the years under the mark come in with it,
     // and are in place when the mark is.
@@ -169,12 +189,21 @@ export function initLogos() {
   const slots = [...document.querySelectorAll('[data-logo]')];
   if (!slots.length) return;
 
-  // Re-queried on every pass so a mark inside an open modal follows the theme too.
-  const draw = () => paintLogos(document);
-  draw();
+  paintLogos(document);
 
-  // Marks that follow the theme are redrawn when the attribute changes.
-  new MutationObserver(draw).observe(document.documentElement, {
+  // Marks that follow the theme are redrawn when the attribute changes. Only
+  // those whose file actually differs between themes: the rest (the badges,
+  // Behance, MMI) would be fetched, parsed and measured again for nothing.
+  // Re-queried on every pass so a mark inside an open modal follows too.
+  const redraw = () => {
+    const theme = themeNow();
+    document.querySelectorAll('[data-logo]').forEach((slot) => {
+      const files = FILES[slot.dataset.logo];
+      if (!files || slot.dataset.logoVariant || files.light === files.dark) return;
+      fill(slot, theme);
+    });
+  };
+  new MutationObserver(redraw).observe(document.documentElement, {
     attributes: true,
     attributeFilter: ['data-theme'],
   });
