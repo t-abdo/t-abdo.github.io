@@ -21,7 +21,7 @@ export const TEXTS = {
     description: { en: "Tales Abdo, Lead UX & AI Designer in São Paulo. UX research, product design and interaction design across IBM, Rivian and AgileEngine.", pt: "Tales Abdo, Lead UX & AI Designer em São Paulo. Pesquisa de UX, design de produto e design de interação na IBM, na Rivian e na AgileEngine." },
   },
   nav: {
-    ariaLabel: { en: "t.abdo — home", pt: "t.abdo — início" },
+    ariaLabel: { en: "t-abdo — home", pt: "t-abdo — início" },
     filterAllTooltip: { en: "Filter by All", pt: "Filtrar: Tudo" },
     filterAboutTooltip: { en: "Filter by About", pt: "Filtrar: Sobre" },
     filterWorkTooltip: { en: "Filter by Work", pt: "Filtrar: Trabalho" },
@@ -118,6 +118,8 @@ export const TEXTS = {
       caption: { en: "English Level", pt: "Nível de Inglês" },
     },
     resume: {
+      // The CV each language page hands out (built from the .docx in source/cv)
+      file: { en: "assets/docs/Tales-Abdo-CV.pdf", pt: "assets/docs/Tales-Abdo-CV-PT.pdf" },
       tooltip: { en: "Download my Resume", pt: "Baixar Meu Currículo" },
       actionTooltip: { en: "Download my Resume", pt: "Baixar Meu Currículo" },
       ariaLabel: { en: "Download resume", pt: "Baixar currículo" },

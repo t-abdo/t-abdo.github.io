@@ -283,7 +283,7 @@ strong, b {
   white-space: nowrap;
 }
 
-.logo-dot { color: var(--color-primary); -webkit-text-fill-color: var(--color-primary); }
+.logo-dash { color: var(--color-primary); -webkit-text-fill-color: var(--color-primary); }
 
 .nav-logo { flex-shrink: 0; font-size: var(--text-2xl); }
 
